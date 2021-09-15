@@ -1,0 +1,9 @@
+${PODS_ROOT}/Target Support Files/Pods-DojoInfographics/Pods-DojoInfographics-resources.sh
+${PODS_CONFIGURATION_BUILD_DIR}/GoogleSignIn/GoogleSignIn.bundle
+${PODS_ROOT}/Mixpanel-swift/Sources/MiniNotificationViewController.xib
+${PODS_ROOT}/Mixpanel-swift/Sources/placeholder-image.png
+${PODS_ROOT}/Mixpanel-swift/Sources/TakeoverNotificationViewController~ipad.xib
+${PODS_ROOT}/Mixpanel-swift/Sources/TakeoverNotificationViewController~iphonelandscape.xib
+${PODS_ROOT}/Mixpanel-swift/Sources/TakeoverNotificationViewController~iphoneportrait.xib
+${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle
+${PODS_CONFIGURATION_BUILD_DIR}/gRPC-C++/gRPCCertificates-Cpp.bundle

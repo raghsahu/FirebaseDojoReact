@@ -1,0 +1,6 @@
+module Pods_DojoInfographics {
+  umbrella header "Pods-DojoInfographics-umbrella.h"
+
+  export *
+  module * { export * }
+}

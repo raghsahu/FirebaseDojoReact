@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "dojo-2d523",
+  "private_key_id": "466a78dbf18d76cc37d82fddc3a5e2f10583149d",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDaBc0ctNc0QyRv\n6hlcfK7QAxo7ETzu2RS/hdg/YQgEJbgHkJ/3qs/FXF7MbAiFmtQM+w0bubEoWBmW\nVKhx2MVQIzGJsygt6/Gt/f6c7nUnWvFNLHt7dPvloYx2iwIzVatC01W2qR4z38ZR\nXhSqx6OBu3BrX9Zr/5QRe6WfhXHC5DPTVc3e3Kb08UfCmJm7fp98chAuklDMs8Pj\nHFxmuPxOyFOVgIr7c/8Q2/GIM00TAWOh+4Czvnc5NWZ7zOJZhSvc/ACZ/COck15t\nk4SSiWIoUGNhoQ9FiZBopU7XOOfdUp+ACmNwK9veJ1AmslsGH1vTSY4M5ftBwFa3\nLAR+lYH1AgMBAAECggEADk4LIzMKW7d8EIu/lj3oCmXptq5u3Q0JO3fAtIfdSshe\nxsBKfqmKcFybK7Z66Kk7+I4QUh1g7lC5fQ+Y7b9XUua8PViv7jNo7A2aQxmyPh7N\nbk7Y20TVsj9jQ/Pi9RNN5ViQaye1f5nTHUua94mZxM1Tlvf2zac7Q9plB45t5GeN\nriplLUWWkdVM0DbM1+5o0JZoF4pviSWLDzQ4wW/TqaqWE8xNgNsfy//hhnvTPVIe\nVsmA2DX6ZFJQK7shK+8fZNkA3OxT1TlXxpnr+I8t7iUJaoNKlhELayN3V5QomxN6\nLDWmdf8eyg/z7i3O44eo4QNv2NfFkHcGWom0+y8aAQKBgQDuQMYVZjsRqZ4fpgs6\nmJSw+Hw7HSLiwfNl1HmD/IqL4J9BcTCAFtRwtkog9oy9VsgYUkq4mnDl+EObjS61\nzeCUgM7sPOAGVD1FQyUpSNZEMJXKjL5pdkezCjt4Y0KCe8OpqozWiR2DN7vJLBsa\nZQce75nD2yQKxCqWmbuwzPj+YQKBgQDqQ0GmZHZ9Rs7U6SMZMunjJP0slmegUHZL\nMx1AYgzLyXjc5RBhvrjCjvq+VF5NdtgnTF2xX5/PCHalLzIBQoQ+iSkq300gSTgI\nf9J1z9KkMxZOjxF+6XmAPs6pQ2loC9LBdj7Cvj1zfUv5ZaZuCMWUPx0LbY2kv4O4\n4LWnd0MkFQKBgBldOflTPdyegx/5bF6bmdDRU2BztKARZ9kiaqFbhGBp1GqCI1iv\nlYQ+U9v4g3kwwPKd6CiJAJXq/T+VIzDlrxAAOoc539usoi06fb1MbMsrpPbATxEp\nL27nGvexEYaUqHrqlj3MsSCkEVDUajpAISbw+Ry5ureOtL39tdaXq7ZhAoGBAMcj\nu0gWOL+QFLzbHrIKHNaxl+JyTM7z90s/vUsAzr3hm7OzqXRd67PAVZi8IZoaP+9Q\nNIlWr4QQPsN21jxJ7h82+97tCiQ6+b4H4sGxk+9vWjQX3JiVImsJeSZcHtuKyXMZ\n8IodrCFjztTIO21oWYUHDcqsK290OiZMJz+f21xtAoGANna6vt2ku8gxapGd7QSS\npEUkERKOn6ebrWAAZ/8fYckythPxxDeBE0tYfHQouBBOXyqBwX6S1v0aiL5iXgrl\n/ZAof92O0FKNHSA9Wj9X0uOgr7WFvqH2EbnT2RnTTZ0KvP7zJpihYPi0ereHkPBm\nfIySHVjMutjme1o1RQqO7g4=\n-----END PRIVATE KEY-----\n",
+  "client_email": "dojo-736@dojo-2d523.iam.gserviceaccount.com",
+  "client_id": "116875793718608630365",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/dojo-736%40dojo-2d523.iam.gserviceaccount.com"
+}
