@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import { Platform, StyleSheet, View, Image, TouchableOpacity } from 'react-native';
 
 //Assets
@@ -6,6 +6,9 @@ import { IMAGES, COLORS } from '../../assets'
 
 //Common Component
 import { Text } from '../components';
+
+//Context
+import { LocalizatiionContext } from '../context/LocalizatiionProvider';
 
 //Packages
 import { useTheme } from '@react-navigation/native';
@@ -17,6 +20,8 @@ import { Rating } from 'react-native-ratings';
  */
 
 const ReviewItem = (props) => {
+
+    const { getTranslation } = useContext(LocalizatiionContext);
 
     const { colors, fonts } = useTheme();
     const styles = useStyles(colors, fonts)
@@ -60,7 +65,7 @@ const ReviewItem = (props) => {
                         numberOfLines={2}
                         align='center'
                         color={COLORS.darkGray}>
-                        {'Quality\nof book'}
+                        {getTranslation('book_quality')}
                     </Text>
                     <View>
                         <Rating
@@ -83,7 +88,7 @@ const ReviewItem = (props) => {
                         numberOfLines={2}
                         align='center'
                         color={COLORS.darkGray}>
-                        {'Quality\nof summary'}
+                        {getTranslation('summary_quality')}
                     </Text>
                     <View>
                         <Rating
@@ -106,7 +111,7 @@ const ReviewItem = (props) => {
                         numberOfLines={2}
                         align='center'
                         color={COLORS.darkGray}>
-                        {'Quality\nof infographics'}
+                        {getTranslation('infographics_quality')}
                     </Text>
                     <View>
                         <Rating

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { View, StatusBar, SafeAreaView, FlatList, ActivityIndicator, StyleSheet, TouchableOpacity, Image, TextInput } from 'react-native';
 
 //Components
@@ -6,6 +6,9 @@ import { Header, Text as RNText, BookItem } from '../components'
 
 //Modal
 import { getLikesIds, setLike } from '../modal/LikeModal'
+
+//Context
+import { LocalizatiionContext } from '../context/LocalizatiionProvider';
 
 //IMAGES & COLORS
 import { IMAGES, COLORS } from '../../assets'
@@ -17,6 +20,8 @@ import { EventRegister } from 'react-native-event-listeners'
 
 export default function AllAuthors({ navigation, route }) {
     const user = auth().currentUser;
+
+    const { getTranslation } = useContext(LocalizatiionContext);
 
     const [isLoading, setLoading] = useState(true)
     const [isError, setError] = useState('')
@@ -46,29 +51,32 @@ export default function AllAuthors({ navigation, route }) {
 
     getAllBooks = async () => {
         try {
-            const books = await firestore().collection('books')
-                .where('authorName', '!=', '')
-                .orderBy('authorName')
-                .get()
-            var list = []
-            var authors = []
-            books.forEach(documentSnapshot => {
-                var data = documentSnapshot.data()
-                data.id = documentSnapshot.id
-                if (authors.includes(data.authorName) == false) {
-                    authors.push(data.authorName)
-                    list.push(data)
-                }
-            });
-            console.log(list)
-            setLoading(false)
-            setError('')
-            setBook(list)
+            var ref = firestore().collection('books')
+            ref = ref.where('authorName', '!=', '')
+            ref = ref.where('language', '==', global.languageName)
+            ref = ref.orderBy('authorName')
+            ref.get()
+                .then(querySnapshot => {
+                    var list = []
+                    var authors = []
+                    querySnapshot.forEach(documentSnapshot => {
+                        var data = documentSnapshot.data()
+                        data.id = documentSnapshot.id
+                        if (authors.includes(data.authorName) == false) {
+                            authors.push(data.authorName)
+                            list.push(data)
+                        }
+                    });
+                    console.log(list)
+                    setLoading(false)
+                    setError('')
+                    setBook(list)
+                })
         }
         catch (e) {
             setLoading(false)
             setBook([])
-            setError("No Books available yet.")
+            setError(getTranslation("no_books_available_yet"))
             console.log(e)
         }
     }

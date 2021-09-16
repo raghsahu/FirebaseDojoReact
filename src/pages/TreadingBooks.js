@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { View, StatusBar, SafeAreaView, FlatList, ActivityIndicator, StyleSheet, TouchableOpacity, Image, TextInput } from 'react-native';
+import React, { useState, useEffect, useContext } from 'react';
+import { View, StatusBar, SafeAreaView, FlatList, ActivityIndicator, StyleSheet } from 'react-native';
 
 //Components
 import { Header, Text as RNText, BookItem } from '../components'
@@ -10,6 +10,9 @@ import { getLikesIds, setLike } from '../modal/LikeModal'
 //IMAGES & COLORS
 import { IMAGES, COLORS } from '../../assets'
 
+//CONTEXT
+import { LocalizatiionContext } from '../context/LocalizatiionProvider';
+
 //PACKAGES
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
@@ -17,6 +20,8 @@ import { EventRegister } from 'react-native-event-listeners'
 
 export default function TreadingBooks({ navigation }) {
     const user = auth().currentUser;
+
+    const { getTranslation } = useContext(LocalizatiionContext);
 
     const [isLoading, setLoading] = useState(true)
     const [isError, setError] = useState('')
@@ -53,7 +58,7 @@ export default function TreadingBooks({ navigation }) {
         catch (e) {
             setLoading(false)
             setBook([])
-            setError("No Books available yet.")
+            setError(getTranslation("no_books_available_yet"))
             console.log(e)
         }
     }
@@ -61,7 +66,7 @@ export default function TreadingBooks({ navigation }) {
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar barStyle={'dark-content'} backgroundColor={COLORS.white} />
-            <Header backTitle={'Trending Books'} onBack={() => {
+            <Header backTitle={getTranslation('trending_books')} onBack={() => {
                 navigation.goBack()
             }} />
             {isLoading ?

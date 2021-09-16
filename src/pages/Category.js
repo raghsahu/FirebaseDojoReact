@@ -1,8 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { View, StatusBar, SafeAreaView, FlatList, ActivityIndicator, StyleSheet, TouchableOpacity, Image, TextInput } from 'react-native';
 
 //Components
 import { Header, Text as RNText, BookItem } from '../components'
+
+//Context
+import { LocalizatiionContext } from '../context/LocalizatiionProvider';
 
 //Modal
 import { getLikesIds, setLike } from '../modal/LikeModal'
@@ -18,6 +21,8 @@ import { EventRegister } from 'react-native-event-listeners'
 export default function Category({ navigation, route }) {
     const item = route.params.item
     const user = auth().currentUser;
+
+    const { getTranslation } = useContext(LocalizatiionContext);
 
     const [isLoading, setLoading] = useState(true)
     const [isError, setError] = useState('')
@@ -63,7 +68,7 @@ export default function Category({ navigation, route }) {
         catch (e) {
             setLoading(false)
             setBook([])
-            setError("No Books available yet.")
+            setError(getTranslation("no_books_available_yet"))
             console.log(e)
         }
     }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Dimensions, View, StatusBar, SafeAreaView, FlatList, ActivityIndicator, StyleSheet } from 'react-native';
 
 //Components
@@ -7,11 +7,15 @@ import { Header, HomeBookItem } from '../components'
 //IMAGES & COLORS
 import { IMAGES, COLORS } from '../../assets'
 
+//CONTEXT
+import { LocalizatiionContext } from '../context/LocalizatiionProvider';
+
 //PACKAGES
 import firestore from '@react-native-firebase/firestore';
 
-
 export default function Summary({ navigation }) {
+
+    const { getTranslation } = useContext(LocalizatiionContext);
 
     const [isLoading, setLoading] = useState(true)
     const [error, setError] = useState('')
@@ -22,7 +26,10 @@ export default function Summary({ navigation }) {
     }, [])
 
     getAllBooks = async () => {
-        const books = await firestore().collection('books').get()
+        const books = await firestore()
+            .collection('books')
+            .where('language', '==', global.languageName)
+            .get()
         var list = []
         books.forEach(documentSnapshot => {
             var data = documentSnapshot.data()
@@ -38,7 +45,7 @@ export default function Summary({ navigation }) {
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar barStyle={'dark-content'} backgroundColor={COLORS.white} />
-            <Header type={'simple'} backTitle={'Summary'} />
+            <Header type={'simple'} backTitle={getTranslation('summary')} />
             {isLoading ?
                 <View style={{ height: 100, justifyContent: 'center' }}>
                     <ActivityIndicator style={{ alignSelf: 'center' }} animating={true} color={COLORS.orange} />
@@ -88,7 +95,7 @@ const styles = StyleSheet.create({
         shadowRadius: 3,
         shadowOpacity: 0.1,
         elevation: 3,
-        padding: 10, 
+        padding: 10,
         backgroundColor: '#fff'
     }
 })

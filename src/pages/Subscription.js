@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Dimensions, View, StatusBar, SafeAreaView, ActivityIndicator, StyleSheet, Image, TouchableOpacity, Alert, Platform, NativeModules } from 'react-native';
+import { View, StatusBar, SafeAreaView, ActivityIndicator, StyleSheet, Image, TouchableOpacity, Alert, Platform, NativeModules } from 'react-native';
 
 //Components
 import { Header, ProgressView, Text } from '../components'
@@ -7,6 +7,7 @@ import { Header, ProgressView, Text } from '../components'
 //Context
 import { APPContext } from '../context/AppProvider';
 import { AnalyticsContext } from '../context/AnalyticsProvider';
+import { LocalizatiionContext } from '../context/LocalizatiionProvider';
 
 //IMAGES & COLORS
 import { IMAGES, COLORS } from '../../assets'
@@ -23,6 +24,7 @@ export default function Subscription({ navigation }) {
 
     const { getSubscriptionDetails } = useContext(APPContext);
     const { mixPanelOnSubscribe, mixPanelOnClickPurchase, mixPanelOnSubscriptionComplete } = useContext(AnalyticsContext);
+    const { getTranslation } = useContext(LocalizatiionContext);
 
     const [isMonthly, setMonthly] = useState(true)
     const [isLoading, setLoading] = useState(false)
@@ -139,9 +141,9 @@ export default function Subscription({ navigation }) {
 
     useEffect(() => {
         if (isAlert == true) {
-            Alert.alert('Thank You', 'Your purchase was successful', [
+            Alert.alert(getTranslation('thank_you'), getTranslation('your_purchase_was_successful'), [
                 {
-                    text: 'Ok', onPress: () => {
+                    text: getTranslation('Ok'), onPress: () => {
                         navigation.dispatch(
                             CommonActions.reset({
                                 index: 0,
@@ -194,7 +196,7 @@ export default function Subscription({ navigation }) {
                         weight="600"
                         align='center'
                         color={COLORS.darkGray}>
-                        {"Choose your plan!"}
+                        {getTranslation("choose_your_plan")}
                     </Text>
                     <View style={styles.priceContainer}>
                         <TouchableOpacity style={[styles.priceView, { borderWidth: isMonthly ? 1 : 0 }]}
@@ -213,7 +215,7 @@ export default function Subscription({ navigation }) {
                                 weight="400"
                                 align='center'
                                 color={COLORS.darkGray}>
-                                {"Monthly Subscription"}
+                                {getTranslation('monthly_subscription')}
                             </Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={[styles.priceView, { borderWidth: isMonthly ? 0 : 1 }]}
@@ -232,7 +234,7 @@ export default function Subscription({ navigation }) {
                                 weight="400"
                                 align='center'
                                 color={COLORS.darkGray}>
-                                {"Annual Subscription"}
+                                {getTranslation("annual_subscription")}
                             </Text>
                         </TouchableOpacity>
                     </View>
@@ -251,7 +253,7 @@ export default function Subscription({ navigation }) {
                             weight="600"
                             align='center'
                             color={COLORS.white}>
-                            {'CONTINUE'}
+                            {getTranslation('continue')}
                         </Text>
                     </TouchableOpacity>
                 </View>

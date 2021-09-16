@@ -1,32 +1,28 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useContext } from 'react';
 import { View, StyleSheet, SafeAreaView, StatusBar, Image, TouchableOpacity, ScrollView } from 'react-native'
 
 //Components
 import { Header, Text, ProgressView } from '../components'
 
 //Context
-import { AnalyticsContext } from '../context/AnalyticsProvider';
-
-//Modal
-import { getLikesIds, setLike } from '../modal/LikeModal'
+import { LocalizatiionContext } from '../context/LocalizatiionProvider';
 
 //IMAGES & COLORS
 import { IMAGES, COLORS } from '../../assets'
 
 //PACKAGES
-import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
-import { Rating } from 'react-native-ratings';
-import { EventRegister } from 'react-native-event-listeners'
 
 export default function NotificationDetails({ route, navigation }) {
     const item = route.params.item
     const user = auth().currentUser;
 
+    const { getTranslation } = useContext(LocalizatiionContext);
+
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar barStyle={'dark-content'} backgroundColor={COLORS.white} />
-            <Header title='Notification' onBack={() => navigation.goBack()} />
+            <Header title={getTranslation('notification')} onBack={() => navigation.goBack()} />
             <View style={styles.imageView}>
                 {item && item.image &&
                     <View style={styles.image}>
@@ -55,19 +51,6 @@ export default function NotificationDetails({ route, navigation }) {
                         {item.description}
                     </Text>
                 </ScrollView>
-                <TouchableOpacity style={styles.subscribeButton}
-                    onPress={() => {
-                        onPressRead()
-                    }}>
-                    <Text
-                        extraStyle={{ alignSelf: 'center' }}
-                        size="17"
-                        weight="600"
-                        align='center'
-                        color={COLORS.white}>
-                        {'READ'}
-                    </Text>
-                </TouchableOpacity>
             </View>
         </SafeAreaView>
     )

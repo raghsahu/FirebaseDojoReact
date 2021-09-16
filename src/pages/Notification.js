@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { FlatList, View, StatusBar, SafeAreaView, StyleSheet, ActivityIndicator, Alert } from 'react-native';
 
 //Components
@@ -6,6 +6,9 @@ import { Header, Text, NotificationItem, ProgressView } from '../components'
 
 //IMAGES & COLORS
 import { IMAGES, COLORS } from '../../assets'
+
+//CONTEXT
+import { LocalizatiionContext } from '../context/LocalizatiionProvider';
 
 //PACKAGES
 import firestore from '@react-native-firebase/firestore';
@@ -15,8 +18,9 @@ export default function Notification({ navigation }) {
     const [isLoading, setLoading] = useState(true)
     const [error, setError] = useState('')
     const [notifications, setNotificatios] = useState([]);
-
     const [isBookLoading, setBookLoading] = useState(false)
+
+    const { getTranslation } = useContext(LocalizatiionContext);
 
     useEffect(async () => {
         const item = await firestore().collection('notifications').get()
@@ -65,7 +69,7 @@ export default function Notification({ navigation }) {
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar barStyle={'dark-content'} backgroundColor={COLORS.white} />
-            <Header backTitle={'Notifications'} onBack={() => navigation.goBack()} />
+            <Header backTitle={getTranslation('notifications')} onBack={() => navigation.goBack()} />
             {isLoading ?
                 <View style={{ height: 100, justifyContent: 'center' }}>
                     <ActivityIndicator style={{ alignSelf: 'center' }} animating={true} color={COLORS.orange} />

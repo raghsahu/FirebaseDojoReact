@@ -6,6 +6,7 @@ import { Header, Text, ProgressView } from '../components'
 
 //Context
 import { AnalyticsContext } from '../context/AnalyticsProvider';
+import { LocalizatiionContext } from '../context/LocalizatiionProvider';
 
 //Modal
 import { getLikesIds, setLike } from '../modal/LikeModal'
@@ -24,6 +25,7 @@ export default function Detail({ route, navigation }) {
     const user = auth().currentUser;
 
     const { mixPanelOpenBookDetails } = useContext(AnalyticsContext);
+    const { getTranslation } = useContext(LocalizatiionContext);
 
     const [LikedBooksID, setLikedBooksID] = useState([])
     const [isLoading, setLoading] = useState(false)
@@ -187,7 +189,7 @@ export default function Detail({ route, navigation }) {
                         weight="600"
                         align='center'
                         color={COLORS.white}>
-                        {'READ'}
+                        {getTranslation('read')}
                     </Text>
                 </TouchableOpacity>
             </View>

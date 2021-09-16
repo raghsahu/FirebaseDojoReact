@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { View, StatusBar, SafeAreaView, FlatList, ActivityIndicator, StyleSheet, TouchableOpacity, Image, TextInput } from 'react-native';
 
 //Components
@@ -7,12 +7,17 @@ import { Header, Text as RNText, ReviewItem } from '../components'
 //IMAGES & COLORS
 import { IMAGES, COLORS } from '../../assets'
 
+//CONTEXT
+import { LocalizatiionContext } from '../context/LocalizatiionProvider';
+
 //PACKAGES
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 
 export default function MyReview({ navigation }) {
     const user = auth().currentUser;
+
+    const { getTranslation } = useContext(LocalizatiionContext);
 
     const [isLoading, setLoading] = useState(true)
     const [isError, setError] = useState('')
@@ -40,7 +45,7 @@ export default function MyReview({ navigation }) {
             console.log(reviews)
             setLoading(false)
             if (list.length == 0) {
-                setError('No Reviews available yet.\nYour reviews will be listed here')
+                setError(getTranslation('no_review_available_yet'))
             }
             else {
                 setError('')
@@ -51,7 +56,7 @@ export default function MyReview({ navigation }) {
         catch (e) {
             setLoading(false)
             setReviews([])
-            setError("No Reviews available yet.\nYour reviews will be listed here")
+            setError(getTranslation('no_review_available_yet'))
             console.log(e)
         }
     }
@@ -59,7 +64,7 @@ export default function MyReview({ navigation }) {
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar barStyle={'dark-content'} backgroundColor={COLORS.white} />
-            <Header backTitle={'My Reviews'} onBack={() => {
+            <Header backTitle={getTranslation('my_reviews')} onBack={() => {
                 navigation.goBack()
             }} />
             {isLoading ?

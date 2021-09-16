@@ -6,6 +6,7 @@ import { Header, Text as RNText, ProgressView } from '../components'
 
 //Context
 import { AnalyticsContext } from '../context/AnalyticsProvider';
+import { LocalizatiionContext } from '../context/LocalizatiionProvider';
 
 //IMAGES & COLORS
 import { IMAGES, COLORS } from '../../assets'
@@ -18,6 +19,7 @@ export default function EditProfile({ navigation }) {
     const user = auth().currentUser;
 
     const { mixPanelEditProfile } = useContext(AnalyticsContext);
+    const { getTranslation } = useContext(LocalizatiionContext);
 
     const [isLoading, setLoading] = useState(true)
     const [firstname, setFirstName] = useState('')
@@ -66,13 +68,13 @@ export default function EditProfile({ navigation }) {
                     size={"14"}
                     weight="400"
                     color={'#000'}>
-                    {"Full Name"}
+                    {getTranslation("full_name")}
                 </RNText>
                 <View style={styles.inputView}>
                     <TextInput
                         style={{ flex: 1.0, alignSelf: 'center', color: COLORS.grey, fontSize: 15 }}
                         value={firstname}
-                        placeholder={'Full Name'}
+                        placeholder={getTranslation("full_name")}
                         placeholderTextColor={COLORS.grey}
                         onChangeText={(text) => setFirstName(text)} />
                 </View>
@@ -81,13 +83,13 @@ export default function EditProfile({ navigation }) {
                     size={"14"}
                     weight="400"
                     color={'#000'}>
-                    {"Email"}
+                    {getTranslation("email")}
                 </RNText>
                 <View style={styles.inputView}>
                     <TextInput
                         style={{ alignSelf: 'center', color: COLORS.grey, fontSize: 15 }}
                         value={email}
-                        placeholder={'Email'}
+                        placeholder={getTranslation("email")}
                         editable={false}
                         placeholderTextColor={COLORS.grey}
                         onChangeText={(text) => setFirstName(text)} />
@@ -102,7 +104,7 @@ export default function EditProfile({ navigation }) {
                         weight="600"
                         align='center'
                         color={COLORS.white}>
-                        {'SAVE'}
+                        {getTranslation('SAVE')}
                     </RNText>
                 </TouchableOpacity>
             </ScrollView>

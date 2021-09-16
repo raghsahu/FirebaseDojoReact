@@ -7,6 +7,7 @@ import Menu from './Menu'
 
 //Context
 import { APPContext } from '../context/AppProvider';
+import { LocalizatiionContext } from '../context/LocalizatiionProvider';
 
 //IMAGES & COLORS
 import { IMAGES, COLORS } from '../../assets'
@@ -21,7 +22,8 @@ export default function Home({ navigation }) {
 
     const user = auth().currentUser;
 
-    const { isSubscribe, getSubscriptionDetails } = useContext(APPContext);
+    const { isSubscribe, getSubscriptionDetails, userSubscriptionDetails } = useContext(APPContext);
+    const { getTranslation } = useContext(LocalizatiionContext);
 
     var drawer = useRef(null)
 
@@ -47,7 +49,12 @@ export default function Home({ navigation }) {
 
     getFreeBooks = async () => {
         let limit = isSubscribe ? 5 : 3
-        const books = await firestore().collection('books').where('free_book_of_week', '==', true).limit(limit).get()
+        const books = await firestore()
+            .collection('books')
+            .where('language', '==', global.languageName)
+            .where('free_book_of_week', '==', true)
+            .limit(limit)
+            .get()
         var list = []
         books.forEach(documentSnapshot => {
             var data = documentSnapshot.data()
@@ -59,7 +66,10 @@ export default function Home({ navigation }) {
     }
 
     getAllBooks = async () => {
-        const books = await firestore().collection('books').get()
+        const books = await firestore().
+            collection('books')
+            .where('language', '==', global.languageName)
+            .get()
         var list = []
         books.forEach(documentSnapshot => {
             var data = documentSnapshot.data()
@@ -71,7 +81,8 @@ export default function Home({ navigation }) {
     }
 
     getRecentRead = async () => {
-        const books = await firestore().collection('readingHistory')
+        const books = await firestore()
+            .collection('readingHistory')
             .doc(user.email)
             .collection('books')
             .limit(5)
@@ -87,7 +98,12 @@ export default function Home({ navigation }) {
     }
 
     getMostRead = async () => {
-        const books = await firestore().collection('books').where('most_read_book', '==', true).limit(5).get()
+        const books = await firestore()
+            .collection('books')
+            .where('language', '==', global.languageName)
+            .where('most_read_book', '==', true)
+            .limit(5)
+            .get()
         var list = []
         books.forEach(documentSnapshot => {
             var data = documentSnapshot.data()
@@ -136,6 +152,9 @@ export default function Home({ navigation }) {
         else if (type == 'my_review') {
             navigation.navigate('MyReview')
         }
+        else if (type == 'language') {
+            navigation.navigate('SelectLanguage')
+        }
     }
 
     return (
@@ -167,7 +186,7 @@ export default function Home({ navigation }) {
                         </View>
                         :
                         <View style={styles.container}>
-                            <SubscriptionBanner isSubscribe={isSubscribe} navigation={navigation} />
+                            <SubscriptionBanner isSubscribe={isSubscribe} userSubscriptionDetails={userSubscriptionDetails} navigation={navigation} />
                             {freeBooks && freeBooks.length > 0 &&
                                 <View>
                                     <RNText
@@ -176,10 +195,11 @@ export default function Home({ navigation }) {
                                         weight="400"
                                         align='left'
                                         color={COLORS.darkGray}>
-                                        {'Free books for this week'}
+                                        {getTranslation('free_books_for_this_week')}
                                     </RNText>
                                     <FlatList
                                         style={{ marginVertical: 20 }}
+                                        ListFooterComponent={() => <View style={{ width: 20 }} />}
                                         horizontal
                                         data={freeBooks}
                                         showsHorizontalScrollIndicator={false}
@@ -205,10 +225,11 @@ export default function Home({ navigation }) {
                                         weight="400"
                                         align='left'
                                         color={COLORS.darkGray}>
-                                        {'Books for You'}
+                                        {getTranslation('books_for_you')}
                                     </RNText>
                                     <FlatList
                                         style={{ marginVertical: 20 }}
+                                        ListFooterComponent={() => <View style={{ width: 20 }} />}
                                         horizontal
                                         data={books}
                                         showsHorizontalScrollIndicator={false}
@@ -234,10 +255,11 @@ export default function Home({ navigation }) {
                                         weight="400"
                                         align='left'
                                         color={COLORS.darkGray}>
-                                        {'Recently read'}
+                                        {getTranslation('recently_read')}
                                     </RNText>
                                     <FlatList
                                         style={{ marginVertical: 20 }}
+                                        ListFooterComponent={() => <View style={{ width: 20 }} />}
                                         horizontal
                                         data={recentRead}
                                         showsHorizontalScrollIndicator={false}
@@ -263,10 +285,11 @@ export default function Home({ navigation }) {
                                         weight="400"
                                         align='left'
                                         color={COLORS.darkGray}>
-                                        {'Most read books'}
+                                        {getTranslation('most_read_books')}
                                     </RNText>
                                     <FlatList
                                         style={{ marginVertical: 20 }}
+                                        ListFooterComponent={() => <View style={{ width: 20 }} />}
                                         horizontal
                                         data={mostReadBook}
                                         showsHorizontalScrollIndicator={false}
@@ -297,6 +320,8 @@ export default function Home({ navigation }) {
 }
 
 const SubscriptionBanner = (props) => {
+    const { getTranslation } = useContext(LocalizatiionContext);
+
     if (props.isSubscribe == false) {
         return (
             <View>
@@ -312,7 +337,49 @@ const SubscriptionBanner = (props) => {
                         weight="600"
                         align='center'
                         color={COLORS.white}>
-                        {'SUBSCRIBE NOW'}
+                        {getTranslation('subscribe_now')}
+                    </RNText>
+                </TouchableOpacity>
+            </View>
+        )
+    }
+    else if (props.isSubscribe == true && props.userSubscriptionDetails.productId == 'redeem_promo_code') {
+        return (
+            <View>
+                <Image
+                    style={{ alignSelf: 'center', width: '90%', backgroundColor: 'rgba(0,0,0,0.1)', marginTop: 10 }}
+                    source={IMAGES.banner}
+                    resizeMode='cover' />
+                <TouchableOpacity style={styles.subscribeButton}
+                    onPress={() => props.navigation.navigate('Subscription')}>
+                    <RNText
+                        extraStyle={{ alignSelf: 'center' }}
+                        size="17"
+                        weight="600"
+                        align='center'
+                        color={COLORS.white}>
+                        {getTranslation('subscribe_now')}
+                    </RNText>
+                </TouchableOpacity>
+            </View>
+        )
+    }
+    else if (props.isSubscribe == true && props.userSubscriptionDetails.productId == 'dojo_free_trial') {
+        return (
+            <View>
+                <Image
+                    style={{ alignSelf: 'center', width: '90%', backgroundColor: 'rgba(0,0,0,0.1)', marginTop: 10 }}
+                    source={IMAGES.banner}
+                    resizeMode='cover' />
+                <TouchableOpacity style={styles.subscribeButton}
+                    onPress={() => props.navigation.navigate('Subscription')}>
+                    <RNText
+                        extraStyle={{ alignSelf: 'center' }}
+                        size="17"
+                        weight="600"
+                        align='center'
+                        color={COLORS.white}>
+                        {getTranslation('subscribe_now')}
                     </RNText>
                 </TouchableOpacity>
             </View>
@@ -323,6 +390,8 @@ const SubscriptionBanner = (props) => {
 }
 
 const SubscribtionView = (props) => {
+    const { getTranslation } = useContext(LocalizatiionContext);
+
     return (
         <Modal
             animationType="slide"
@@ -335,7 +404,7 @@ const SubscribtionView = (props) => {
             <SafeAreaView style={styles.container}>
                 <StatusBar barStyle={'dark-content'} backgroundColor={COLORS.white} />
                 <Header
-                    title={'Get Premium Access'}
+                    title={getTranslation('get_premium_access')}
                     onClose={() => props.onClose()} />
                 <Image
                     style={{ alignSelf: 'center', width: 250, height: 300, marginVertical: 25 }}
@@ -347,7 +416,7 @@ const SubscribtionView = (props) => {
                     weight="400"
                     align='center'
                     color={COLORS.darkGray}>
-                    {'Get access to view the entire library of infographics and choose whichever book to read!'}
+                    {getTranslation('get_premium_message')}
                 </RNText>
                 <TouchableOpacity style={styles.subscribeButton}
                     onPress={() => {
@@ -360,18 +429,9 @@ const SubscribtionView = (props) => {
                         weight="600"
                         align='center'
                         color={COLORS.white}>
-                        {'SUBSCRIBE NOW'}
+                        {getTranslation('subscribe_now')}
                     </RNText>
                 </TouchableOpacity>
-                <RNText
-                    onPress={() => props.onClose()}
-                    extraStyle={{ alignSelf: 'center', marginHorizontal: 20, marginVertical: 10 }}
-                    size="18"
-                    weight="400"
-                    align='center'
-                    color={COLORS.darkGray}>
-                    {'Start a 1 Week Trial'}
-                </RNText>
             </SafeAreaView>
         </Modal>
     )

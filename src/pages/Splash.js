@@ -8,6 +8,7 @@ import { Text, ProgressView } from '../components';
 
 //Context
 import { APPContext } from '../context/AppProvider';
+import { LocalizatiionContext } from '../context/LocalizatiionProvider';
 
 // COLORS & IMAGES
 import { COLORS } from '../../assets'
@@ -20,35 +21,61 @@ import moment from 'moment';
 import PushNotificationIOS from "@react-native-community/push-notification-ios";
 import PushNotification from 'react-native-push-notification'
 import messaging from '@react-native-firebase/messaging';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Splash(props) {
     const user = auth().currentUser;
 
+    const [isLoading, setLoading] = useState(true)
     const { getSubscriptionDetails } = useContext(APPContext);
+    const { getUserLanguage, setI18nConfig, getTranslation } = useContext(LocalizatiionContext);
 
     useEffect(async () => {
-        if (user) {
-            updateUser()
-        }
-        else {
-            props.navigation.dispatch(
-                CommonActions.reset({
-                    index: 0,
-                    routes: [
-                        { name: 'Signin' }
-                    ],
-                })
-            );
-        }
-    }, []);
+        getUserLanguage((res) => {
+            setI18nConfig(res)
+            checkAndUpdate()
+            setLoading(false)
+        })
+    }, [])
 
-    const updateUser = async() => {
+
+    const checkAndUpdate = () => {
+        AsyncStorage.getItem('is_first_time_install', (error, result) => {
+            if (result) {
+                if (user) {
+                    updateUser()
+                }
+                else {
+                    props.navigation.dispatch(
+                        CommonActions.reset({
+                            index: 0,
+                            routes: [
+                                { name: 'SignIn' }
+                            ],
+                        })
+                    );
+                }
+            }
+            else {
+                props.navigation.dispatch(
+                    CommonActions.reset({
+                        index: 0,
+                        routes: [
+                            { name: 'SelectLanguage' }
+                        ],
+                    })
+                );
+            }
+        })
+    }
+
+    const updateUser = async () => {
         let user = auth().currentUser
         firestore()
-        .collection('users')
-        .doc(user.email)
-        .get()
-        .then(documentSnapshot => {
+            .collection('users')
+            .doc(user.email)
+            .get()
+            .then(documentSnapshot => {
                 if (documentSnapshot.exists) {
                     getSubscription()
                     firestore()
@@ -128,7 +155,7 @@ export default function Splash(props) {
         })
     }
 
-    const registerDevice = async() => {
+    const registerDevice = async () => {
         messaging().setAutoInitEnabled(true)
         if (Platform.OS == 'ios') {
             setTimeout(() => {
@@ -144,7 +171,7 @@ export default function Splash(props) {
     setUpNotification = async () => {
         const defaultAppMessaging = messaging();
         const token = await defaultAppMessaging.getToken();
-        
+
         getFcmToken()
 
         if (!defaultAppMessaging.isDeviceRegisteredForRemoteMessages) {
@@ -259,14 +286,16 @@ export default function Splash(props) {
                 size='large'
                 animating={true}
                 color={COLORS.orange} />
-            <Text
-                extraStyle={{ alignSelf: 'center', marginTop: 20 }}
-                size="14"
-                weight="400"
-                align='center'
-                color={COLORS.orange}>
-                {'We are preparing your data...'}
-            </Text>
+            {isLoading == false &&
+                <Text
+                    extraStyle={{ alignSelf: 'center', marginTop: 20 }}
+                    size="14"
+                    weight="400"
+                    align='center'
+                    color={COLORS.orange}>
+                    {getTranslation('splash_message')}
+                </Text>
+            }
         </SafeAreaView>
     )
 }

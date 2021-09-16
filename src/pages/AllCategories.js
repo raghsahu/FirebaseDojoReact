@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { View, StatusBar, SafeAreaView, FlatList, ActivityIndicator, StyleSheet, TouchableOpacity, Image, TextInput } from 'react-native';
 
 //Components
@@ -10,6 +10,9 @@ import { getLikesIds, setLike } from '../modal/LikeModal'
 //IMAGES & COLORS
 import { IMAGES, COLORS } from '../../assets'
 
+//Context
+import { LocalizatiionContext } from '../context/LocalizatiionProvider';
+
 //PACKAGES
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
@@ -17,6 +20,8 @@ import { EventRegister } from 'react-native-event-listeners'
 
 export default function AllCategory({ navigation, route }) {
     const user = auth().currentUser;
+
+    const { getTranslation } = useContext(LocalizatiionContext);
 
     const [isLoading, setLoading] = useState(true)
     const [isError, setError] = useState('')
@@ -46,24 +51,28 @@ export default function AllCategory({ navigation, route }) {
 
     getAllBooks = async () => {
         try {
-            const books = await firestore().collection('books')
-                .where('category', '!=', '')
-                .orderBy('category')
-                .get()
-            var list = []
-            var categories = []
-            books.forEach(documentSnapshot => {
-                var data = documentSnapshot.data()
-                data.id = documentSnapshot.id
-                if (categories.includes(data.category) == false) {
-                    categories.push(data.category)
-                    list.push(data)
-                }
-            });
-            console.log(list)
-            setLoading(false)
-            setError('')
-            setBook(list)
+            var ref = firestore().collection('books')
+            ref = ref.where('category', '!=', '')
+            ref = ref.where('language', '==', global.languageName)
+            ref = ref.orderBy('category')
+
+            ref.get()
+                .then(querySnapshot => {
+                    var list = []
+                    var categories = []
+                    querySnapshot.forEach(documentSnapshot => {
+                        var data = documentSnapshot.data()
+                        data.id = documentSnapshot.id
+                        if (categories.includes(data.category) == false) {
+                            categories.push(data.category)
+                            list.push(data)
+                        }
+                    });
+                    console.log(list)
+                    setLoading(false)
+                    setError('')
+                    setBook(list)
+                })
         }
         catch (e) {
             setLoading(false)
@@ -76,7 +85,7 @@ export default function AllCategory({ navigation, route }) {
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar barStyle={'dark-content'} backgroundColor={COLORS.white} />
-            <Header backTitle={"Categories"} onBack={() => {
+            <Header backTitle={getTranslation("categories")} onBack={() => {
                 navigation.goBack()
             }} />
             {isLoading ?

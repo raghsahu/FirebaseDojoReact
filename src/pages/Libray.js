@@ -6,6 +6,7 @@ import { Header, Text as RNText, BookItem } from '../components'
 
 //Context
 import { APPContext } from '../context/AppProvider';
+import { LocalizatiionContext } from '../context/LocalizatiionProvider';
 
 //Modal
 import { getLikesIds, setLike } from '../modal/LikeModal'
@@ -23,6 +24,7 @@ export default function Libray({ navigation }) {
     const user = auth().currentUser;
 
     const { isSubscribe } = useContext(APPContext);
+    const { getTranslation } = useContext(LocalizatiionContext);
 
     var menuList = useRef(null)
     const [isLoading, setLoading] = useState(true)
@@ -67,7 +69,10 @@ export default function Libray({ navigation }) {
 
     getAllBooks = async () => {
         try {
-            const books = await firestore().collection('books').get()
+            const books = await firestore()
+                .collection('books')
+                .where('language', '==', global.languageName)
+                .get()
             var list = []
             books.forEach(documentSnapshot => {
                 var data = documentSnapshot.data()
@@ -83,14 +88,16 @@ export default function Libray({ navigation }) {
         catch (e) {
             setLoading(false)
             setBook([])
-            setError("No Books available yet.")
+            setError(getTranslation("no_books_available_yet"))
             console.log(e)
         }
     }
 
     getMostRated = async () => {
         try {
-            const books = await firestore().collection('books')
+            const books = await firestore()
+                .collection('books')
+                .where('language', '==', global.languageName)
                 .where('numberOfStars', '>=', '4')
                 .get()
             var list = []
@@ -108,7 +115,7 @@ export default function Libray({ navigation }) {
         catch (e) {
             setLoading(false)
             setBook([])
-            setError("No Books available yet.")
+            setError(getTranslation("no_books_available_yet"))
             console.log(e)
         }
     }
@@ -135,14 +142,14 @@ export default function Libray({ navigation }) {
             else {
                 setLoading(false)
                 setBook([])
-                setError("You haven't liked any books yet. Liked books will be listed here")
+                setError(getTranslation("like_book_no_record"))
                 console.log(e)
             }
         }
         catch (e) {
             setLoading(false)
             setBook([])
-            setError("You haven't liked any books yet. Liked books will be listed here")
+            setError(getTranslation("like_book_no_record"))
             console.log(e)
         }
     }
@@ -169,14 +176,14 @@ export default function Libray({ navigation }) {
             else {
                 setLoading(false)
                 setBook([])
-                setError("You haven't started any books yet. Started books will be listed here")
+                setError(getTranslation("start_book_no_record"))
                 console.log(e)
             }
         }
         catch (e) {
             setLoading(false)
             setBook([])
-            setError("You haven't started any books yet. Started books will be listed here")
+            setError(getTranslation("start_book_no_record"))
             console.log(e)
         }
     }
@@ -184,7 +191,7 @@ export default function Libray({ navigation }) {
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar barStyle={'dark-content'} backgroundColor={COLORS.white} />
-            <Header type={'simple'} backTitle={'My Library'} />
+            <Header type={'simple'} backTitle={getTranslation('my_library')} />
             <View style={styles.container}>
                 <View>
                     <FlatList
@@ -206,7 +213,7 @@ export default function Libray({ navigation }) {
                                     weight="400"
                                     align='center'
                                     color={COLORS.darkGray}>
-                                    {item}
+                                    {getTranslation(item)}
                                 </RNText>
                                 {selectedMenu == item &&
                                     <View style={{ width: 30, backgroundColor: COLORS.orange, height: 3, alignSelf: 'center', marginTop: 5 }} />
@@ -241,7 +248,7 @@ export default function Libray({ navigation }) {
                                             data={books}
                                             extraData={LikedBooksID}
                                             showsVerticalScrollIndicator={false}
-                                            keyExtractor={(item, index) => (item &&  item.id ? item.id.toString() : "") + index.toString()}
+                                            keyExtractor={(item, index) => (item && item.id ? item.id.toString() : "") + index.toString()}
                                             renderItem={({ item, index }) =>
                                                 <BookItem
                                                     isLiked={LikedBooksID.includes(item.id)}
@@ -292,7 +299,7 @@ export default function Libray({ navigation }) {
                             weight="500"
                             align='center'
                             color={COLORS.black}>
-                            {'Please subscribe to continue'}
+                            {getTranslation('please_subscribe_to_continue')}
                         </RNText>
                     </TouchableOpacity>
                 </BlurView>

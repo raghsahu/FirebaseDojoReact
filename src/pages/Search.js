@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { View, StatusBar, SafeAreaView, FlatList, ActivityIndicator, StyleSheet, TouchableOpacity, Image, TextInput } from 'react-native';
 
 //Components
@@ -10,6 +10,9 @@ import { getLikesIds, setLike } from '../modal/LikeModal'
 //IMAGES & COLORS
 import { IMAGES, COLORS } from '../../assets'
 
+//CONTEXT
+import { LocalizatiionContext } from '../context/LocalizatiionProvider';
+
 //PACKAGES
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
@@ -17,6 +20,8 @@ import { EventRegister } from 'react-native-event-listeners'
 
 export default function Search({ navigation }) {
     const user = auth().currentUser;
+
+    const { getTranslation } = useContext(LocalizatiionContext);
 
     const [isLoading, setLoading] = useState(true)
     const [isError, setError] = useState('')
@@ -41,7 +46,7 @@ export default function Search({ navigation }) {
                 .collection('books')
                 .orderBy('bookName')
                 .startAt(search)
-                .endAt(search+"\uf8ff")
+                .endAt(search + "\uf8ff")
                 .get()
             var list = []
             books.forEach(documentSnapshot => {
@@ -58,7 +63,7 @@ export default function Search({ navigation }) {
         catch (e) {
             setLoading(false)
             setBook([])
-            setError("No Books available yet.")
+            setError(getTranslation("no_books_available_yet"))
             console.log(e)
         }
     }
@@ -66,7 +71,7 @@ export default function Search({ navigation }) {
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar barStyle={'dark-content'} backgroundColor={COLORS.white} />
-            <Header backTitle={'Discover'} onBack={() => {
+            <Header backTitle={getTranslation('discover')} onBack={() => {
                 navigation.goBack()
             }} />
             <View style={styles.searchView}
@@ -77,7 +82,7 @@ export default function Search({ navigation }) {
                 <TextInput
                     style={{ alignSelf: 'center', marginHorizontal: 15, color: COLORS.grey }}
                     value={search}
-                    placeholder={'Search..'}
+                    placeholder={getTranslation('search')}
                     placeholderTextColor={COLORS.grey}
                     onChangeText={(text) => setSearchText(text)} />
             </View>

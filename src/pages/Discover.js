@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { SafeAreaView, StyleSheet, StatusBar, View, Image, TouchableOpacity, FlatList, ScrollView } from 'react-native';
 
 //Components
@@ -7,14 +7,17 @@ import { Header, Text as RNText, HomeBookItem } from '../components'
 //IMAGES & COLORS
 import { IMAGES, COLORS } from '../../assets'
 
+//CONTEXT
+import { LocalizatiionContext } from '../context/LocalizatiionProvider';
+
 //PACKAGES
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 
 export default function Discover({ navigation }) {
 
-    const [isLoading, setLoading] = useState(true)
-    const [isError, setError] = useState('')
+    const { getTranslation } = useContext(LocalizatiionContext);
+
     const [books, setBook] = useState([]);
     const [trendingBooks, setTrendingBooks] = useState([]);
     const [authors, setAuthors] = useState([]);
@@ -28,59 +31,64 @@ export default function Discover({ navigation }) {
 
     getAllAuthors = async () => {
         try {
-            const books = await firestore().collection('books').limit(12).get()
-            var list = []
-            var authors = []
-            books.forEach(documentSnapshot => {
-                var data = documentSnapshot.data()
-                data.id = documentSnapshot.id
-                if (authors.includes(data.authorName) == false) {
-                    authors.push(data.authorName)
-                    list.push(data)
-                }
-                console.log(data)
-            });
-            console.log(list)
-            setLoading(false)
-            setError('')
-            setAuthors(list)
+            var ref = firestore().collection('books')
+            ref = ref.where('authorName', '!=', '')
+            ref = ref.where('language', '==', global.languageName)
+            ref = ref.orderBy('authorName')
+            ref.get()
+                .then(querySnapshot => {
+                    var list = []
+                    var authors = []
+                    querySnapshot.forEach(documentSnapshot => {
+                        var data = documentSnapshot.data()
+                        data.id = documentSnapshot.id
+                        if (authors.includes(data.authorName) == false) {
+                            authors.push(data.authorName)
+                            list.push(data)
+                        }
+                    });
+                    console.log(list)
+                    setAuthors(list)
+                })
         }
         catch (e) {
-            setLoading(false)
-            setBook([])
-            setAuthors("No Books available yet.")
             console.log(e)
         }
     }
 
     getAllBooks = async () => {
         try {
-            const books = await firestore().collection('books').where('category', '!=', '').limit(5).get()
-            var list = []
-            var categories = []
-            books.forEach(documentSnapshot => {
-                var data = documentSnapshot.data()
-                data.id = documentSnapshot.id
-                if (categories.includes(data.category) == false) {
-                    categories.push(data.category)
-                    list.push(data)
-                }
-            });
-            console.log("Category==>", list)
-            setLoading(false)
-            setError('')
-            setBook(list)
+            var ref = firestore().collection('books')
+            ref = ref.where('category', '!=', '')
+            ref = ref.where('language', '==', global.languageName)
+            ref = ref.limit(6)
+            ref.get()
+                .then(querySnapshot => {
+                    var list = []
+                    var categories = []
+                    querySnapshot.forEach(documentSnapshot => {
+                        var data = documentSnapshot.data()
+                        data.id = documentSnapshot.id
+                        if (categories.includes(data.category) == false) {
+                            categories.push(data.category)
+                            list.push(data)
+                        }
+                    });
+                    console.log(list)
+                    setBook(list)
+                })
         }
         catch (e) {
-            setLoading(false)
             setBook([])
-            setError("No Books available yet.")
             console.log(e)
         }
     }
 
     getTrendingBook = async () => {
-        const books = await firestore().collection('books').where('trending', '==', true).limit(5).get()
+        const books = await firestore()
+            .collection('books')
+            .where('language', '==', global.languageName)
+            .where('trending', '==', true).limit(5).get()
         var list = []
         books.forEach(documentSnapshot => {
             var data = documentSnapshot.data()
@@ -94,7 +102,7 @@ export default function Discover({ navigation }) {
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar barStyle={'dark-content'} backgroundColor={COLORS.white} />
-            <Header type={'simple'} backTitle={'Discover'} />
+            <Header type={'simple'} backTitle={getTranslation('discover')} />
             <TouchableOpacity style={styles.searchView}
                 onPress={() => {
                     navigation.navigate('Search')
@@ -106,62 +114,68 @@ export default function Discover({ navigation }) {
                     weight="400"
                     align='center'
                     color={COLORS.grey}>
-                    {'#tags, titles or authors'}
+                    {getTranslation('search_title')}
                 </RNText>
             </TouchableOpacity>
             <ScrollView
                 showsVerticalScrollIndicator={false}>
-                <View style={styles.treadingHeader}>
-                    <RNText
-                        extraStyle={{ alignSelf: 'center' }}
-                        size="20"
-                        weight="400"
-                        align='left'
-                        color={COLORS.darkGray}>
-                        {'Categories'}
-                    </RNText>
-                    <RNText
-                        onPress={() => {
-                            navigation.navigate('AllCategory')
-                        }}
-                        extraStyle={{ alignSelf: 'center' }}
-                        size="14"
-                        weight="400"
-                        align='left'
-                        color={COLORS.darkGray}>
-                        {'See all'}
-                    </RNText>
-                </View>
-                <ScrollView horizontal
-                    showsHorizontalScrollIndicator={false}>
-                    <View style={{ width: 12 }} />
-                    <FlatList
-                        data={books}
-                        numColumns={3}
-                        scrollEnabled={false}
-                        keyExtractor={(item, index) => index.toString()}
-                        renderItem={({ item, index }) => {
-                            return (
-                                <TouchableOpacity style={styles.tagView}
-                                    onPress={() => {
-                                        navigation.navigate('Category', {
-                                            item: item.category
-                                        })
-                                    }}>
-                                    <RNText
-                                        extraStyle={{ alignSelf: 'center' }}
-                                        size="16"
-                                        weight="400"
-                                        align='left'
-                                        color={COLORS.darkGray}>
-                                        {item.category}
-                                    </RNText>
-                                </TouchableOpacity>
-                            )
-                        }}
-                    />
-                    <View style={{ width: 20 }} />
-                </ScrollView>
+                {books && books.length > 0 &&
+                    <View>
+                        <View style={styles.treadingHeader}>
+                            <RNText
+                                extraStyle={{ alignSelf: 'center' }}
+                                size="20"
+                                weight="400"
+                                align='left'
+                                color={COLORS.darkGray}>
+                                {getTranslation('categories')}
+                            </RNText>
+                            <RNText
+                                onPress={() => {
+                                    navigation.navigate('AllCategory')
+                                }}
+                                extraStyle={{ alignSelf: 'center' }}
+                                size="14"
+                                weight="400"
+                                align='left'
+                                color={COLORS.darkGray}>
+                                {getTranslation('see_all')}
+                            </RNText>
+                        </View>
+                        <ScrollView
+                            style={{ marginTop: 10 }}
+                            horizontal
+                            showsHorizontalScrollIndicator={false}>
+                            <View style={{ width: 12 }} />
+                            <FlatList
+                                data={books}
+                                numColumns={3}
+                                scrollEnabled={false}
+                                keyExtractor={(item, index) => index.toString()}
+                                renderItem={({ item, index }) => {
+                                    return (
+                                        <TouchableOpacity style={styles.tagView}
+                                            onPress={() => {
+                                                navigation.navigate('Category', {
+                                                    item: item.category
+                                                })
+                                            }}>
+                                            <RNText
+                                                extraStyle={{ alignSelf: 'center' }}
+                                                size="16"
+                                                weight="400"
+                                                align='left'
+                                                color={COLORS.darkGray}>
+                                                {item.category}
+                                            </RNText>
+                                        </TouchableOpacity>
+                                    )
+                                }}
+                            />
+                            <View style={{ width: 20 }} />
+                        </ScrollView>
+                    </View>
+                }
                 {trendingBooks && trendingBooks.length > 0 &&
                     <View>
                         <View style={styles.treadingHeader}>
@@ -171,7 +185,7 @@ export default function Discover({ navigation }) {
                                 weight="400"
                                 align='left'
                                 color={COLORS.darkGray}>
-                                {'Trending Books'}
+                                {getTranslation('trending_books')}
                             </RNText>
                             <RNText
                                 onPress={() => {
@@ -182,7 +196,7 @@ export default function Discover({ navigation }) {
                                 weight="400"
                                 align='left'
                                 color={COLORS.darkGray}>
-                                {'See all'}
+                                {getTranslation('see_all')}
                             </RNText>
                         </View>
                         <FlatList
@@ -214,7 +228,7 @@ export default function Discover({ navigation }) {
                                 weight="400"
                                 align='left'
                                 color={COLORS.darkGray}>
-                                {'Authors'}
+                                {getTranslation('authors')}
                             </RNText>
                             <RNText
                                 onPress={() => {
@@ -225,7 +239,7 @@ export default function Discover({ navigation }) {
                                 weight="400"
                                 align='left'
                                 color={COLORS.darkGray}>
-                                {'See all'}
+                                {getTranslation('see_all')}
                             </RNText>
                         </View>
                         <FlatList

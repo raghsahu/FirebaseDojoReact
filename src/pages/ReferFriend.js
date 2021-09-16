@@ -1,8 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, StatusBar, SafeAreaView, Image, ScrollView, StyleSheet, TouchableOpacity, TextInput, Alert } from 'react-native';
 
 //Components
 import { Header, Text as RNText, ProgressView } from '../components'
+
+//CONTEXT
+import { LocalizatiionContext } from '../context/LocalizatiionProvider';
 
 //IMAGES & COLORS
 import { IMAGES, COLORS } from '../../assets'
@@ -17,6 +20,9 @@ import { CommonActions } from '@react-navigation/native';
 export default function ReferFriend({ navigation }) {
 
     const user = auth().currentUser;
+
+    const { getTranslation } = useContext(LocalizatiionContext);
+
     const [selectedMenu, setSelectedMenu] = useState('Refer a Friend')
     const [isLoading, setLoading] = useState(false)
     const [redeemCode, setRedeemCode] = useState('')
@@ -31,24 +37,24 @@ export default function ReferFriend({ navigation }) {
                     let item = documentSnapshot.data()
                     if (item.isRedeem) {
                         setLoading(false)
-                        Alert.alert('', 'You have already redeem this code')
+                        Alert.alert('', getTranslation('you_have_already_redeem_this_code'))
                     }
                     else if (item.code == redeemCode) {
                         checkCurrentSubscriotion(item)
                     }
                     else {
                         setLoading(false)
-                        Alert.alert('', 'Please eneter valid code')
+                        Alert.alert('', getTranslation('please_enter_valid_code'))
                     }
                     console.log(item)
                 }
                 else {
                     setLoading(false)
-                    Alert.alert('', 'Please eneter valid code')
+                    Alert.alert('', getTranslation('please_enter_valid_code'))
                 }
             }).catch((e) => {
                 setLoading(false)
-                Alert.alert('', 'Please eneter valid code')
+                Alert.alert('', getTranslation('please_enter_valid_code'))
             })
     }
 
@@ -124,7 +130,7 @@ export default function ReferFriend({ navigation }) {
     }
 
     const successMessage = () => {
-        Alert.alert('Congratulations', 'Your redeem code was successful', [
+        Alert.alert(getTranslation('congratulations'), getTranslation('your_redeem_code_was_successful'), [
             {
                 text: 'Ok', onPress: () => {
                     firestore().collection('PromoCode')
@@ -161,7 +167,7 @@ export default function ReferFriend({ navigation }) {
                         weight="400"
                         align='center'
                         color={COLORS.darkGray}>
-                        {'Refer a Friend'}
+                        {getTranslation('Refer a Friend')}
                     </RNText>
                     {selectedMenu == 'Refer a Friend' &&
                         <View style={{ width: 100, backgroundColor: COLORS.orange, height: 3, alignSelf: 'center', marginTop: 5 }} />
@@ -177,7 +183,7 @@ export default function ReferFriend({ navigation }) {
                         weight="400"
                         align='center'
                         color={COLORS.darkGray}>
-                        {'Redeem!'}
+                        {getTranslation('Redeem!')}
                     </RNText>
                     {selectedMenu == 'Earning' &&
                         <View style={{ width: 100, backgroundColor: COLORS.orange, height: 3, alignSelf: 'center', marginTop: 5 }} />
@@ -192,7 +198,7 @@ export default function ReferFriend({ navigation }) {
                         weight="600"
                         align='center'
                         color={COLORS.darkGray}>
-                        {"We're so delighted\nyou're here"}
+                        {getTranslation('refer_a_friend_message')}
                     </RNText>
                     <Image style={{ alignSelf: 'center', margin: 20 }}
                         source={IMAGES.referal_img} />
@@ -202,16 +208,16 @@ export default function ReferFriend({ navigation }) {
                         weight="400"
                         align='center'
                         color={COLORS.darkGray}>
-                        {"Send referral link to your friends\nand you can get annual or\nmonthly subscription"}
+                        {getTranslation("get_referal_subscription")}
                     </RNText>
                     <TouchableOpacity style={styles.subscribeButton}
                         onPress={() => {
                             let ios = "https://apps.apple.com/us/app/dojo-infographics/id1582858619"
                             let android = "https://play.google.com/store/apps/details?id=com.dojoinfographic"
 
-
+                            let msg = getTranslation('share_message') + `\nAndroid - ${android}\niOS - ${ios}.`
                             Share.open({
-                                message: `Hey there, I am using Dojo. Join Dojo using this link\nAndroid - ${android}\niOS - ${ios}.`
+                                message: msg
                             }).then((res) => {
                                 console.log(res);
                             }).catch((err) => {
@@ -224,7 +230,7 @@ export default function ReferFriend({ navigation }) {
                             weight="600"
                             align='center'
                             color={COLORS.white}>
-                            {'SHARE'}
+                            {getTranslation('share')}
                         </RNText>
                     </TouchableOpacity>
                 </ScrollView>
@@ -237,7 +243,7 @@ export default function ReferFriend({ navigation }) {
                         weight="400"
                         align='center'
                         color={COLORS.darkGray}>
-                        {"Redeem code you can get annual or\nmonthly subscription"}
+                        {getTranslation('redeemcode_message')}
                     </RNText>
                     <View style={styles.inputView}>
                         <TextInput
@@ -259,7 +265,7 @@ export default function ReferFriend({ navigation }) {
                             weight="600"
                             align='center'
                             color={COLORS.white}>
-                            {'REDEEM CODE'}
+                            {getTranslation('redeem_code')}
                         </RNText>
                     </TouchableOpacity>
                 </View>

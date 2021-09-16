@@ -10,17 +10,17 @@ import { Header, ProgressView, Text } from '../components'
 //IMAGES & COLORS
 import { IMAGES, COLORS } from '../../assets'
 
+//CONTEXT
+import { LocalizatiionContext } from '../context/LocalizatiionProvider';
+
 //PACKAGES
-import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
-import * as RNIap from 'react-native-iap';
-import moment from 'moment';
-import { CommonActions } from '@react-navigation/native';
 
 export default function MySubscription({ navigation }) {
 
     const user = auth().currentUser;
 
+    const { getTranslation } = useContext(LocalizatiionContext);
     const { isSubscribe, userSubscriptionDetails, RemainingDays } = useContext(APPContext);
 
     const [isLoading, setLoading] = useState(false)
@@ -29,16 +29,16 @@ export default function MySubscription({ navigation }) {
 
     const getTitle = (id) => {
         if (id == 'dojo_monthly_subscription') {
-            return "Monthly Subscription"
+            return getTranslation("monthly_subscription")
         }
         else if (id == 'dojo_yearly_subscription') {
-            return "Yearly Subscription"
+            return getTranslation("yearly_subscription")
         }
         else if (id == 'dojo_free_trial') {
-            return "7 days\nfree trial"
+            return getTranslation("free_trial")
         }
         else if (id == 'redeem_promo_code') {
-            return "You get free version\nusing redeem code"
+            return getTranslation("redeem_code_subscription")
         }
         else {
             return ''
@@ -53,10 +53,10 @@ export default function MySubscription({ navigation }) {
             return "Rp 299 0000"
         }
         else if (id == 'dojo_free_trial') {
-            return "Free"
+            return getTranslation("free")
         }
         else if (id == 'redeem_promo_code') {
-            return "Redeem Code"
+            return getTranslation("redeem_code_small")
         }
         else {
             return ''
@@ -96,7 +96,7 @@ export default function MySubscription({ navigation }) {
                                         weight="400"
                                         align='center'
                                         color={COLORS.darkGray}>
-                                        {'You have not subscribe any plan yet. Please unlock all feature.'}
+                                        {getTranslation('not_subscribe_msg')}
                                     </Text>
                                     <TouchableOpacity style={styles.subscribeButton}
                                         onPress={() => navigation.navigate('Subscription')}>
@@ -106,7 +106,7 @@ export default function MySubscription({ navigation }) {
                                             weight="600"
                                             align='center'
                                             color={COLORS.white}>
-                                            {'SUBSCRIBE NOW'}
+                                            {getTranslation('subscribe_now')}
                                         </Text>
                                     </TouchableOpacity>
                                 </View>
@@ -145,7 +145,7 @@ export default function MySubscription({ navigation }) {
                                             weight="500"
                                             align='center'
                                             color={COLORS.darkGray}>
-                                            {"Days\nLefts"}
+                                            {getTranslation("day_left")}
                                         </Text>
                                     </View>
                                 </View>
@@ -157,7 +157,7 @@ export default function MySubscription({ navigation }) {
                                 size={"22"}
                                 weight="600"
                                 color={COLORS.darkGray}>
-                                {'Benefits'}
+                                {getTranslation('benefits')}
                             </Text>
                         </View>
                         <View style={styles.itemContainer}>
@@ -173,7 +173,7 @@ export default function MySubscription({ navigation }) {
                                     weight="400"
                                     align='center'
                                     color={COLORS.darkGray}>
-                                    {'Unlock all books'}
+                                    {getTranslation('unlock_all_books')}
                                 </Text>
                             </View>
                             <View style={{ width: '43%' }}>
@@ -188,7 +188,7 @@ export default function MySubscription({ navigation }) {
                                     weight="400"
                                     align='center'
                                     color={COLORS.darkGray}>
-                                    {'Able to use library'}
+                                    {getTranslation('able_to_use_library')}
                                 </Text>
                             </View>
                         </View>
@@ -205,7 +205,7 @@ export default function MySubscription({ navigation }) {
                                     weight="400"
                                     align='center'
                                     color={COLORS.darkGray}>
-                                    {'Able to read entire book'}
+                                    {getTranslation('able_to_read_entire_book')}
                                 </Text>
                             </View>
                             <View style={{ width: '43%' }} />

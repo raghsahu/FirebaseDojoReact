@@ -7,6 +7,7 @@ import { Header, Text, ProgressView } from '../components'
 //Context
 import { APPContext } from '../context/AppProvider';
 import { AnalyticsContext } from '../context/AnalyticsProvider';
+import { LocalizatiionContext } from '../context/LocalizatiionProvider';
 
 //IMAGES & COLORS
 import { IMAGES, COLORS } from '../../assets'
@@ -28,6 +29,7 @@ export default function ReadBook({ route, navigation }) {
 
     const { isSubscribe } = useContext(APPContext);
     const { mixPanelRateBook, mixPanelInAppRating } = useContext(AnalyticsContext);
+    const { getTranslation } = useContext(LocalizatiionContext);
 
     var scrollRef = useRef(null)
 
@@ -118,13 +120,13 @@ export default function ReadBook({ route, navigation }) {
 
     const onRatingBook = () => {
         if (bookRating <= 0) {
-            Toast.show('Please rate quality of book');
+            Toast.show(getTranslation('quality_book_warning'));
         }
         else if (summaryRating <= 0) {
-            Toast.show('Please rate quality of summary');
+            Toast.show(getTranslation('Please rate quality of summary'));
         }
         else if (infographicsRating <= 0) {
-            Toast.show('Please rate quality of infographics');
+            Toast.show(getTranslation('quality_infographics_warning'));
         }
         else {
             setLoading(true)
@@ -223,7 +225,7 @@ export default function ReadBook({ route, navigation }) {
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar barStyle={'dark-content'} backgroundColor={COLORS.white} />
-            <Header onBack={() => navigation.goBack()} backTitle={isScrollEnable ? '' : 'Write Review'} />
+            <Header onBack={() => navigation.goBack()} backTitle={isScrollEnable ? '' : getTranslation('write_review')} />
             {item && item.images &&
                 <ScrollView
                     ref={scrollRef}
@@ -270,7 +272,7 @@ export default function ReadBook({ route, navigation }) {
                                                             weight="500"
                                                             align='center'
                                                             color={COLORS.black}>
-                                                            {'Please subscribe to continue'}
+                                                            {getTranslation('please_subscribe_to_continue')}
                                                         </Text>
                                                     </TouchableOpacity>
                                                 </BlurView>
@@ -303,7 +305,7 @@ export default function ReadBook({ route, navigation }) {
                                 size={"16"}
                                 weight="400"
                                 color={COLORS.darkGray}>
-                                {'Quality of book'}
+                                {getTranslation('quality_of_book')}
                             </Text>
                             <View style={styles.rateView}>
                                 <View>
@@ -325,7 +327,7 @@ export default function ReadBook({ route, navigation }) {
                                 size={"16"}
                                 weight="400"
                                 color={COLORS.darkGray}>
-                                {'Quality of summary'}
+                                {getTranslation('quality_of_summary')}
                             </Text>
                             <View style={styles.rateView}>
                                 <View>
@@ -347,7 +349,7 @@ export default function ReadBook({ route, navigation }) {
                                 size={"16"}
                                 weight="400"
                                 color={COLORS.darkGray}>
-                                {'Quality of Infographics'}
+                                {getTranslation('quality_of_infographics')}
                             </Text>
                             <View style={styles.rateView}>
                                 <View>
@@ -372,7 +374,7 @@ export default function ReadBook({ route, navigation }) {
                                     weight="600"
                                     align='center'
                                     color={COLORS.white}>
-                                    {'SUBMIT'}
+                                    {getTranslation('submit')}
                                 </Text>
                             </TouchableOpacity>
                         </View>

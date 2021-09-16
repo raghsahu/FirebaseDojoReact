@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useContext } from 'react';
 import { View, StatusBar, SafeAreaView, Alert, StyleSheet, TouchableOpacity, Image, TextInput } from 'react-native';
 
 //Components
@@ -7,13 +7,16 @@ import { Header, Text, BookItem } from '../components'
 //IMAGES & COLORS
 import { IMAGES, COLORS } from '../../assets'
 
+//CONTEXT
+import { LocalizatiionContext } from '../context/LocalizatiionProvider';
+
 //PACKAGES
-import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
-import { EventRegister } from 'react-native-event-listeners'
 
 export default function Menu({ navigation, onPressItem }) {
     const user = auth().currentUser;
+
+    const { getTranslation } = useContext(LocalizatiionContext);
 
     return (
         <SafeAreaView style={styles.container}>
@@ -23,13 +26,13 @@ export default function Menu({ navigation, onPressItem }) {
                 size="22"
                 weight="600"
                 color={COLORS.black}>
-                {'Welcome to'}
+                {getTranslation('welcome_to')}
                 <Text
                     extraStyle={{ marginTop: 40 }}
                     size="22"
                     weight="600"
                     color={COLORS.orange}>
-                    {' Dojo'}
+                    {" " + getTranslation('dojo')}
                 </Text>
             </Text>
             <View style={styles.devider} />
@@ -40,7 +43,7 @@ export default function Menu({ navigation, onPressItem }) {
                     size="20"
                     weight="600"
                     color={COLORS.black}>
-                    {'Profile Settings'}
+                    {getTranslation('profile_settings')}
                 </Text>
             </View>
             <View style={{ height: 20 }} />
@@ -52,18 +55,29 @@ export default function Menu({ navigation, onPressItem }) {
                 size="18"
                 weight="400"
                 color={COLORS.black}>
-                {'Edit Profile'}
+                {getTranslation('edit_profile')}
             </Text>
             <View style={styles.singleDevider} />
             <Text
                 onPress={() => {
                     onPressItem('subscription')
                 }}
+                extraStyle={{ marginLeft: 20, marginVertical: 10 }}
+                size="18"
+                weight="400"
+                color={COLORS.black}>
+                {getTranslation('my_subscription')}
+            </Text>
+            <View style={styles.singleDevider} />
+            <Text
+                onPress={() => {
+                    onPressItem('language')
+                }}
                 extraStyle={{ marginLeft: 20, marginTop: 10 }}
                 size="18"
                 weight="400"
                 color={COLORS.black}>
-                {'My Subscription'}
+                {getTranslation('Language')}
             </Text>
             <View style={styles.devider} />
             <TouchableOpacity style={styles.profileView}
@@ -76,7 +90,7 @@ export default function Menu({ navigation, onPressItem }) {
                     size="20"
                     weight="600"
                     color={COLORS.black}>
-                    {'Refer a Friend'}
+                    {getTranslation('refer_a_Friend')}
                 </Text>
             </TouchableOpacity>
             <View style={styles.devider} />
@@ -90,15 +104,15 @@ export default function Menu({ navigation, onPressItem }) {
                     size="20"
                     weight="600"
                     color={COLORS.black}>
-                    {'My Reviews'}
+                    {getTranslation('my_reviews')}
                 </Text>
             </TouchableOpacity>
             <View style={styles.devider} />
             <TouchableOpacity style={styles.profileView} onPress={() => {
-                Alert.alert('', 'Are you sure to logout?', [
-                    { text: 'No', onPress: () => { } },
+                Alert.alert('', getTranslation('logout_message'), [
+                    { text: getTranslation('No'), onPress: () => { } },
                     {
-                        text: 'Yes', onPress: () => {
+                        text: getTranslation('Yes'), onPress: () => {
                             auth().signOut()
                         }
                     }
@@ -110,7 +124,7 @@ export default function Menu({ navigation, onPressItem }) {
                     size="20"
                     weight="600"
                     color={COLORS.black}>
-                    {'Logout'}
+                    {getTranslation('Logout')}
                 </Text>
             </TouchableOpacity>
         </SafeAreaView>

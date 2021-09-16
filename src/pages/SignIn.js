@@ -8,22 +8,21 @@ import { Text, ProgressView } from '../components';
 
 //Context
 import { AnalyticsContext } from '../context/AnalyticsProvider';
-
+import { LocalizatiionContext } from '../context/LocalizatiionProvider';
 
 // COLORS & IMAGES
 import { IMAGES, COLORS } from '../../assets'
 
 //PACKAGES
-import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
-import moment from 'moment';
 
 export default function Signin(props) {
 
     let [isLoading, setLoading] = useState(false);
 
     const { mixPanelSignin } = useContext(AnalyticsContext);
+    const { getTranslation } = useContext(LocalizatiionContext);
 
     useEffect(() => {
         GoogleSignin.configure({
@@ -33,6 +32,7 @@ export default function Signin(props) {
         });
     }, []);
 
+ 
     const onPressGoogleLogin = async () => {
         try {
             const { idToken } = await GoogleSignin.signIn();
@@ -61,14 +61,14 @@ export default function Signin(props) {
                     weight="600"
                     align='center'
                     color={COLORS.black}>
-                    {'Welcome to'}
+                    {getTranslation('welcome_to')}
                     <Text
                         extraStyle={{ marginTop: 40 }}
                         size="22"
                         weight="600"
                         align='center'
                         color={COLORS.orange}>
-                        {' Dojo'}
+                        {" " + getTranslation('dojo')}
                     </Text>
                 </Text>
                 <Text
@@ -77,7 +77,7 @@ export default function Signin(props) {
                     weight="400"
                     align='center'
                     color={COLORS.darkGray}>
-                    {'Are you ready to read our amazing\ninfographic collections?'}
+                    {getTranslation('signup_message')}
                 </Text>
                 <TouchableOpacity style={styles.googleButton} onPress={() => onPressGoogleLogin()}>
                     <Image
@@ -90,7 +90,7 @@ export default function Signin(props) {
                         weight="400"
                         align='center'
                         color={COLORS.darkGray}>
-                        {'SIGN UP WITH GOOGLE'}
+                        {getTranslation('singup_with_google')}
                     </Text>
                 </TouchableOpacity>
             </View>

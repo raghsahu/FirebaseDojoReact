@@ -5,6 +5,7 @@ LogBox.ignoreAllLogs(true)
 
 import { APPProvider } from './src/context/AppProvider'
 import { AnalyticsProvider } from './src/context/AnalyticsProvider'
+import { LocalizatiionProvider } from './src/context/LocalizatiionProvider'
 
 // //PACKAGES
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -13,6 +14,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import auth from '@react-native-firebase/auth';
 
 //SCREENS
+import SelectLanguage from './src/pages/SelectLanguage'
 import Splash from './src/pages/Splash';
 import SignIn from './src/pages/SignIn';
 import Home from './src/pages/Home';
@@ -63,6 +65,7 @@ const AppStack = () => (
     }}
     initialRouteName={"Splash"} >
     <Screen name='Splash' component={Splash} />
+    <Screen name='SelectLanguage' component={SelectLanguage} />
     <Screen name='Home' component={BottomBar} />
     <Screen name='Detail' component={Detail} />
     <Screen name='Summary' component={Summary} />
@@ -77,9 +80,9 @@ const AppStack = () => (
     <Screen name='Subscription' component={Subscription} />
     <Screen name='MySubscription' component={MySubscription} />
     <Screen name='MyReview' component={MyReview} />
-    <Screen name='AllCategory' component={AllCategory}/>
-    <Screen name='AllAuthors' component={AllAuthors}/>
-    <Screen name='NotificationDetails' component={NotificationDetails}/>
+    <Screen name='AllCategory' component={AllCategory} />
+    <Screen name='AllAuthors' component={AllAuthors} />
+    <Screen name='NotificationDetails' component={NotificationDetails} />
   </Navigator >
 );
 
@@ -88,7 +91,9 @@ const AuthStack = () => (
     screenOptions={{
       headerShown: false,
     }}
-    initialRouteName={'SignIn'}>
+    initialRouteName={"Splash"} >
+    <Screen name='Splash' component={Splash} />
+    <Screen name='SelectLanguage' component={SelectLanguage} />
     <Screen name='SignIn' component={SignIn} />
   </Navigator>
 );
@@ -111,24 +116,28 @@ function App() {
 
   if (!user) {
     return (
-      <AnalyticsProvider>
-        <APPProvider>
-          <NavigationContainer>
-            <AuthStack />
-          </NavigationContainer>
-        </APPProvider>
-      </AnalyticsProvider>
+      <LocalizatiionProvider>
+        <AnalyticsProvider>
+          <APPProvider>
+            <NavigationContainer>
+              <AuthStack />
+            </NavigationContainer>
+          </APPProvider>
+        </AnalyticsProvider>
+      </LocalizatiionProvider>
     );
   }
 
   return (
-    <AnalyticsProvider>
-      <APPProvider>
-        <NavigationContainer>
-          <AppStack />
-        </NavigationContainer>
-      </APPProvider>
-    </AnalyticsProvider>
+    <LocalizatiionProvider>
+      <AnalyticsProvider>
+        <APPProvider>
+          <NavigationContainer>
+            <AppStack />
+          </NavigationContainer>
+        </APPProvider>
+      </AnalyticsProvider>
+    </LocalizatiionProvider>
   );
 }
 
