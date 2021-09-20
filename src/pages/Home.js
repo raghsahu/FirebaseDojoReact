@@ -162,7 +162,7 @@ export default function Home({ navigation }) {
             <Drawer
                 ref={(ref) => drawer = ref}
                 tapToClose={true}
-                openDrawerOffset={0.4}
+                openDrawerOffset={0.35}
                 content={<Menu onPressItem={onPressMenu} />}>
                 <StatusBar barStyle={'dark-content'} backgroundColor={COLORS.white} />
                 <Header

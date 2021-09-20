@@ -16,6 +16,7 @@ import { IMAGES, COLORS } from '../../assets'
 //PACKAGES
 import auth from '@react-native-firebase/auth';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { appleAuth, AppleButton } from '@invertase/react-native-apple-authentication';
 
 export default function Signin(props) {
 
@@ -32,7 +33,7 @@ export default function Signin(props) {
         });
     }, []);
 
- 
+
     const onPressGoogleLogin = async () => {
         try {
             const { idToken } = await GoogleSignin.signIn();
@@ -44,6 +45,29 @@ export default function Signin(props) {
         } catch (error) {
             console.log(error)
         }
+    }
+
+    async function onAppleButtonPress() {
+        // Start the sign-in request
+        const appleAuthRequestResponse = await appleAuth.performRequest({
+            requestedOperation: appleAuth.Operation.LOGIN,
+            requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+        });
+
+        // Ensure Apple returned a user identityToken
+        if (!appleAuthRequestResponse.identityToken) {
+            throw 'Apple Sign-In failed - no identify token returned';
+        }
+
+        // Create a Firebase credential from the response
+        const { identityToken, nonce } = appleAuthRequestResponse;
+        const appleCredential = auth.AppleAuthProvider.credential(identityToken, nonce);
+
+        // Sign the user in with the credential
+        setLoading(true);
+        await auth().signInWithCredential(appleCredential);
+        let user = auth().currentUser
+        mixPanelSignin(user)
     }
 
     return (
@@ -93,6 +117,14 @@ export default function Signin(props) {
                         {getTranslation('singup_with_google')}
                     </Text>
                 </TouchableOpacity>
+                {Platform.OS == 'ios' &&
+                    <AppleButton
+                        buttonStyle={AppleButton.Style.WHITE}
+                        buttonType={AppleButton.Type.SIGN_UP}
+                        style={[styles.googleButton, { marginTop: 10 }]}
+                        onPress={() => onAppleButtonPress()}
+                    />
+                }
             </View>
             {isLoading && <ProgressView />}
         </SafeAreaView>
@@ -105,6 +137,7 @@ const styles = StyleSheet.create({
         backgroundColor: COLORS.background
     },
     image: {
+        height: '50%',
         marginTop: 20,
         alignSelf: 'center'
     },

@@ -84,7 +84,7 @@ export default function AllAuthors({ navigation, route }) {
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar barStyle={'dark-content'} backgroundColor={COLORS.white} />
-            <Header backTitle={"Authors"} onBack={() => {
+            <Header backTitle={getTranslation("authors")} onBack={() => {
                 navigation.goBack()
             }} />
             {isLoading ?

@@ -39,7 +39,7 @@ export default function Menu({ navigation, onPressItem }) {
             <View style={styles.profileView}>
                 <Image style={styles.profileIcon} source={IMAGES.ic_settings} />
                 <Text
-                    extraStyle={{ marginLeft: 10 }}
+                    extraStyle={{ flex: 1.0, marginLeft: 10, marginRight: 2 }}
                     size="20"
                     weight="600"
                     color={COLORS.black}>
@@ -86,7 +86,7 @@ export default function Menu({ navigation, onPressItem }) {
                 }}>
                 <Image style={styles.profileIcon} source={IMAGES.ic_redeem} />
                 <Text
-                    extraStyle={{ marginLeft: 10 }}
+                    extraStyle={{ flex: 1.0, marginLeft: 10, marginRight: 2 }}
                     size="20"
                     weight="600"
                     color={COLORS.black}>
@@ -100,7 +100,7 @@ export default function Menu({ navigation, onPressItem }) {
                 }}>
                 <Image style={styles.profileIcon} source={IMAGES.ic_referal} />
                 <Text
-                    extraStyle={{ marginLeft: 10 }}
+                    extraStyle={{ flex: 1.0, marginLeft: 10, marginRight: 2 }}
                     size="20"
                     weight="600"
                     color={COLORS.black}>
