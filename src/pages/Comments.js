@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, StyleSheet, SafeAreaView, StatusBar, TextInput, TouchableOpacity, ActivityIndicator, Alert, Image, KeyboardAvoidingView, FlatList } from 'react-native'
+import { View, StyleSheet, SafeAreaView, StatusBar, TextInput, TouchableOpacity, ActivityIndicator, Alert, Image, KeyboardAvoidingView, FlatList, Platform } from 'react-native'
 
 //Components
 import { Header, Text, ProgressView, BookItem } from '../components'
@@ -144,7 +144,7 @@ export default function Comments({ route, navigation }) {
                     />
                 }
             </View>
-            <KeyboardAvoidingView behavior='padding' keyboardVerticalOffset={20}>
+            <KeyboardAvoidingView behavior={Platform.OS == 'ios' ? 'padding' : null} keyboardVerticalOffset={20}>
                 <View style={styles.inputView}>
                     <TextInput
                         style={{ flex: 1.0, alignSelf: 'center', color: COLORS.grey, fontSize: 15 }}
@@ -194,6 +194,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 25,
         marginTop: 9,
         paddingHorizontal: 8,
-        paddingVertical: 4
+        paddingVertical: 4,
+        marginBottom: 10
     },
 })
