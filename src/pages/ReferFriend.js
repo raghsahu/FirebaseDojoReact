@@ -249,7 +249,7 @@ export default function ReferFriend({ navigation }) {
                         <TextInput
                             style={{ alignSelf: 'center', color: COLORS.grey, fontSize: 15 }}
                             value={redeemCode}
-                            placeholder={'Code'}
+                            placeholder={getTranslation('Code')}
                             placeholderTextColor={COLORS.grey}
                             onChangeText={(text) => setRedeemCode(text)} />
                     </View>

@@ -86,5 +86,6 @@
     "summary_quality": "Quality\nof summary",
     "infographics_quality": "Quality\nof infographics",
     "select_language_title": "Select your\npreferred language",
-    "Language": "Language"
+    "Language": "Language",
+    "Code": "Code"
 }

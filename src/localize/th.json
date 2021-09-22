@@ -86,5 +86,6 @@
     "summary_quality": "คุณภาพ\nของบทสรุป",
     "infographics_quality": "คุณภาพ\nของอินโฟกราฟฟิก",
     "select_language_title": "เลือก\nภาษาที่คุณต้องการ",
-    "Language": "ภาษา"
+    "Language": "ภาษา",
+    "Code": "รหัส"
 }
