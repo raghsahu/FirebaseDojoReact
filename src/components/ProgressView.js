@@ -24,3 +24,4 @@ const ProgressView = props => {
 }
 
 export default ProgressView;
+
