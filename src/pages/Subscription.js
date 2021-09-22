@@ -143,7 +143,7 @@ export default function Subscription({ navigation }) {
         if (isAlert == true) {
             Alert.alert(getTranslation('thank_you'), getTranslation('your_purchase_was_successful'), [
                 {
-                    text: getTranslation('Ok'), onPress: () => {
+                    text: getTranslation('ok'), onPress: () => {
                         navigation.dispatch(
                             CommonActions.reset({
                                 index: 0,

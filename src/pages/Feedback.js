@@ -35,7 +35,7 @@ export default function Feedback({ route, navigation }) {
                 }).then(() => {
                     setLoading(false)
                     Alert.alert('', 'Your feedback submitted succesfully', [{
-                        text: getTranslation('Ok'), onPress: () => {
+                        text: getTranslation('ok'), onPress: () => {
                             navigation.goBack()
                         }
                     }])
