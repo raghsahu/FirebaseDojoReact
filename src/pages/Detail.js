@@ -134,24 +134,35 @@ export default function Detail({ route, navigation }) {
             </View>
             <View style={styles.viewMain}>
                 <ScrollView showsVerticalScrollIndicator={false}>
-                    <TouchableOpacity style={styles.likeButton}
-                        onPress={() => {
-                            setLike(item, LikedBooksID, (ids) => {
-                                setLikedBooksID(ids)
-                                EventRegister.emit('liked_item_changed')
-                            })
-                        }}>
-                        {LikedBooksID.includes(item.id) ?
+                    <View style={{ flexDirection: 'row-reverse' }}>
+                        <TouchableOpacity style={styles.likeButton}
+                            onPress={() => {
+                                setLike(item, LikedBooksID, (ids) => {
+                                    setLikedBooksID(ids)
+                                    EventRegister.emit('liked_item_changed')
+                                })
+                            }}>
+                            {LikedBooksID.includes(item.id) ?
+                                <Image style={styles.likeImage}
+                                    source={IMAGES.ic_like_selected}
+                                    resizeMode='contain' />
+                                :
+                                <Image style={styles.likeImage}
+                                    source={IMAGES.ic_like}
+                                    resizeMode='contain' />
+                            }
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.likeButton}
+                            onPress={() => {
+                                navigation.navigate('Comments', {
+                                    item: item
+                                })
+                            }}>
                             <Image style={styles.likeImage}
-                                source={IMAGES.ic_like_selected}
+                                source={IMAGES.comment}
                                 resizeMode='contain' />
-                            :
-                            <Image style={styles.likeImage}
-                                source={IMAGES.ic_like}
-                                resizeMode='contain' />
-                        }
-
-                    </TouchableOpacity>
+                        </TouchableOpacity>
+                    </View>
                     <Text
                         extraStyle={{ marginLeft: 10, marginRight: 40, marginTop: -5 }}
                         size="17"

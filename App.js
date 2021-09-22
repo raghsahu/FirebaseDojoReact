@@ -36,6 +36,9 @@ import MyReview from './src/pages/MyReviews'
 import AllCategory from './src/pages/AllCategories'
 import AllAuthors from './src/pages/AllAuthors'
 import NotificationDetails from './src/pages/NotificationDetails'
+import Webview from './src/pages/Webview';
+import Feedback from './src/pages/Feedback';
+import Comments from './src/pages/Comments';
 
 //TABBAR
 import { Tabbar } from './src/components'
@@ -83,6 +86,9 @@ const AppStack = () => (
     <Screen name='AllCategory' component={AllCategory} />
     <Screen name='AllAuthors' component={AllAuthors} />
     <Screen name='NotificationDetails' component={NotificationDetails} />
+    <Screen name='Webview' component={Webview} />
+    <Screen name='Feedback' component={Feedback} />
+    <Screen name='Comments' component={Comments} />
   </Navigator >
 );
 

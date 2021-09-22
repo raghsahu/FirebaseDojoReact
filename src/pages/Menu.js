@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { View, StatusBar, SafeAreaView, Alert, StyleSheet, TouchableOpacity, Image, TextInput } from 'react-native';
+import { View, StatusBar, SafeAreaView, Alert, StyleSheet, TouchableOpacity, Image, TextInput, ScrollView } from 'react-native';
 
 //Components
 import { Header, Text, BookItem } from '../components'
@@ -21,112 +21,136 @@ export default function Menu({ navigation, onPressItem }) {
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar barStyle={'dark-content'} backgroundColor={COLORS.white} />
-            <Text
-                extraStyle={{ marginTop: 20, marginLeft: 20 }}
-                size="22"
-                weight="600"
-                color={COLORS.black}>
-                {getTranslation('welcome_to')}
+            <ScrollView showsVerticalScrollIndicator={false}>
                 <Text
-                    extraStyle={{ marginTop: 40 }}
+                    extraStyle={{ marginTop: 20, marginLeft: 20 }}
                     size="22"
                     weight="600"
-                    color={COLORS.orange}>
-                    {" " + getTranslation('dojo')}
-                </Text>
-            </Text>
-            <View style={styles.devider} />
-            <View style={styles.profileView}>
-                <Image style={styles.profileIcon} source={IMAGES.ic_settings} />
-                <Text
-                    extraStyle={{ flex: 1.0, marginLeft: 10, marginRight: 2 }}
-                    size="20"
-                    weight="600"
                     color={COLORS.black}>
-                    {getTranslation('profile_settings')}
+                    {getTranslation('welcome_to')}
+                    <Text
+                        extraStyle={{ marginTop: 40 }}
+                        size="22"
+                        weight="600"
+                        color={COLORS.orange}>
+                        {" " + getTranslation('dojo')}
+                    </Text>
                 </Text>
-            </View>
-            <View style={{ height: 20 }} />
-            <Text
-                onPress={() => {
-                    onPressItem('edit')
-                }}
-                extraStyle={{ marginLeft: 20, marginBottom: 10 }}
-                size="18"
-                weight="400"
-                color={COLORS.black}>
-                {getTranslation('edit_profile')}
-            </Text>
-            <View style={styles.singleDevider} />
-            <Text
-                onPress={() => {
-                    onPressItem('subscription')
-                }}
-                extraStyle={{ marginLeft: 20, marginVertical: 10 }}
-                size="18"
-                weight="400"
-                color={COLORS.black}>
-                {getTranslation('my_subscription')}
-            </Text>
-            <View style={styles.singleDevider} />
-            <Text
-                onPress={() => {
-                    onPressItem('language')
-                }}
-                extraStyle={{ marginLeft: 20, marginTop: 10 }}
-                size="18"
-                weight="400"
-                color={COLORS.black}>
-                {getTranslation('Language')}
-            </Text>
-            <View style={styles.devider} />
-            <TouchableOpacity style={styles.profileView}
-                onPress={() => {
-                    onPressItem('refer_friend')
-                }}>
-                <Image style={styles.profileIcon} source={IMAGES.ic_redeem} />
+                <View style={styles.devider} />
+                <View style={styles.profileView}>
+                    <Image style={styles.profileIcon} source={IMAGES.ic_settings} />
+                    <Text
+                        extraStyle={{ flex: 1.0, marginLeft: 10, marginRight: 2 }}
+                        size="20"
+                        weight="600"
+                        color={COLORS.black}>
+                        {getTranslation('profile_settings')}
+                    </Text>
+                </View>
+                <View style={{ height: 20 }} />
                 <Text
-                    extraStyle={{ flex: 1.0, marginLeft: 10, marginRight: 2 }}
-                    size="20"
-                    weight="600"
+                    onPress={() => {
+                        onPressItem('edit')
+                    }}
+                    extraStyle={{ marginLeft: 20, marginBottom: 10 }}
+                    size="18"
+                    weight="400"
                     color={COLORS.black}>
-                    {getTranslation('refer_a_Friend')}
+                    {getTranslation('edit_profile')}
                 </Text>
-            </TouchableOpacity>
-            <View style={styles.devider} />
-            <TouchableOpacity style={styles.profileView}
-                onPress={() => {
-                    onPressItem('my_review')
-                }}>
-                <Image style={styles.profileIcon} source={IMAGES.ic_referal} />
+                <View style={styles.singleDevider} />
                 <Text
-                    extraStyle={{ flex: 1.0, marginLeft: 10, marginRight: 2 }}
-                    size="20"
-                    weight="600"
+                    onPress={() => {
+                        onPressItem('subscription')
+                    }}
+                    extraStyle={{ marginLeft: 20, marginVertical: 10 }}
+                    size="18"
+                    weight="400"
                     color={COLORS.black}>
-                    {getTranslation('my_reviews')}
+                    {getTranslation('my_subscription')}
                 </Text>
-            </TouchableOpacity>
-            <View style={styles.devider} />
-            <TouchableOpacity style={styles.profileView} onPress={() => {
-                Alert.alert('', getTranslation('logout_message'), [
-                    { text: getTranslation('No'), onPress: () => { } },
-                    {
-                        text: getTranslation('Yes'), onPress: () => {
-                            auth().signOut()
+                <View style={styles.singleDevider} />
+                <Text
+                    onPress={() => {
+                        onPressItem('language')
+                    }}
+                    extraStyle={{ marginLeft: 20, marginVertical: 10 }}
+                    size="18"
+                    weight="400"
+                    color={COLORS.black}>
+                    {getTranslation('Language')}
+                </Text>
+                <View style={styles.singleDevider} />
+                <Text
+                    onPress={() => {
+                        onPressItem('feed_back')
+                    }}
+                    extraStyle={{ marginLeft: 20, marginVertical: 10 }}
+                    size="18"
+                    weight="400"
+                    color={COLORS.black}>
+                    {getTranslation('feed_back')}
+                </Text>
+                <View style={styles.singleDevider} />
+                <Text
+                    onPress={() => {
+                        onPressItem('privacy_policy')
+                    }}
+                    extraStyle={{ marginLeft: 20, marginTop: 10 }}
+                    size="18"
+                    weight="400"
+                    color={COLORS.black}>
+                    {getTranslation('privacy_policy')}
+                </Text>
+                <View style={styles.devider} />
+                <TouchableOpacity style={styles.profileView}
+                    onPress={() => {
+                        onPressItem('refer_friend')
+                    }}>
+                    <Image style={styles.profileIcon} source={IMAGES.ic_redeem} />
+                    <Text
+                        extraStyle={{ flex: 1.0, marginLeft: 10, marginRight: 2 }}
+                        size="20"
+                        weight="600"
+                        color={COLORS.black}>
+                        {getTranslation('refer_a_Friend')}
+                    </Text>
+                </TouchableOpacity>
+                <View style={styles.devider} />
+                <TouchableOpacity style={styles.profileView}
+                    onPress={() => {
+                        onPressItem('my_review')
+                    }}>
+                    <Image style={styles.profileIcon} source={IMAGES.ic_referal} />
+                    <Text
+                        extraStyle={{ flex: 1.0, marginLeft: 10, marginRight: 2 }}
+                        size="20"
+                        weight="600"
+                        color={COLORS.black}>
+                        {getTranslation('my_reviews')}
+                    </Text>
+                </TouchableOpacity>
+                <View style={styles.devider} />
+                <TouchableOpacity style={styles.profileView} onPress={() => {
+                    Alert.alert('', getTranslation('logout_message'), [
+                        { text: getTranslation('No'), onPress: () => { } },
+                        {
+                            text: getTranslation('Yes'), onPress: () => {
+                                auth().signOut()
+                            }
                         }
-                    }
-                ])
-            }}>
-                <Image style={styles.profileIcon} source={IMAGES.ic_logout} />
-                <Text
-                    extraStyle={{ marginLeft: 10 }}
-                    size="20"
-                    weight="600"
-                    color={COLORS.black}>
-                    {getTranslation('Logout')}
-                </Text>
-            </TouchableOpacity>
+                    ])
+                }}>
+                    <Image style={styles.profileIcon} source={IMAGES.ic_logout} />
+                    <Text
+                        extraStyle={{ marginLeft: 10 }}
+                        size="20"
+                        weight="600"
+                        color={COLORS.black}>
+                        {getTranslation('Logout')}
+                    </Text>
+                </TouchableOpacity>
+            </ScrollView>
         </SafeAreaView>
     )
 }

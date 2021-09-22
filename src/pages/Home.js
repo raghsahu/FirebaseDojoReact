@@ -155,6 +155,12 @@ export default function Home({ navigation }) {
         else if (type == 'language') {
             navigation.navigate('SelectLanguage')
         }
+        else if (type == 'privacy_policy') {
+            navigation.navigate('Webview')
+        }
+        else if (type == 'feed_back') {
+            navigation.navigate('Feedback')
+        }
     }
 
     return (

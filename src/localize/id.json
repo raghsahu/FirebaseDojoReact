@@ -65,6 +65,7 @@
     "start_book_no_record": "Ada belum mulai menulis buku. Buku yang sudah ditulis akan berada di sini",
     "my_library": "Perpustakaan Saya",
     "All Title": "Semua Judul",
+    "title": "Judul",
     "Started": "Ditulis",
     "Most Rated": "Paling Banyak Diberi Rating",
     "Liked": "Disukai",
@@ -87,5 +88,10 @@
     "infographics_quality": "Kualitas\ninfografis",
     "select_language_title": "Pilih\nbahasa pilihan Anda",
     "Language": "Bahasa",
-    "Code": "Kode"
+    "Code": "Kode",
+    "privacy_policy": "Kebijakan pribadi",
+    "feed_back": "Feedback & Supports",
+    "write_message": "Write a message...",
+    "write_comment": "Write a comment...",
+    "comments": "Komentar"
   }

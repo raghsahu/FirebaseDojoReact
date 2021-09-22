@@ -65,6 +65,7 @@
     "start_book_no_record": "Bạn chưa bắt đầu bất kỳ cuốn sách nào. Những cuốn sách đã bắt đầu sẽ được liệt kê ở đây",
     "my_library": "Thư viện của Tôi",
     "All Title": "Tất cả Tiêu đề",
+    "title": "Tất cả tiêu đề",
     "Started": "Đã bắt đầu đọc",
     "Most Rated": "Được xếp hạng cao nhất",
     "Liked": "Đã thích",
@@ -87,5 +88,10 @@
     "infographics_quality": "Chất lượng của\nđồ họa thông tin",
     "select_language_title": "Chọn\nngôn ngữ ưa thích của bạn",
     "Language": "Ngôn ngữ",
-    "Code": "Mã số"
+    "Code": "Mã số",
+    "privacy_policy": "Chính sách bảo mật",
+    "feed_back": "Feedback & Supports",
+    "write_message": "Write a message...",
+    "write_comment": "Write a comment...",
+    "comments": "Bình luận"
   }

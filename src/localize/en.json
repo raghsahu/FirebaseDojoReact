@@ -65,6 +65,7 @@
     "start_book_no_record": "You haven't started any books yet. Started books will be listed here",
     "my_library": "My Library",
     "All Title": "All Title",
+    "title": "Title",
     "Started": "Started",
     "Most Rated": "Most Rated",
     "Liked": "Liked",
@@ -87,5 +88,10 @@
     "infographics_quality": "Quality\nof infographics",
     "select_language_title": "Select your\npreferred language",
     "Language": "Language",
-    "Code": "Code"
+    "Code": "Code",
+    "privacy_policy": "Privacy Policy",
+    "feed_back": "Feedback & Supports",
+    "write_message": "Write a message...",
+    "write_comment": "Write a comment...",
+    "comments": "Comments"
 }

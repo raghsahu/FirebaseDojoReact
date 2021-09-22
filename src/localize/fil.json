@@ -65,6 +65,7 @@
     "start_book_no_record": "Wala ka pang nasisimulang anumang libro. Ang mga nagsimulang libro ay nakalista dito",
     "my_library": "Aking Library",
     "All Title": "Lahat ng Pamagat",
+    "title": "Pamagat",
     "Started": "Sinimulan",
     "Most Rated": "Pinakamaraming ratings",
     "Liked": "Pinaka-nagustuhan",
@@ -87,5 +88,10 @@
     "infographics_quality": "Kalidad ng\nInfographics",
     "select_language_title": "Piliin ang iyong\nreferred na wika",
     "Language": "Wika",
-    "Code": "Code"
+    "Code": "Code",
+    "privacy_policy": "Patakaran sa Pagkapribado",
+    "feed_back": "Feedback & Supports",
+    "write_message": "Write a message...",
+    "write_comment": "Write a comment...",
+    "comments": "Mga Komento"
   }

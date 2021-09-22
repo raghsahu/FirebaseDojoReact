@@ -65,6 +65,7 @@
     "start_book_no_record": "คุณยังไม่ได้เริ่มอ่านหนังสือ หนังสือที่ถูกเริ่มอ่านแล้วจะถูกแสดงที่นี้",
     "my_library": "คลังหนังสือของฉัน",
     "All Title": "รายชื่อทั้งหมด",
+    "title": "ชื่อเรื่องทั้งหมด",
     "Started": "เริ่มอ่านแล้ว",
     "Most Rated": "ได้รับคะแนนมากที่สุด",
     "Liked": "กดไลค์แล้ว",
@@ -87,5 +88,10 @@
     "infographics_quality": "คุณภาพ\nของอินโฟกราฟฟิก",
     "select_language_title": "เลือก\nภาษาที่คุณต้องการ",
     "Language": "ภาษา",
-    "Code": "รหัส"
+    "Code": "รหัส",
+    "privacy_policy": "นโยบายความเป็นส่วนตัว",
+    "feed_back": "Feedback & Supports",
+    "write_message": "Write a message...",
+    "write_comment": "Write a comment...",
+    "comments": "ความคิดเห็น"
 }

@@ -28,6 +28,9 @@ export const IMAGES = {
     subscription: require('./subscription.png'),
     next: require('./next.png'),
     back: require('./back.png'),
+    feedback: require('./feedback.png'),
+    send: require('./send.png'),
+    comment: require('./comment.png'),
 }
 
 export const COLORS = {
