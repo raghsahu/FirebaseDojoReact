@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, StyleSheet, SafeAreaView, StatusBar, ActivityIndicator, TouchableOpacity, ScrollView } from 'react-native'
+import { View, StyleSheet, SafeAreaView, StatusBar, ActivityIndicator, TouchableOpacity, ScrollView, Platform, Linking } from 'react-native'
 
 //Components
 import { Header, Text, ProgressView } from '../components'
@@ -22,7 +22,13 @@ export default function WebviewController({ route, navigation }) {
     useEffect(async () => {
         const name = getFileName()
         const url = await storage().ref(`/privacy_policy/${name}`).getDownloadURL();
-        setURL(url)
+        if (Platform.OS == 'ios') {
+            setURL(url)
+        }
+        else {
+            navigation.goBack()
+            Linking.openURL(url)
+        }
     })
 
     const getFileName = () => {
@@ -51,10 +57,25 @@ export default function WebviewController({ route, navigation }) {
             <StatusBar barStyle={'dark-content'} backgroundColor={COLORS.white} />
             <Header title={getTranslation('privacy_policy')} onBack={() => navigation.goBack()} />
             {downloadURL ?
-                <WebView style={{
-                    flex: 1.0, backgroundColor: COLORS.background,
-                }}
-                    source={{ uri: downloadURL }} />
+                <View style={{ flex: 1.0 }}>
+                    {Platform.OS == 'ios' ?
+                        <WebView style={{
+                            flex: 1.0, backgroundColor: COLORS.background,
+                        }}
+                            source={{ uri: `https://drive.google.com/viewerng/viewer?embedded=true&url=${downloadURL}` }}
+                            startInLoadingState={true} />
+                        :
+                        <View style={{ flex: 1.0 }}>
+                            <WebView style={{
+                                flex: 1.0, backgroundColor: COLORS.background,
+                            }}
+                                source={{ uri: `file://${downloadURL}` }}
+                                allowFileAccess={true}
+                                allowFileAccessFromFileURLs={true}
+                                allowingReadAccessToURL={true} />
+                        </View>
+                    }
+                </View>
                 :
                 <View style={{ height: 100, justifyContent: 'center' }}>
                     <ActivityIndicator style={{ alignSelf: 'center' }} animating={true} color={COLORS.orange} />

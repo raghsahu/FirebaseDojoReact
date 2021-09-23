@@ -42,7 +42,11 @@ export default function TreadingBooks({ navigation }) {
 
     getAllBooks = async () => {
         try {
-            const books = await firestore().collection('books').where('trending', '==', true).get()
+            const books = await firestore()
+            .collection('books')
+            .where('trending', '==', true)
+            .where('language', '==', global.languageName)
+            .get()
             var list = []
             books.forEach(documentSnapshot => {
                 var data = documentSnapshot.data()
