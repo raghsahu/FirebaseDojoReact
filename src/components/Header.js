@@ -75,6 +75,14 @@ const Header = (props) => {
                             source={IMAGES.ic_notification} />
                     </TouchableOpacity>
                 }
+                {props.onShare &&
+                    <TouchableOpacity
+                        style={styles.searchContainer}
+                        onPress={props.onShare}>
+                        <Image style={styles.search}
+                            source={IMAGES.share} />
+                    </TouchableOpacity>
+                }
             </View>
         </View>
     )

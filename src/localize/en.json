@@ -93,5 +93,7 @@
     "feed_back": "Feedback & Supports",
     "write_message": "Write a message...",
     "write_comment": "Write a comment...",
-    "comments": "Comments"
+    "comments": "Comments",
+    "Please enter title and message": "Please enter title and message",
+    "Your feedback submitted succesfully": "Your feedback was successfully submitted"
 }

@@ -853,7 +853,7 @@ PODS:
   - RNScreens (3.6.0):
     - React-Core
     - React-RCTImage
-  - RNShare (7.0.0):
+  - RNShare (7.1.1):
     - React-Core
   - Toast (4.0.0)
   - Yoga (1.14.0)
@@ -1151,7 +1151,7 @@ SPEC CHECKSUMS:
   RNGoogleSignin: 1b18b300f4eccd0a121f19f204ce28d6e8fb4bb5
   RNIap: 17358486598a5751d717940f531983dfb1c17f34
   RNScreens: eb0dfb2d6b21d2d7f980ad46b14eb306d2f1062e
-  RNShare: 00e7409201e3cab13e0febc41fd4465a83ae8225
+  RNShare: a22398d8d02336133e28bf8b6e0b47b31abade41
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
   Yoga: aa0cb45287ebe1004c02a13f279c55a95f1572f4
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a

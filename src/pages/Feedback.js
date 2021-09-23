@@ -34,7 +34,7 @@ export default function Feedback({ route, navigation }) {
                     message: message
                 }).then(() => {
                     setLoading(false)
-                    Alert.alert('', 'Your feedback submitted succesfully', [{
+                    Alert.alert('', getTranslation('Your feedback submitted succesfully'), [{
                         text: getTranslation('ok'), onPress: () => {
                             navigation.goBack()
                         }
@@ -44,7 +44,7 @@ export default function Feedback({ route, navigation }) {
                 })
         }
         else {
-            Alert.alert('', 'Please enter title and message')
+            Alert.alert('', getTranslation('Please enter title and message'))
         }
     }
 

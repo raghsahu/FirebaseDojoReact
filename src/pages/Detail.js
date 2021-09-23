@@ -19,6 +19,7 @@ import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import { Rating } from 'react-native-ratings';
 import { EventRegister } from 'react-native-event-listeners'
+import Share from 'react-native-share';
 
 export default function Detail({ route, navigation }) {
     const item = route.params.item
@@ -120,7 +121,19 @@ export default function Detail({ route, navigation }) {
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar barStyle={'dark-content'} backgroundColor={COLORS.white} />
-            <Header onBack={() => navigation.goBack()} />
+            <Header onBack={() => navigation.goBack()} onShare={() => {
+                 let ios = "https://apps.apple.com/us/app/dojo-infographics/id1582858619"
+                 let android = "https://play.google.com/store/apps/details?id=com.dojoinfographic"
+
+                 let msg = getTranslation('share_message') + "\n\nBook Name:" + item.bookName + "\nBook Description:" + item.description + `\n\nAndroid - ${android}\niOS - ${ios}.`
+                 Share.open({
+                     message: msg
+                 }).then((res) => {
+                     console.log(res);
+                 }).catch((err) => {
+                     err && console.log(err);
+                 });
+            }} />
             <View style={styles.imageView}>
                 {item && item.images && item.images.length > 0 && item.images[0].url &&
                     <View style={styles.image}>
