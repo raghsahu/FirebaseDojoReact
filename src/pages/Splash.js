@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, StatusBar, SafeAreaView, ActivityIndicator, Image, StyleSheet } from 'react-native';
+import { View, StatusBar, SafeAreaView, ActivityIndicator, Image, StyleSheet, Alert } from 'react-native';
 
 import pkg from '../../package.json';
 
@@ -252,7 +252,11 @@ export default function Splash(props) {
                 messaging().requestPermission().then(() => {
                     requestForNotification()
                 }).catch(error => {
-                    alert("Permission Denied", error)
+                    Alert.alert("Permission Denied", error.message, [{
+                        text: getTranslation('ok'), onPress: () => {
+                            navigation.goBack()
+                        }
+                    }])
                 })
             }
         })

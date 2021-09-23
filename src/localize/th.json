@@ -95,5 +95,6 @@
     "write_comment": "เขียนความคิดเห็น...",
     "comments": "ความคิดเห็น",
     "Please enter title and message": "กรุณาใส่ชื่อและข้อความ",
-    "Your feedback submitted succesfully": "ส่งความคิดเห็นของคุณเรียบร้อยแล้ว"
+    "Your feedback submitted succesfully": "ส่งความคิดเห็นของคุณเรียบร้อยแล้ว",
+    "This book is not available yet": "หนังสือเล่มนี้ยังไม่มีจำหน่าย"
 }

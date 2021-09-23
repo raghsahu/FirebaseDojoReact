@@ -39,7 +39,11 @@ export default function SelectLanguage(props) {
             );
         }
         else {
-            Alert.alert('', 'Please select a language')
+            Alert.alert('', 'Please select a language', [{
+                text: getTranslation('ok'), onPress: () => {
+                    navigation.goBack()
+                }
+            }])
         }
     }
 

@@ -40,11 +40,19 @@ export default function Feedback({ route, navigation }) {
                         }
                     }])
                 }).catch((err) => {
-                    Alert.alert('', err.message)
+                    Alert.alert('', err.message, [{
+                        text: getTranslation('ok'), onPress: () => {
+                            navigation.goBack()
+                        }
+                    }])
                 })
         }
         else {
-            Alert.alert('', getTranslation('Please enter title and message'))
+            Alert.alert('', getTranslation('Please enter title and message'), [{
+                text: getTranslation('ok'), onPress: () => {
+                    navigation.goBack()
+                }
+            }])
         }
     }
 

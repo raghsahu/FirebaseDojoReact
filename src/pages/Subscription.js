@@ -18,6 +18,7 @@ import auth from '@react-native-firebase/auth';
 import * as RNIap from 'react-native-iap';
 import moment from 'moment';
 import { CommonActions } from '@react-navigation/native';
+import Toast from 'react-native-simple-toast';
 
 export default function Subscription({ navigation }) {
     const user = auth().currentUser;
@@ -49,7 +50,11 @@ export default function Subscription({ navigation }) {
         var purchaseErrorSubscription = RNIap.purchaseErrorListener((error) => {
             setSubscriptionLoading(false)
             if (error.code != "E_USER_CANCELLED") {
-                alert(error.message)
+                Alert.alert('', error.message, [{
+                    text: getTranslation('ok'), onPress: () => {
+                        navigation.goBack()
+                    }
+                }])
             }
         })
 
@@ -92,7 +97,7 @@ export default function Subscription({ navigation }) {
                 }
             }).catch((error) => {
                 setSubscriptionLoading(false)
-                alert(error.message)
+                Toast.show(error.message); 
             });
     }
 
@@ -128,7 +133,11 @@ export default function Subscription({ navigation }) {
                         }
                     }).catch((error) => {
                         setSubscriptionLoading(false)
-                        alert(error.message)
+                        Alert.alert('', error.message, [{
+                            text: getTranslation('ok'), onPress: () => {
+                                navigation.goBack()
+                            }
+                        }])
                     });
             } catch (ackErr) {
                 setSubscriptionLoading(false)
@@ -165,11 +174,12 @@ export default function Subscription({ navigation }) {
         })
 
         setSubscriptionLoading(true)
-        await RNIap.getProducts([sku])
         try {
+            await RNIap.getProducts([sku])
             RNIap.requestPurchase(sku, false);
         } catch (error) {
             setSubscriptionLoading(false)
+            Toast.show(error.message);
             console.warn(error.code, error.message);
         }
     }

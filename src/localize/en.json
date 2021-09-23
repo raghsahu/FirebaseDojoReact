@@ -95,5 +95,6 @@
     "write_comment": "Write a comment...",
     "comments": "Comments",
     "Please enter title and message": "Please enter title and message",
-    "Your feedback submitted succesfully": "Your feedback was successfully submitted"
+    "Your feedback submitted succesfully": "Your feedback is successfully submitted",
+    "This book is not available yet": "This book is not available yet"
 }

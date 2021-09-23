@@ -12,6 +12,7 @@ import { LocalizatiionContext } from '../context/LocalizatiionProvider';
 
 //PACKAGES
 import firestore from '@react-native-firebase/firestore';
+import Toast from 'react-native-simple-toast';
 
 export default function Summary({ navigation }) {
 
@@ -26,6 +27,7 @@ export default function Summary({ navigation }) {
     }, [])
 
     getAllBooks = async () => {
+        
         const books = await firestore()
             .collection('books')
             .where('language', '==', global.languageName)

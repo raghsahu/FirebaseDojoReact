@@ -48,8 +48,10 @@ const Header = (props) => {
                     </TouchableOpacity>
                 }
             </View>
-            {props.title && props.title != '' && <Label title={props.title} />}
-            {props.backTitle != '' && <BackLabel title={props.backTitle} />}
+            <View style={{ flex: 1.0, flexDirection: 'row' }}>
+                {props.title && props.title != '' && <Label title={props.title} />}
+                {props.backTitle != '' && <BackLabel title={props.backTitle} />}
+            </View>
             <View style={styles.leftItemsContainer}>
                 {props.onSearch &&
                     <TouchableOpacity
@@ -92,9 +94,11 @@ const Label = (props) => {
     const { colors } = useTheme();
     return (
         <Text
-            extraStyle={{ alignSelf: 'center' }}
+            extraStyle={{ width: '100%', alignSelf: 'center', ellipsizeMode:'tail' }}
             size="22"
             weight="700"
+            ellipsizeMode='tail'
+            numberOfLines={2}
             color={COLORS.darkGray}>
             {props.title}
         </Text>

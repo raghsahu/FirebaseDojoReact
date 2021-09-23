@@ -77,7 +77,7 @@ export default function AllAuthors({ navigation, route }) {
             setLoading(false)
             setBook([])
             setError(getTranslation("no_books_available_yet"))
-            console.log(e)
+            
         }
     }
 

@@ -37,24 +37,40 @@ export default function ReferFriend({ navigation }) {
                     let item = documentSnapshot.data()
                     if (item.isRedeem) {
                         setLoading(false)
-                        Alert.alert('', getTranslation('you_have_already_redeem_this_code'))
+                        Alert.alert('', getTranslation('you_have_already_redeem_this_code'), [{
+                            text: getTranslation('ok'), onPress: () => {
+                                navigation.goBack()
+                            }
+                        }])
                     }
                     else if (item.code == redeemCode) {
                         checkCurrentSubscriotion(item)
                     }
                     else {
                         setLoading(false)
-                        Alert.alert('', getTranslation('please_enter_valid_code'))
+                        Alert.alert('', getTranslation('please_enter_valid_code'), [{
+                            text: getTranslation('ok'), onPress: () => {
+                                navigation.goBack()
+                            }
+                        }])
                     }
                     console.log(item)
                 }
                 else {
                     setLoading(false)
-                    Alert.alert('', getTranslation('please_enter_valid_code'))
+                    Alert.alert('', getTranslation('please_enter_valid_code'), [{
+                        text: getTranslation('ok'), onPress: () => {
+                            navigation.goBack()
+                        }
+                    }])
                 }
             }).catch((e) => {
                 setLoading(false)
-                Alert.alert('', getTranslation('please_enter_valid_code'))
+                Alert.alert('', getTranslation('please_enter_valid_code'), [{
+                    text: getTranslation('ok'), onPress: () => {
+                        navigation.goBack()
+                    }
+                }])
             })
     }
 
@@ -73,7 +89,11 @@ export default function ReferFriend({ navigation }) {
                 }
             }).catch((e) => {
                 setLoading(false)
-                Alert.alert('', e.message)
+                Alert.alert('', e.message, [{
+                    text: getTranslation('ok'), onPress: () => {
+                        navigation.goBack()
+                    }
+                }])
             })
     }
 
@@ -101,7 +121,11 @@ export default function ReferFriend({ navigation }) {
                     successMessage()
                 }).catch((error) => {
                     setLoading(false)
-                    Alert.alert('', error.message)
+                    Alert.alert('', error.message, [{
+                        text: getTranslation('ok'), onPress: () => {
+                            navigation.goBack()
+                        }
+                    }])
                 });
         }
     }
@@ -125,19 +149,23 @@ export default function ReferFriend({ navigation }) {
                 successMessage()
             }).catch((error) => {
                 setLoading(false)
-                Alert.alert('', error.message)
+                Alert.alert('', error.message, [{
+                    text: getTranslation('ok'), onPress: () => {
+                        navigation.goBack()
+                    }
+                }])
             });
     }
 
     const successMessage = () => {
         Alert.alert(getTranslation('congratulations'), getTranslation('your_redeem_code_was_successful'), [
             {
-                text: 'Ok', onPress: () => {
+                text: getTranslation('ok'), onPress: () => {
                     firestore().collection('PromoCode')
-                    .doc(user.email)
-                    .update({
-                        isRedeem: true
-                    })
+                        .doc(user.email)
+                        .update({
+                            isRedeem: true
+                        })
 
                     navigation.dispatch(
                         CommonActions.reset({

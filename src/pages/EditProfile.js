@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, StatusBar, SafeAreaView, ScrollView, ActivityIndicator, StyleSheet, TouchableOpacity, Image, TextInput } from 'react-native';
+import { View, StatusBar, SafeAreaView, ScrollView, Alert, StyleSheet, TouchableOpacity, Image, TextInput } from 'react-native';
 
 //Components
 import { Header, Text as RNText, ProgressView } from '../components'
@@ -26,14 +26,23 @@ export default function EditProfile({ navigation }) {
     const [email, setEmail] = useState(user.email)
 
     useEffect(() => {
-        firestore()
+        try {
+            firestore()
             .collection('users')
             .doc(user.email)
             .onSnapshot(documentSnapshot => {
                 setLoading(false)
                 let data = documentSnapshot.data()
                 setFirstName(data.firstName)
-            });
+            })
+        }
+        catch(e) {
+            Alert.alert('', e.message, [{
+                text: getTranslation('ok'), onPress: () => {
+                    navigation.goBack()
+                }
+            }])
+        }
         return () => { }
     }, [])
 
@@ -52,7 +61,11 @@ export default function EditProfile({ navigation }) {
                 setLoading(false);
                 navigation.goBack()
             }).catch((error) => {
-                alert(error.message)
+                Alert.alert('', error.message, [{
+                    text: getTranslation('ok'), onPress: () => {
+                        navigation.goBack()
+                    }
+                }])
             });
     }
 

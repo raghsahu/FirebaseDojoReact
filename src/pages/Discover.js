@@ -13,6 +13,7 @@ import { LocalizatiionContext } from '../context/LocalizatiionProvider';
 //PACKAGES
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
+import Toast from 'react-native-simple-toast';
 
 export default function Discover({ navigation }) {
 
@@ -52,7 +53,7 @@ export default function Discover({ navigation }) {
                 })
         }
         catch (e) {
-            console.log(e)
+            Toast.show(e.message);
         }
     }
 
@@ -80,7 +81,7 @@ export default function Discover({ navigation }) {
         }
         catch (e) {
             setBook([])
-            console.log(e)
+            Toast.show(e.message);
         }
     }
 

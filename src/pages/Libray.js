@@ -19,6 +19,7 @@ import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import { EventRegister } from 'react-native-event-listeners'
 import { BlurView } from "@react-native-community/blur";
+import Toast from 'react-native-simple-toast';
 
 export default function Libray({ navigation }) {
     const user = auth().currentUser;
@@ -89,7 +90,7 @@ export default function Libray({ navigation }) {
             setLoading(false)
             setBook([])
             setError(getTranslation("no_books_available_yet"))
-            console.log(e)
+            Toast.show(e.message);
         }
     }
 
@@ -117,6 +118,7 @@ export default function Libray({ navigation }) {
             setBook([])
             setError(getTranslation("no_books_available_yet"))
             console.log(e)
+            Toast.show(e.message);
         }
     }
 
@@ -143,7 +145,6 @@ export default function Libray({ navigation }) {
                 setLoading(false)
                 setBook([])
                 setError(getTranslation("like_book_no_record"))
-                console.log(e)
             }
         }
         catch (e) {
@@ -151,6 +152,7 @@ export default function Libray({ navigation }) {
             setBook([])
             setError(getTranslation("like_book_no_record"))
             console.log(e)
+            Toast.show(e.message);
         }
     }
 
@@ -177,14 +179,13 @@ export default function Libray({ navigation }) {
                 setLoading(false)
                 setBook([])
                 setError(getTranslation("start_book_no_record"))
-                console.log(e)
             }
         }
         catch (e) {
             setLoading(false)
             setBook([])
             setError(getTranslation("start_book_no_record"))
-            console.log(e)
+            Toast.show(e.message);
         }
     }
 

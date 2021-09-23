@@ -52,7 +52,11 @@ export default function Notification({ navigation }) {
                         })
                     }
                     else {
-                        Alert.alert('', 'This book is not available yet.')  
+                        Alert.alert('', getTranslation('This book is not available yet'), [{
+                            text: getTranslation('ok'), onPress: () => {
+                                navigation.goBack()
+                            }
+                        }])
                     }
                 })
                 .catch((error) => {

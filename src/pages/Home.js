@@ -17,6 +17,7 @@ import messaging from '@react-native-firebase/messaging';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import Drawer from 'react-native-drawer'
+import Toast from 'react-native-simple-toast';
 
 export default function Home({ navigation }) {
 
@@ -48,83 +49,111 @@ export default function Home({ navigation }) {
 
 
     getFreeBooks = async () => {
-        let limit = isSubscribe ? 5 : 3
-        const books = await firestore()
-            .collection('books')
-            .where('language', '==', global.languageName)
-            .where('free_book_of_week', '==', true)
-            .limit(limit)
-            .get()
-        var list = []
-        books.forEach(documentSnapshot => {
-            var data = documentSnapshot.data()
-            data.id = documentSnapshot.id
-            console.log(data.id)
-            list.push(data)
-        });
-        setFreeBook(list)
+        try {
+            let limit = isSubscribe ? 5 : 3
+            const books = await firestore()
+                .collection('books')
+                .where('language', '==', global.languageName)
+                .where('free_book_of_week', '==', true)
+                .limit(limit)
+                .get()
+            var list = []
+            books.forEach(documentSnapshot => {
+                var data = documentSnapshot.data()
+                data.id = documentSnapshot.id
+                console.log(data.id)
+                list.push(data)
+            });
+            setFreeBook(list)
+        }
+        catch (e) {
+            Toast.show(e.message);
+        }
+
     }
 
     getAllBooks = async () => {
-        const books = await firestore().
-            collection('books')
-            .where('language', '==', global.languageName)
-            .get()
-        var list = []
-        books.forEach(documentSnapshot => {
-            var data = documentSnapshot.data()
-            data.id = documentSnapshot.id
-            console.log(data.id)
-            list.push(data)
-        });
-        setBook(list)
+        try {
+            const books = await firestore().
+                collection('books')
+                .where('language', '==', global.languageName)
+                .get()
+            var list = []
+            books.forEach(documentSnapshot => {
+                var data = documentSnapshot.data()
+                data.id = documentSnapshot.id
+                console.log(data.id)
+                list.push(data)
+            });
+            setBook(list)
+        }
+        catch (e) {
+            Toast.show(e.message);
+        }
+
     }
 
     getRecentRead = async () => {
-        const books = await firestore()
-            .collection('readingHistory')
-            .doc(user.email)
-            .collection('books')
-            .limit(5)
-            .get()
-        var list = []
-        books.forEach(documentSnapshot => {
-            var data = documentSnapshot.data()
-            data.id = documentSnapshot.id
-            console.log(data.id)
-            list.push(data.book)
-        });
-        setRecentRead(list)
+        try {
+            const books = await firestore()
+                .collection('readingHistory')
+                .doc(user.email)
+                .collection('books')
+                .limit(5)
+                .get()
+            var list = []
+            books.forEach(documentSnapshot => {
+                var data = documentSnapshot.data()
+                data.id = documentSnapshot.id
+                console.log(data.id)
+                list.push(data.book)
+            });
+            setRecentRead(list)
+        }
+        catch (e) {
+            Toast.show(e.message);
+        }
     }
 
     getMostRead = async () => {
-        const books = await firestore()
-            .collection('books')
-            .where('language', '==', global.languageName)
-            .where('most_read_book', '==', true)
-            .limit(5)
-            .get()
-        var list = []
-        books.forEach(documentSnapshot => {
-            var data = documentSnapshot.data()
-            data.id = documentSnapshot.id
-            console.log(data.id)
-            list.push(data)
-        });
-        setMostReadBooks(list)
+        try {
+            const books = await firestore()
+                .collection('books')
+                .where('language', '==', global.languageName)
+                .where('most_read_book', '==', true)
+                .limit(5)
+                .get()
+            var list = []
+            books.forEach(documentSnapshot => {
+                var data = documentSnapshot.data()
+                data.id = documentSnapshot.id
+                console.log(data.id)
+                list.push(data)
+            });
+            setMostReadBooks(list)
+        }
+        catch (e) {
+            Toast.show(e.message);
+        }
     }
 
     const onRefresh = async () => {
-        await getFreeBooks()
-        if (isSubscribe) {
-            await getAllBooks()
-            await getRecentRead()
-            await getMostRead()
+        try {
+            await getFreeBooks()
+            if (isSubscribe) {
+                await getAllBooks()
+                await getRecentRead()
+                await getMostRead()
+            }
+            setLoading(false)
+            getSubscriptionDetails((finished) => { })
+            updateToken()
         }
-        setLoading(false)
-        getSubscriptionDetails((finished) => { })
-        updateToken()
+        catch (e) {
+            Toast.show(e.message);
+        }
         return () => { }
+
     }
 
     const updateToken = async () => {
