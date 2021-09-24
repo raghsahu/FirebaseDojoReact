@@ -46,8 +46,17 @@ export const APPProvider = (props) => {
             let today = moment()
             if (date.isAfter(today)) {
                 let days = date.diff(today, 'days')
-                setSubscribe(true)
-                setReamainingDays(days)
+                if (days < 0) {
+                    setSubscribe(false)
+                }
+                else if (days == 0) {
+                    setSubscribe(true)
+                    setReamainingDays('1')
+                }
+                else {
+                    setSubscribe(true)
+                    setReamainingDays(days)
+                }              
             }
             else {
                 setSubscribe(false)
