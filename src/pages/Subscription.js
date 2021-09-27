@@ -52,7 +52,7 @@ export default function Subscription({ navigation }) {
             if (error.code != "E_USER_CANCELLED") {
                 Alert.alert('', error.message, [{
                     text: getTranslation('ok'), onPress: () => {
-                        navigation.goBack()
+                       
                     }
                 }])
             }
@@ -135,7 +135,7 @@ export default function Subscription({ navigation }) {
                         setSubscriptionLoading(false)
                         Alert.alert('', error.message, [{
                             text: getTranslation('ok'), onPress: () => {
-                                navigation.goBack()
+                                
                             }
                         }])
                     });
@@ -168,19 +168,21 @@ export default function Subscription({ navigation }) {
     }, [isAlert])
 
     const requestPurchase = async (sku) => {
-        mixPanelOnClickPurchase({
-            "email": user.email,
-            "id": sku
-        })
-
-        setSubscriptionLoading(true)
         try {
+            mixPanelOnClickPurchase({
+                "email": user.email,
+                "id": sku
+            })
+    
+            setSubscriptionLoading(true)
             await RNIap.getProducts([sku])
             RNIap.requestPurchase(sku, false);
         } catch (error) {
             setSubscriptionLoading(false)
-            Toast.show(error.message);
-            console.warn(error.code, error.message);
+            setTimeout(() => {
+                Toast.show(error.message);
+                console.warn(error.code, error.message);
+            }, 100);
         }
     }
 

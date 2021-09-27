@@ -39,7 +39,7 @@ export default function EditProfile({ navigation }) {
         catch(e) {
             Alert.alert('', e.message, [{
                 text: getTranslation('ok'), onPress: () => {
-                    navigation.goBack()
+                    
                 }
             }])
         }
@@ -63,7 +63,7 @@ export default function EditProfile({ navigation }) {
             }).catch((error) => {
                 Alert.alert('', error.message, [{
                     text: getTranslation('ok'), onPress: () => {
-                        navigation.goBack()
+                        
                     }
                 }])
             });
@@ -85,7 +85,7 @@ export default function EditProfile({ navigation }) {
                 </RNText>
                 <View style={styles.inputView}>
                     <TextInput
-                        style={{ flex: 1.0, alignSelf: 'center', color: COLORS.grey, fontSize: 15 }}
+                        style={{ flex: 1.0, color: COLORS.grey, fontSize: 15 }}
                         value={firstname}
                         placeholder={getTranslation("full_name")}
                         placeholderTextColor={COLORS.grey}
@@ -100,7 +100,7 @@ export default function EditProfile({ navigation }) {
                 </RNText>
                 <View style={styles.inputView}>
                     <TextInput
-                        style={{ alignSelf: 'center', color: COLORS.grey, fontSize: 15 }}
+                        style={{ flex: 1.0, color: COLORS.grey, fontSize: 15 }}
                         value={email}
                         placeholder={getTranslation("email")}
                         editable={false}

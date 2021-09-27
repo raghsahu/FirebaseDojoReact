@@ -47,21 +47,40 @@ export const APPProvider = (props) => {
             if (date.isAfter(today)) {
                 let days = date.diff(today, 'days')
                 if (days < 0) {
+                    updatePaid(false)
                     setSubscribe(false)
                 }
                 else if (days == 0) {
+                    updatePaid(true)
                     setSubscribe(true)
                     setReamainingDays('1')
                 }
                 else {
+                    updatePaid(true)
                     setSubscribe(true)
                     setReamainingDays(days)
-                }              
+                }
             }
             else {
+                updatePaid(false)
                 setSubscribe(false)
             }
         }
+    }
+
+    updatePaid = (isPaid) => {
+        firestore()
+            .collection('users')
+            .doc(user.email)
+            .update({
+                isPaid: isPaid,
+                language: global.language
+            })
+            .then(() => {
+                
+            }).catch((error) => {
+                console.log(error)
+            });
     }
 
     return (

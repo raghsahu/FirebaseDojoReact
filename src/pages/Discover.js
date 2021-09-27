@@ -259,6 +259,14 @@ export default function Discover({ navigation }) {
                                     }}>
                                         <Image style={styles.authorsImage}
                                             source={item.authorImage ? { uri: item.authorImage } : ''} />
+                                        <RNText
+                                            extraStyle={{ alignSelf: 'center', marginTop: 4 }}
+                                            size="14"
+                                            weight="400"
+                                            align='left'
+                                            color={COLORS.darkGray}>
+                                            {item.authorName}
+                                        </RNText>
                                     </TouchableOpacity>
                                 </View>
                             }

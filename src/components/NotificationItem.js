@@ -29,14 +29,25 @@ const NotificationItem = (props) => {
                         source={item.image ? { uri: item.image } : null} />
                 }
             </View>
-            <Text
-                extraStyle={{ flex: 1.0, alignSelf: 'center', marginHorizontal: 10 }}
-                size="16"
-                weight="400"
-                numberOfLines={2}
-                color={COLORS.darkGray}>
-                {item.description}
-            </Text>
+            <View style={{ flex: 1.0 }}>
+                <Text
+                    extraStyle={{ flex: 1.0, marginHorizontal: 10 }}
+                    size="16"
+                    weight="400"
+                    numberOfLines={2}
+                    color={COLORS.darkGray}>
+                    {item.description}
+                </Text>
+                <Text
+                    extraStyle={{ marginHorizontal: 10 }}
+                    size="12"
+                    weight="300"
+                    align='right'
+                    numberOfLines={2}
+                    color={COLORS.darkGray}>
+                    {item.dateAdded}
+                </Text>
+            </View>
         </TouchableOpacity>
     )
 }

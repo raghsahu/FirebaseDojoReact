@@ -33,7 +33,7 @@ export default function Notification({ navigation }) {
         });
         console.log(list)
         setLoading(false)
-        setNotificatios(list)
+        setNotificatios(list.reverse())
         return () => { }
     }, []);
 
@@ -54,7 +54,7 @@ export default function Notification({ navigation }) {
                     else {
                         Alert.alert('', getTranslation('This book is not available yet'), [{
                             text: getTranslation('ok'), onPress: () => {
-                                navigation.goBack()
+                            
                             }
                         }])
                     }

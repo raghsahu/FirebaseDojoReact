@@ -182,10 +182,12 @@ export default function Home({ navigation }) {
             navigation.navigate('MyReview')
         }
         else if (type == 'language') {
-            navigation.navigate('SelectLanguage')
+            navigation.navigate('SelectLanguage', { isFromLogin: false })
         }
         else if (type == 'privacy_policy') {
-            navigation.navigate('Webview')
+            navigation.navigate('Webview', {
+                isFromLogin: false
+            })
         }
         else if (type == 'feed_back') {
             navigation.navigate('Feedback')

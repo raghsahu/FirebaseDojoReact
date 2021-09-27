@@ -125,6 +125,27 @@ export default function Signin(props) {
                         onPress={() => onAppleButtonPress()}
                     />
                 }
+                <Text
+                    extraStyle={{ marginTop: 15, marginHorizontal: 20 }}
+                    size="13"
+                    weight="400"
+                    align='center'
+                    color={COLORS.darkGray}>
+                    {getTranslation('terms_condition_msg')}
+                    <Text
+                        onPress={() => {
+                            props.navigation.navigate('Webview', {
+                                isFromLogin: true
+                            })
+                        }}
+                        extraStyle={{ marginTop: 15 }}
+                        size="13"
+                        weight="400"
+                        align='center'
+                        color={'blue'}>
+                        {` ${getTranslation('Terms and Conditions')}`}
+                    </Text>
+                </Text>
             </View>
             {isLoading && <ProgressView />}
         </SafeAreaView>
@@ -137,7 +158,7 @@ const styles = StyleSheet.create({
         backgroundColor: COLORS.background
     },
     image: {
-        height: '50%',
+        height: '45%',
         marginTop: 20,
         alignSelf: 'center'
     },

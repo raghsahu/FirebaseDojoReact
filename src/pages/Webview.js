@@ -15,13 +15,13 @@ import storage from '@react-native-firebase/storage';
 import WebView from 'react-native-webview';
 
 export default function WebviewController({ route, navigation }) {
-
+    const isFromLogin = route.params.isFromLogin
     const [downloadURL, setURL] = useState('')
     const { getTranslation } = useContext(LocalizatiionContext);
 
     useEffect(async () => {
-        const name = getFileName()
-        const url = await storage().ref(`/privacy_policy/${name}`).getDownloadURL();
+        const url = getFileName()
+        // const url = await storage().ref(`/privacy_policy/${name}`).getDownloadURL();
         if (Platform.OS == 'ios') {
             setURL(url)
         }
@@ -33,36 +33,36 @@ export default function WebviewController({ route, navigation }) {
 
     const getFileName = () => {
         if (global.language == 'en') {
-            return 'privacy_english.docx'
+            return 'https://firebasestorage.googleapis.com/v0/b/dojo-cc7f6.appspot.com/o/privacy_policy%2Fprivacy_english.docx?alt=media&token=e60a7ddc-5ac4-43ea-98e5-33e4d0fbf9b0'
         }
         else if (global.language == 'fil') {
-            return 'privacy_phillipines.docx'
+            return 'https://firebasestorage.googleapis.com/v0/b/dojo-cc7f6.appspot.com/o/privacy_policy%2Fprivacy_phillipines.docx?alt=media&token=083d5f83-a292-4e1f-b3b6-b335eed05d15'
         }
         else if (global.language == 'id') {
-            return 'privacy_indonesian.docx'
+            return 'https://firebasestorage.googleapis.com/v0/b/dojo-cc7f6.appspot.com/o/privacy_policy%2Fprivacy_indonesian.docx?alt=media&token=bf9ac39c-3733-4340-85bb-ecf684a4584f'
         }
         else if (global.language == 'ms') {
-            return 'privacy_malay.docx'
+            return 'https://firebasestorage.googleapis.com/v0/b/dojo-cc7f6.appspot.com/o/privacy_policy%2Fprivacy_malay.docx?alt=media&token=c9a28eb3-584f-4e36-a604-69a8dadc9e53'
         }
         else if (global.language == 'th') {
-            return 'privacy_thai.docx'
+            return 'https://firebasestorage.googleapis.com/v0/b/dojo-cc7f6.appspot.com/o/privacy_policy%2Fprivacy_thai.docx?alt=media&token=2c0e1cda-31d1-418d-b7ab-ff85cb9dc36c'
         }
         else if (global.language == 'vi') {
-            return 'privacy_viernamese.docx'
+            return 'https://firebasestorage.googleapis.com/v0/b/dojo-cc7f6.appspot.com/o/privacy_policy%2Fprivacy_viernamese.docx?alt=media&token=89484655-264b-4b50-beee-42167c83b05c'
         }
     }
 
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar barStyle={'dark-content'} backgroundColor={COLORS.white} />
-            <Header title={getTranslation('privacy_policy')} onBack={() => navigation.goBack()} />
+            <Header title={isFromLogin ? getTranslation('Terms and Conditions') : getTranslation('privacy_policy')} onBack={() => navigation.goBack()} />
             {downloadURL ?
                 <View style={{ flex: 1.0 }}>
                     {Platform.OS == 'ios' ?
                         <WebView style={{
                             flex: 1.0, backgroundColor: COLORS.background,
                         }}
-                            source={{ uri: `https://drive.google.com/viewerng/viewer?embedded=true&url=${downloadURL}` }}
+                            source={{ uri: downloadURL }}
                             startInLoadingState={true} />
                         :
                         <View style={{ flex: 1.0 }}>

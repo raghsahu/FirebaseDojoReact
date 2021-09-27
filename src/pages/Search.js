@@ -80,7 +80,7 @@ export default function Search({ navigation }) {
                 }}>
                 <Image style={styles.searchIcon} source={IMAGES.ic_tab_discover} />
                 <TextInput
-                    style={{ alignSelf: 'center', marginHorizontal: 15, color: COLORS.grey }}
+                    style={{ flex: 1.0, marginHorizontal: 15, color: COLORS.grey }}
                     value={search}
                     placeholder={getTranslation('search')}
                     placeholderTextColor={COLORS.grey}

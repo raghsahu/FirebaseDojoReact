@@ -96,5 +96,7 @@
     "comments": "ความคิดเห็น",
     "Please enter title and message": "กรุณาใส่ชื่อและข้อความ",
     "Your feedback submitted succesfully": "ส่งความคิดเห็นของคุณเรียบร้อยแล้ว",
-    "This book is not available yet": "หนังสือเล่มนี้ยังไม่มีจำหน่าย"
+    "This book is not available yet": "หนังสือเล่มนี้ยังไม่มีจำหน่าย",
+    "terms_condition_msg": "การลงชื่อเข้าใช้แสดงว่าคุณยอมรับ",
+    "Terms and Conditions": "ข้อกำหนดและเงื่อนไข"
 }

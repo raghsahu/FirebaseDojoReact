@@ -39,7 +39,7 @@ export default function ReferFriend({ navigation }) {
                         setLoading(false)
                         Alert.alert('', getTranslation('you_have_already_redeem_this_code'), [{
                             text: getTranslation('ok'), onPress: () => {
-                                navigation.goBack()
+                                
                             }
                         }])
                     }
@@ -50,7 +50,7 @@ export default function ReferFriend({ navigation }) {
                         setLoading(false)
                         Alert.alert('', getTranslation('please_enter_valid_code'), [{
                             text: getTranslation('ok'), onPress: () => {
-                                navigation.goBack()
+                                
                             }
                         }])
                     }
@@ -60,7 +60,7 @@ export default function ReferFriend({ navigation }) {
                     setLoading(false)
                     Alert.alert('', getTranslation('please_enter_valid_code'), [{
                         text: getTranslation('ok'), onPress: () => {
-                            navigation.goBack()
+                            
                         }
                     }])
                 }
@@ -68,7 +68,7 @@ export default function ReferFriend({ navigation }) {
                 setLoading(false)
                 Alert.alert('', getTranslation('please_enter_valid_code'), [{
                     text: getTranslation('ok'), onPress: () => {
-                        navigation.goBack()
+                        
                     }
                 }])
             })
@@ -91,7 +91,7 @@ export default function ReferFriend({ navigation }) {
                 setLoading(false)
                 Alert.alert('', e.message, [{
                     text: getTranslation('ok'), onPress: () => {
-                        navigation.goBack()
+                        
                     }
                 }])
             })
@@ -123,7 +123,7 @@ export default function ReferFriend({ navigation }) {
                     setLoading(false)
                     Alert.alert('', error.message, [{
                         text: getTranslation('ok'), onPress: () => {
-                            navigation.goBack()
+                           
                         }
                     }])
                 });
@@ -151,7 +151,7 @@ export default function ReferFriend({ navigation }) {
                 setLoading(false)
                 Alert.alert('', error.message, [{
                     text: getTranslation('ok'), onPress: () => {
-                        navigation.goBack()
+                        
                     }
                 }])
             });
@@ -275,7 +275,7 @@ export default function ReferFriend({ navigation }) {
                     </RNText>
                     <View style={styles.inputView}>
                         <TextInput
-                            style={{ alignSelf: 'center', color: COLORS.grey, fontSize: 15 }}
+                            style={{ flex: 1.0, color: COLORS.grey, fontSize: 15 }}
                             value={redeemCode}
                             placeholder={getTranslation('Code')}
                             placeholderTextColor={COLORS.grey}

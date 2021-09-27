@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, StatusBar, SafeAreaView, ActivityIndicator, Image, StyleSheet, Alert } from 'react-native';
+import { View, StatusBar, SafeAreaView, ActivityIndicator, Image, StyleSheet, Alert, Platform } from 'react-native';
 
 import pkg from '../../package.json';
 
@@ -61,7 +61,7 @@ export default function Splash(props) {
                     CommonActions.reset({
                         index: 0,
                         routes: [
-                            { name: 'SelectLanguage' }
+                            { name: 'SelectLanguage', params: { isFromLogin: true } }
                         ],
                     })
                 );
@@ -85,8 +85,9 @@ export default function Splash(props) {
                             email: user.email,
                             firstName: user.displayName,
                             lastName: user.displayName,
-                            update_date: firestore.FieldValue.serverTimestamp(),
+                            dateUpdated: firestore.FieldValue.serverTimestamp(),
                             version: pkg.version,
+                            platform: Platform.OS,
                         })
                         .then(() => {
                             registerDevice()
@@ -103,9 +104,10 @@ export default function Splash(props) {
                             email: user.email,
                             firstName: user.displayName,
                             lastName: user.displayName,
-                            date: firestore.FieldValue.serverTimestamp(),
-                            update_date: firestore.FieldValue.serverTimestamp(),
+                            dateAdded: firestore.FieldValue.serverTimestamp(),
+                            dateUpdated: firestore.FieldValue.serverTimestamp(),
                             version: pkg.version,
+                            platform: Platform.OS
                         })
                         .then(() => {
                             registerDevice()
@@ -254,7 +256,7 @@ export default function Splash(props) {
                 }).catch(error => {
                     Alert.alert("Permission Denied", error.message, [{
                         text: getTranslation('ok'), onPress: () => {
-                            navigation.goBack()
+                            
                         }
                     }])
                 })

@@ -16,9 +16,9 @@ import { CommonActions } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function SelectLanguage(props) {
-
+    const isFromLogin = props.route.params.isFromLogin
     let [isLoading, setLoading] = useState(false);
-    let [selectedLanguage, setSelectedLanguage] = useState(global.language);
+    let [selectedLanguage, setSelectedLanguage] = useState(isFromLogin ? '' : global.language);
 
     const { getTranslation, setI18nConfig, saveUserLanguage } = useContext(LocalizatiionContext);
 
@@ -41,7 +41,7 @@ export default function SelectLanguage(props) {
         else {
             Alert.alert('', 'Please select a language', [{
                 text: getTranslation('ok'), onPress: () => {
-                    navigation.goBack()
+                   
                 }
             }])
         }
@@ -50,7 +50,11 @@ export default function SelectLanguage(props) {
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar barStyle={'dark-content'} backgroundColor={COLORS.white} />
-            <Header onBack={() => { props.navigation.goBack() }} />
+            {isFromLogin == false ?
+                <Header onBack={() => { props.navigation.goBack() }} />
+                :
+                <Header />
+            }
             <ScrollView
                 showsHorizontalScrollIndicator={false}
                 showsVerticalScrollIndicator={false}>
@@ -68,7 +72,7 @@ export default function SelectLanguage(props) {
                         color={COLORS.black}>
                         {getTranslation('select_language_title')}
                     </Text>
-                    <TouchableOpacity style={[styles.googleButton, {
+                    {/* <TouchableOpacity style={[styles.googleButton, {
                         borderColor: selectedLanguage == 'en' ? COLORS.orange : 'rgba(0,0,0,0.3)'
                     }]}
                         onPress={() => {
@@ -82,7 +86,7 @@ export default function SelectLanguage(props) {
                             color={COLORS.darkGray}>
                             {'ENGLISH'}
                         </Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                     <TouchableOpacity style={[styles.googleButton, {
                         borderColor: selectedLanguage == 'id' ? COLORS.orange : 'rgba(0,0,0,0.3)'
                     }]}

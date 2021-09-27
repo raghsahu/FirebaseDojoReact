@@ -101,6 +101,7 @@ const AuthStack = () => (
     <Screen name='Splash' component={Splash} />
     <Screen name='SelectLanguage' component={SelectLanguage} />
     <Screen name='SignIn' component={SignIn} />
+    <Screen name='Webview' component={Webview} />
   </Navigator>
 );
 
