@@ -43,7 +43,15 @@ export default function Home({ navigation }) {
             await getMostRead()
         }
         setLoading(false)
-        getSubscriptionDetails((finished) => { })
+        if (isSubscribe == false) {
+            setVisibleSubsribe(true)
+        }
+        else if (isSubscribe == true && userSubscriptionDetails.productId == 'dojo_free_trial') {
+            setVisibleSubsribe(true)
+        }
+        else if (isSubscribe == true && userSubscriptionDetails.productId == 'redeem_promo_code') {
+            setVisibleSubsribe(true)
+        }
         return () => { }
     }, [])
 
@@ -441,6 +449,7 @@ const SubscribtionView = (props) => {
             <SafeAreaView style={styles.container}>
                 <StatusBar barStyle={'dark-content'} backgroundColor={COLORS.white} />
                 <Header
+                    onBack={() => { props.onClose() }}
                     title={getTranslation('get_premium_access')}
                     onClose={() => props.onClose()} />
                 <Image
