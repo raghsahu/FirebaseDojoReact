@@ -49,12 +49,20 @@ export default function AllAuthors({ navigation, route }) {
         return () => { }
     }, [search])
 
+
+    useEffect(async () => {
+        getAllBooks()
+        return () => { }
+    }, [search])
+
     getAllBooks = async () => {
         try {
             var ref = firestore().collection('books')
             ref = ref.where('authorName', '!=', '')
             ref = ref.where('language', '==', global.languageName)
             ref = ref.orderBy('authorName')
+            ref = ref.startAt(search)
+            ref = ref.endAt(search + "\uf8ff")
             ref.get()
                 .then(querySnapshot => {
                     var list = []
@@ -77,7 +85,7 @@ export default function AllAuthors({ navigation, route }) {
             setLoading(false)
             setBook([])
             setError(getTranslation("no_books_available_yet"))
-            
+
         }
     }
 
@@ -87,6 +95,18 @@ export default function AllAuthors({ navigation, route }) {
             <Header backTitle={getTranslation("authors")} onBack={() => {
                 navigation.goBack()
             }} />
+            <View style={styles.searchView}
+                onPress={() => {
+                    navigation.navigate('Search')
+                }}>
+                <Image style={styles.searchIcon} source={IMAGES.ic_tab_discover} />
+                <TextInput
+                    style={{ flex: 1.0, marginHorizontal: 15, color: COLORS.grey }}
+                    value={search}
+                    placeholder={getTranslation('search')}
+                    placeholderTextColor={COLORS.grey}
+                    onChangeText={(text) => setSearchText(text)} />
+            </View>
             {isLoading ?
                 <View style={{ height: 100, justifyContent: 'center' }}>
                     <ActivityIndicator style={{ alignSelf: 'center' }} animating={true} color={COLORS.orange} />
@@ -154,7 +174,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         backgroundColor: '#fff',
         shadowColor: '#000',
-        shadowOffset: { width: -5, height: 0 },
+        shadowOffset: { width: 0, height: 0 },
         shadowRadius: 3,
         shadowOpacity: 0.1,
         elevation: 3,

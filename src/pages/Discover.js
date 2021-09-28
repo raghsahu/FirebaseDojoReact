@@ -115,7 +115,8 @@ export default function Discover({ navigation }) {
                     weight="400"
                     align='center'
                     color={COLORS.grey}>
-                    {getTranslation('search_title')}
+                    {/* {getTranslation('search_title')} */}
+                    {getTranslation('search')}
                 </RNText>
             </TouchableOpacity>
             <ScrollView
