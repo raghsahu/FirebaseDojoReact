@@ -52,40 +52,53 @@ const Header = (props) => {
                 {props.title && props.title != '' && <Label title={props.title} />}
                 {props.backTitle != '' && <BackLabel title={props.backTitle} />}
             </View>
-            <View style={styles.leftItemsContainer}>
-                {props.onSearch &&
+            {props.onContent &&
+                <View style={styles.leftItemsContainer}>
+
                     <TouchableOpacity
                         style={styles.searchContainer}
-                        onPress={props.onSearch}>
+                        onPress={props.onContent}>
                         <Image style={styles.search}
-                            source={IMAGES.ic_search} />
+                            source={IMAGES.content} />
                     </TouchableOpacity>
-                }
-                {props.onClose &&
-                    <TouchableOpacity
-                        style={styles.searchContainer}
-                        onPress={props.onClose}>
-                        <Image style={styles.search}
-                            source={IMAGES.close} />
-                    </TouchableOpacity>
-                }
-                {props.onNotification &&
-                    <TouchableOpacity
-                        style={styles.searchContainer}
-                        onPress={props.onNotification}>
-                        <Image style={styles.search}
-                            source={IMAGES.ic_notification} />
-                    </TouchableOpacity>
-                }
-                {props.onShare &&
-                    <TouchableOpacity
-                        style={styles.searchContainer}
-                        onPress={props.onShare}>
-                        <Image style={styles.search}
-                            source={IMAGES.share} />
-                    </TouchableOpacity>
-                }
-            </View>
+                </View>
+            }
+            {(props.onSearch || props.onClose || props.onNotification || props.onShare) &&
+                <View style={styles.leftItemsContainer}>
+                    {props.onSearch &&
+                        <TouchableOpacity
+                            style={styles.searchContainer}
+                            onPress={props.onSearch}>
+                            <Image style={styles.search}
+                                source={IMAGES.ic_search} />
+                        </TouchableOpacity>
+                    }
+                    {props.onClose &&
+                        <TouchableOpacity
+                            style={styles.searchContainer}
+                            onPress={props.onClose}>
+                            <Image style={styles.search}
+                                source={IMAGES.close} />
+                        </TouchableOpacity>
+                    }
+                    {props.onNotification &&
+                        <TouchableOpacity
+                            style={styles.searchContainer}
+                            onPress={props.onNotification}>
+                            <Image style={styles.search}
+                                source={IMAGES.ic_notification} />
+                        </TouchableOpacity>
+                    }
+                    {props.onShare &&
+                        <TouchableOpacity
+                            style={styles.searchContainer}
+                            onPress={props.onShare}>
+                            <Image style={styles.search}
+                                source={IMAGES.share} />
+                        </TouchableOpacity>
+                    }
+                </View>
+            }
         </View>
     )
 }
@@ -94,7 +107,7 @@ const Label = (props) => {
     const { colors } = useTheme();
     return (
         <Text
-            extraStyle={{ width: '100%', alignSelf: 'center', ellipsizeMode:'tail' }}
+            extraStyle={{ width: '100%', alignSelf: 'center' }}
             size="22"
             weight="700"
             ellipsizeMode='tail'

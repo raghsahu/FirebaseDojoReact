@@ -31,7 +31,8 @@ export const IMAGES = {
     feedback: require('./feedback.png'),
     send: require('./send.png'),
     comment: require('./comment.png'),
-    share: require('./share.png')
+    share: require('./share.png'),
+    content: require('./content.png'),
 }
 
 export const COLORS = {

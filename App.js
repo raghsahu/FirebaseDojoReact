@@ -39,6 +39,7 @@ import NotificationDetails from './src/pages/NotificationDetails'
 import Webview from './src/pages/Webview';
 import Feedback from './src/pages/Feedback';
 import Comments from './src/pages/Comments';
+import PdfView from './src/pages/PdfView';
 
 //TABBAR
 import { Tabbar } from './src/components'
@@ -89,6 +90,7 @@ const AppStack = () => (
     <Screen name='Webview' component={Webview} />
     <Screen name='Feedback' component={Feedback} />
     <Screen name='Comments' component={Comments} />
+    <Screen name='PdfView' component={PdfView} />
   </Navigator >
 );
 
