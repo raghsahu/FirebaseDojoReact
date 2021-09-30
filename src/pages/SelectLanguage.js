@@ -21,6 +21,7 @@ export default function SelectLanguage(props) {
     let [selectedLanguage, setSelectedLanguage] = useState(isFromLogin ? '' : global.language);
 
     const { getTranslation, setI18nConfig, saveUserLanguage } = useContext(LocalizatiionContext);
+    const { mixPanelOnLanguageChoose } = useContext(AnalyticsContext)
 
     const onSelectLanguage = () => {
         if (selectedLanguage) {
@@ -29,6 +30,11 @@ export default function SelectLanguage(props) {
             saveUserLanguage(selectedLanguage)
             AsyncStorage.setItem('is_first_time_install', 'true')
             setLoading(false)
+
+            mixPanelOnLanguageChoose({
+                language: selectedLanguage
+            })
+
             props.navigation.dispatch(
                 CommonActions.reset({
                     index: 0,
@@ -37,11 +43,12 @@ export default function SelectLanguage(props) {
                     ],
                 })
             );
+
         }
         else {
             Alert.alert('', 'Please select a language', [{
                 text: getTranslation('ok'), onPress: () => {
-                   
+
                 }
             }])
         }

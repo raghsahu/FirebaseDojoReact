@@ -249,27 +249,43 @@ export default function Discover({ navigation }) {
                             horizontal
                             data={authors}
                             showsHorizontalScrollIndicator={false}
+                            ListHeaderComponent={() => <View style={{ width: 10 }} />}
                             ListFooterComponent={() => <View style={{ width: 20 }} />}
                             keyExtractor={(item, index) => item ? item.id : index.toString()}
                             renderItem={({ item, index }) =>
-                                <View style={{ marginLeft: 20 }}>
-                                    <TouchableOpacity onPress={() => {
+                                // <View style={{ marginLeft: 20 }}>
+                                //     <TouchableOpacity onPress={() => {
+                                //         navigation.navigate('AuthorsBooks', {
+                                //             item: item
+                                //         })
+                                //     }}>
+                                //         <Image style={styles.authorsImage}
+                                //             source={item.authorImage ? { uri: item.authorImage } : ''} />
+                                //         <RNText
+                                //             extraStyle={{ alignSelf: 'center', marginTop: 4 }}
+                                //             size="14"
+                                //             weight="400"
+                                //             align='left'
+                                //             color={COLORS.darkGray}>
+                                //             {item.authorName}
+                                //         </RNText>
+                                //     </TouchableOpacity>
+                                // </View>
+                                <TouchableOpacity style={styles.tagView}
+                                    onPress={() => {
                                         navigation.navigate('AuthorsBooks', {
                                             item: item
                                         })
                                     }}>
-                                        <Image style={styles.authorsImage}
-                                            source={item.authorImage ? { uri: item.authorImage } : ''} />
-                                        <RNText
-                                            extraStyle={{ alignSelf: 'center', marginTop: 4 }}
-                                            size="14"
-                                            weight="400"
-                                            align='left'
-                                            color={COLORS.darkGray}>
-                                            {item.authorName}
-                                        </RNText>
-                                    </TouchableOpacity>
-                                </View>
+                                    <RNText
+                                        extraStyle={{ alignSelf: 'center' }}
+                                        size="16"
+                                        weight="400"
+                                        align='left'
+                                        color={COLORS.darkGray}>
+                                        {item.authorName}
+                                    </RNText>
+                                </TouchableOpacity>
                             }
                         />
                     </View>

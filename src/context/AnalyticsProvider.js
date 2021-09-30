@@ -52,6 +52,10 @@ export const AnalyticsProvider = (props) => {
         mixpanel.track('OnSubscriptionComplete', obj)
     }
 
+    const mixPanelOnLanguageChoose = async (obj) => {
+        mixpanel.track('OnSelectLanguage', obj)
+    }
+
     return (
         <AnalyticsContext.Provider
             value={{
@@ -62,7 +66,8 @@ export const AnalyticsProvider = (props) => {
                 mixPanelEditProfile,
                 mixPanelOnSubscribe,
                 mixPanelOnClickPurchase,
-                mixPanelOnSubscriptionComplete
+                mixPanelOnSubscriptionComplete,
+                mixPanelOnLanguageChoose
             }}>
             {props.children}
         </AnalyticsContext.Provider>

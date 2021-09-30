@@ -133,6 +133,7 @@ export default function AllAuthors({ navigation, route }) {
                                         showsHorizontalScrollIndicator={false}
                                         showsVerticalScrollIndicator={false}
                                         keyExtractor={(item, index) => index.toString()}
+                                        ListHeaderComponent={() => <View style={{ height: 20 }} />}
                                         renderItem={({ item, index }) => {
                                             return (
                                                 <TouchableOpacity style={styles.cellContainer} onPress={() => {
@@ -140,8 +141,8 @@ export default function AllAuthors({ navigation, route }) {
                                                         item: item
                                                     })
                                                 }}>
-                                                    <Image style={styles.authorsImage}
-                                                        source={item.authorImage ? { uri: item.authorImage } : ''} />
+                                                    {/* <Image style={styles.authorsImage}
+                                                        source={item.authorImage ? { uri: item.authorImage } : ''} /> */}
                                                     <RNText
                                                         extraStyle={{ alignSelf: 'center', marginHorizontal: 20 }}
                                                         size={"15"}
