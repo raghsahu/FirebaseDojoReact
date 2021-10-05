@@ -158,7 +158,8 @@ export default function Libray({ navigation }) {
 
     getStarted = async () => {
         try {
-            const books = await firestore().collection('readingHistory')
+            const books = await firestore()
+                .collection('readingHistory')
                 .doc(user.email)
                 .collection('books')
                 .get()
@@ -166,14 +167,12 @@ export default function Libray({ navigation }) {
             books.forEach(documentSnapshot => {
                 var data = documentSnapshot.data()
                 data.id = documentSnapshot.id
-                console.log(data.book)
                 list.push(data.book)
             });
-            console.log(list)
             if (list.length > 0) {
                 setLoading(false)
                 setError('')
-                setBook(list)
+                setBook(list.reverse())
             }
             else {
                 setLoading(false)
@@ -245,7 +244,7 @@ export default function Libray({ navigation }) {
                                 {books && books.length > 0 &&
                                     <View style={styles.container}>
                                         <FlatList
-                                            style={{ marginVertical: 20 }}
+                                            style={{ marginTop: 20 }}
                                             data={books}
                                             extraData={LikedBooksID}
                                             showsVerticalScrollIndicator={false}

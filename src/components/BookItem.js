@@ -17,7 +17,6 @@ import { Rating } from 'react-native-ratings';
  */
 
 const BookItem = (props) => {
-
     const { colors, fonts } = useTheme();
     const styles = useStyles(colors, fonts)
 

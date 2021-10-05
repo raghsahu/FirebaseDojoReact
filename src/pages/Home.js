@@ -69,7 +69,6 @@ export default function Home({ navigation }) {
             books.forEach(documentSnapshot => {
                 var data = documentSnapshot.data()
                 data.id = documentSnapshot.id
-                console.log(data.id)
                 list.push(data)
             });
             setFreeBook(list)
@@ -90,7 +89,6 @@ export default function Home({ navigation }) {
             books.forEach(documentSnapshot => {
                 var data = documentSnapshot.data()
                 data.id = documentSnapshot.id
-                console.log(data.id)
                 list.push(data)
             });
             setBook(list)
@@ -113,12 +111,12 @@ export default function Home({ navigation }) {
             books.forEach(documentSnapshot => {
                 var data = documentSnapshot.data()
                 data.id = documentSnapshot.id
-                console.log(data.id)
                 list.push(data.book)
             });
-            setRecentRead(list)
+            setRecentRead(list.reverse())
         }
         catch (e) {
+            console.log(e)
             Toast.show(e.message);
         }
     }
@@ -135,7 +133,6 @@ export default function Home({ navigation }) {
             books.forEach(documentSnapshot => {
                 var data = documentSnapshot.data()
                 data.id = documentSnapshot.id
-                console.log(data.id)
                 list.push(data)
             });
             setMostReadBooks(list)

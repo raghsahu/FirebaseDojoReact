@@ -24,6 +24,7 @@ export const AnalyticsProvider = (props) => {
         mixpanel.track('SiginIn', { "email": googleUser.email })
     }
 
+
     const mixPanelOpenBookDetails = async (obj) => {
         mixpanel.track('OpenBookDetails', obj)
     }

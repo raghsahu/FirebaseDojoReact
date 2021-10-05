@@ -80,8 +80,8 @@ export const APPProvider = (props) => {
                 
             }).catch((error) => {
                 console.log(error)
-            });
-    }
+            })
+        }
 
     return (
         <APPContext.Provider

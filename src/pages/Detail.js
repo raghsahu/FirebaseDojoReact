@@ -48,13 +48,14 @@ export default function Detail({ route, navigation }) {
 
     const onPressRead = async () => {
         setLoading(true)
-
+        const book = Object.assign({}, item);
+        book.readDate = firestore.FieldValue.serverTimestamp()
         firestore().collection('readingHistory')
             .doc(user.email)
             .collection('books')
-            .doc(item.id)
+            .doc(book.id)
             .set({
-                book: item
+                book: book
             }).then(() => {
                 setLoading(false)
                 navigation.navigate('ReadBook', {
