@@ -52,7 +52,11 @@ export default function Category({ navigation, route }) {
 
     getAllBooks = async () => {
         try {
-            const books = await firestore().collection('books').where('category', '==', item).get()
+            const books = await firestore()
+                .collection('books')
+                .where('category', '==', item)
+                .where('language', '==', global.languageName)
+                .get()
             var list = []
             books.forEach(documentSnapshot => {
                 var data = documentSnapshot.data()

@@ -44,7 +44,7 @@ export default function AuthorsBooks({ navigation, route }) {
             EventRegister.removeEventListener(listener)
         }
     }, [])
-    
+
     useEffect(async () => {
         getAllBooks()
         return () => { }
@@ -52,7 +52,11 @@ export default function AuthorsBooks({ navigation, route }) {
 
     getAllBooks = async () => {
         try {
-            const books = await firestore().collection('books').where('authorName', '==', item.authorName).get()
+            const books = await firestore()
+                .collection('books')
+                .where('authorName', '==', item.authorName)
+                .where('language', '==', global.languageName)
+                .get()
             var list = []
             books.forEach(documentSnapshot => {
                 var data = documentSnapshot.data()

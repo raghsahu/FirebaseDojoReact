@@ -50,7 +50,7 @@ const Header = (props) => {
             </View>
             <View style={{ flex: 1.0, flexDirection: 'row' }}>
                 {props.title && props.title != '' && <Label title={props.title} />}
-                {props.backTitle != '' && <BackLabel title={props.backTitle} />}
+                {props.backTitle && props.backTitle != '' && <BackLabel title={props.backTitle} />}
             </View>
             {props.onContent &&
                 <View style={styles.leftItemsContainer}>
@@ -106,30 +106,32 @@ const Header = (props) => {
 const Label = (props) => {
     const { colors } = useTheme();
     return (
-        <Text
-            extraStyle={{ width: '100%', alignSelf: 'center' }}
-            size="22"
-            weight="700"
-            ellipsizeMode='tail'
-            numberOfLines={2}
-            color={COLORS.darkGray}>
-            {props.title}
-        </Text>
+        <View style={{ flex: 1.0, flexDirection: 'row' }}>
+            <Text
+                extraStyle={{ flex: 1.0, alignSelf: 'center' }}
+                size="22"
+                weight="600"
+                ellipsizeMode='tail'
+                numberOfLines={1}
+                color={COLORS.darkGray}>
+                {props.title}
+            </Text>
+        </View>
     )
 }
 
 const BackLabel = (props) => {
     const { colors } = useTheme();
     return (
-        <View style={{ flex: 1.0, flexDirection: 'row' }}>
-            <Text
-                extraStyle={{ flex: 1.0, alignSelf: 'center' }}
-                size="22"
-                weight="600"
-                color={COLORS.darkGray}>
-                {props.title}
-            </Text>
-        </View>
+        <Text
+            extraStyle={{ flex: 1.0, alignSelf: 'center' }}
+            size="22"
+            weight="600"
+            ellipsizeMode='tail'
+            numberOfLines={1}
+            color={COLORS.darkGray}>
+            {props.title}
+        </Text>
     )
 }
 

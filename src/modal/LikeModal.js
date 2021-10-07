@@ -13,54 +13,56 @@ export async function getLikesIds(callback) {
 }
 
 export function setLike(book, LikedBooksIDS, callback) {
-    const user = auth().currentUser;
-    try {
-        var ids = LikedBooksIDS
-        if (ids.includes(book.id)) {
-            var updatedID = ids.filter((e) => e != book.id)
-            callback(updatedID)
-
-            firestore()
-                .collection('likeBooks')
-                .doc(user.email)
-                .collection('ids')
-                .doc('values')
-                .set({
-                    value: JSON.stringify(updatedID)
-                })
-
-            firestore().collection('likeBooks')
-                .doc(user.email)
-                .collection('books')
-                .doc(book.id)
-                .delete()
+    if (book && book.id) {
+        const user = auth().currentUser;
+        try {
+            var ids = LikedBooksIDS
+            if (ids.includes(book.id)) {
+                var updatedID = ids.filter((e) => e != book.id)
+                callback(updatedID)
+    
+                firestore()
+                    .collection('likeBooks')
+                    .doc(user.email)
+                    .collection('ids')
+                    .doc('values')
+                    .set({
+                        value: JSON.stringify(updatedID)
+                    })
+    
+                firestore().collection('likeBooks')
+                    .doc(user.email)
+                    .collection('books')
+                    .doc(book.id)
+                    .delete()
+            }
+            else {
+                ids.push(book.id)
+                var updatedID = ids.filter((e) => e != '')
+                callback(updatedID)
+    
+                firestore()
+                    .collection('likeBooks')
+                    .doc(user.email)
+                    .collection('ids')
+                    .doc('values')
+                    .set({
+                        value: JSON.stringify(ids)
+                    })
+    
+                firestore().collection('likeBooks')
+                    .doc(user.email)
+                    .collection('books')
+                    .doc(book.id)
+                    .set({
+                        book: book
+                    }).then(() => {
+    
+                    });
+            }
         }
-        else {
-            ids.push(book.id)
-            var updatedID = ids.filter((e) => e != '')
-            callback(updatedID)
-
-            firestore()
-                .collection('likeBooks')
-                .doc(user.email)
-                .collection('ids')
-                .doc('values')
-                .set({
-                    value: JSON.stringify(ids)
-                })
-
-            firestore().collection('likeBooks')
-                .doc(user.email)
-                .collection('books')
-                .doc(book.id)
-                .set({
-                    book: book
-                }).then(() => {
-
-                });
+        catch (e) {
+            console.log(e)
         }
-    }
-    catch (e) {
-        console.log(e)
-    }
+    } 
 }

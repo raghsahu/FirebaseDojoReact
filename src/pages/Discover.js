@@ -36,6 +36,7 @@ export default function Discover({ navigation }) {
             ref = ref.where('authorName', '!=', '')
             ref = ref.where('language', '==', global.languageName)
             ref = ref.orderBy('authorName')
+            ref = ref.limit(5)
             ref.get()
                 .then(querySnapshot => {
                     var list = []
@@ -62,7 +63,7 @@ export default function Discover({ navigation }) {
             var ref = firestore().collection('books')
             ref = ref.where('category', '!=', '')
             ref = ref.where('language', '==', global.languageName)
-            ref = ref.limit(6)
+            ref = ref.limit(20)
             ref.get()
                 .then(querySnapshot => {
                     var list = []
@@ -89,7 +90,9 @@ export default function Discover({ navigation }) {
         const books = await firestore()
             .collection('books')
             .where('language', '==', global.languageName)
-            .where('trending', '==', true).limit(5).get()
+            .where('trending', '==', true)
+            .limit(5)
+            .get()
         var list = []
         books.forEach(documentSnapshot => {
             var data = documentSnapshot.data()
