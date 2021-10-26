@@ -26,8 +26,7 @@ export default function Summary({ navigation }) {
         getAllBooks()
     }, [])
 
-    getAllBooks = async () => {
-        
+    getAllBooks = async () => {        
         const books = await firestore()
             .collection('books')
             .where('language', '==', global.languageName)

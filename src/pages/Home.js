@@ -76,7 +76,6 @@ export default function Home({ navigation }) {
         catch (e) {
             Toast.show(e.message);
         }
-
     }
 
     getAllBooks = async () => {

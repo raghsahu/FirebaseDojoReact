@@ -85,8 +85,6 @@ export default function WebviewController({ route, navigation }) {
     )
 }
 
-
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,

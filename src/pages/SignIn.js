@@ -17,7 +17,7 @@ import { IMAGES, COLORS } from '../../assets'
 import auth from '@react-native-firebase/auth';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { appleAuth, AppleButton } from '@invertase/react-native-apple-authentication';
-
+ 
 export default function Signin(props) {
 
     let [isLoading, setLoading] = useState(false);
@@ -37,7 +37,7 @@ export default function Signin(props) {
     const onPressGoogleLogin = async () => {
         try {
             const { idToken } = await GoogleSignin.signIn();
-            setLoading(true);
+            setLoading(true); 
             const googleCredential = auth.GoogleAuthProvider.credential(idToken);
             await auth().signInWithCredential(googleCredential);
             let user = auth().currentUser

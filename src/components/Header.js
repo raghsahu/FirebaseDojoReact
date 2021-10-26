@@ -50,7 +50,7 @@ const Header = (props) => {
             </View>
             <View style={{ flex: 1.0, flexDirection: 'row' }}>
                 {props.title && props.title != '' && <Label title={props.title} />}
-                {props.backTitle && props.backTitle != '' && <BackLabel title={props.backTitle} />}
+                {props.backTitle != null && props.backTitle != '' && <BackLabel title={props.backTitle} />}
             </View>
             {props.onContent &&
                 <View style={styles.leftItemsContainer}>

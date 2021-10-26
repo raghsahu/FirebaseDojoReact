@@ -38,7 +38,6 @@ export default function Splash(props) {
         })
     }, [])
 
-
     const checkAndUpdate = () => {
         AsyncStorage.getItem('is_first_time_install', (error, result) => {
             if (result) {
@@ -219,10 +218,7 @@ export default function Splash(props) {
                     channelId: remoteMessage.messageId,
                     bigPictureUrl: data.image
                 });
-
             })
-
-
         }
     }
 

@@ -123,7 +123,6 @@ export default function TreadingBooks({ navigation }) {
                         </View>
                     }
                 </View>
-
             }
         </SafeAreaView>
     )

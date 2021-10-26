@@ -167,7 +167,6 @@ export default function Comments({ route, navigation }) {
     )
 }
 
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
