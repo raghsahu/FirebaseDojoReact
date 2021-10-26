@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "315915655813",
+    "project_id": "dojo-cc7f6",
+    "storage_bucket": "dojo-cc7f6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:315915655813:android:9a65ecdef80efaa993a7ec",
+        "android_client_info": {
+          "package_name": "com.dojoinfographic"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "315915655813-mmjmv3rqem2so7huqpj2hmn9uacopsbq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_4llJUxV4vc7hDr_6UMkSHOXhIZ0VOLM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "315915655813-mmjmv3rqem2so7huqpj2hmn9uacopsbq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
