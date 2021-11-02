@@ -216,8 +216,6 @@ const styles = StyleSheet.create({
     }
 })
 
-//Now you can commmit your code through the git hub. I set new branch for you google analytics everthing you can commit there
-//TEST push code
 
 
 

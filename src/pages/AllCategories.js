@@ -15,7 +15,7 @@ import { LocalizatiionContext } from '../context/LocalizatiionProvider';
 
 //PACKAGES
 import firestore from '@react-native-firebase/firestore';
-import auth from '@react-native-fire base/auth';
+import auth from '@react-native-firebase/auth';
 import { EventRegister } from 'react-native-event-listeners'
 
 export default function AllCategory({ navigation, route }) {

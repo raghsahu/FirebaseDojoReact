@@ -133,7 +133,8 @@ android {
         ndk {
             abiFilters 'armeabi-v7a', 'x86', 'arm64-v8a', 'x86_64'
         }
-        missingDimensionStrategy 'store', 'play'
+        missingDimensionStrategy 'store', 'play', 'react-native-camera', 'general'
+    
     }
 
     signingConfigs {
@@ -214,6 +215,7 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:28.4.0')  
     implementation 'com.google.firebase:firebase-analytics'
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
+    implementation 'com.facebook.android:audience-network-sdk:6.+'
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
       exclude group:'com.facebook.fbjni'
