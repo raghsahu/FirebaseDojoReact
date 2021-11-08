@@ -17,6 +17,8 @@ target 'DojoInfographics' do
   # Note that if you have use_frameworks! enabled, Flipper will not work and
   # you should disable the next line.
   use_flipper!({ 'Flipper' => '0.95.0', 'Flipper-Folly' => '2.6.7', 'Flipper-DoubleConversion' => '3.1.7' })
+   pod 'react-native-blur', :path => '../node_modules/@react-native-community/blur'
+
    post_install do |installer|
      installer.pods_project.build_configurations.each do |config|
        config.build_settings["EXCLUDED_ARCHS[sdk=iphonesimulator*]"] = "arm64"

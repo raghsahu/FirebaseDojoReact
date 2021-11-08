@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Dojo</string>
+
+    <string name="facebook_app_id">863515477696281</string>
 </resources>

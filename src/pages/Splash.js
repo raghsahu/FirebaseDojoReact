@@ -23,6 +23,9 @@ import PushNotification from 'react-native-push-notification'
 import messaging from '@react-native-firebase/messaging';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+//fb sdk
+import { Settings } from 'react-native-fbsdk-next';
+
 export default function Splash(props) {
     const user = auth().currentUser;
 
@@ -31,6 +34,8 @@ export default function Splash(props) {
     const { getUserLanguage, setI18nConfig, getTranslation } = useContext(LocalizatiionContext);
 
     useEffect(async () => {
+        Settings.setAppID('863515477696281');
+        Settings.initializeSDK();
         getUserLanguage((res) => {
             setI18nConfig(res)
             checkAndUpdate()
