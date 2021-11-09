@@ -1,0 +1,21 @@
+{
+  "name": "react-native-facebook-audience-network",
+  "version": "0.1.2",
+  "summary": "Facebook Audience SDK integration for React Native, available on iOS and Android. Features native, interstitial and banner ads.",
+  "homepage": "https://github.com/ajith-ab/react-native-facebook-audience-network#readme",
+  "license": "MIT",
+  "authors": "Ajith A B <ajith4ab@gmail.com> (https://github.com/ajith-ab)",
+  "platforms": {
+    "ios": "10.0"
+  },
+  "source": {
+    "git": "https://github.com/ajith-ab/react-native-facebook-audience-network.git",
+    "tag": "0.1.2"
+  },
+  "source_files": "ios/**/*.{h,m,mm,swift}",
+  "dependencies": {
+    "React-Core": [
+
+    ]
+  }
+}

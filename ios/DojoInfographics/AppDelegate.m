@@ -5,6 +5,8 @@
 #import <React/RCTRootView.h>
 @import Firebase;
 #import <RNCPushNotificationIOS.h>
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import <React/RCTLinkingManager.h>
 
 #ifdef FB_SONARKIT_ENABLED
 #import <FlipperKit/FlipperClient.h>
@@ -42,6 +44,7 @@ BOOL isLaunch = false;
                                             initialProperties:nil];
 
   [FIRApp configure];
+  [FBSDKApplicationDelegate initializeSDK:launchOptions];
   
   UIView* launchScreenView = [[[NSBundle mainBundle] loadNibNamed:@"LaunchScreen" owner:self options:nil] objectAtIndex:0];
   launchScreenView.frame = self.window.bounds;
@@ -108,6 +111,20 @@ BOOL isLaunch = false;
   completionHandler(UNAuthorizationOptionSound | UNAuthorizationOptionAlert | UNAuthorizationOptionBadge);
 }
 
+- (BOOL)application:(UIApplication *)app
+            openURL:(NSURL *)url
+            options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
+{
+  if ([[FBSDKApplicationDelegate sharedInstance] application:app openURL:url options:options]) {
+    return YES;
+  }
+
+  if ([RCTLinkingManager application:app openURL:url options:options]) {
+    return YES;
+  }
+
+  return NO;
+}
 
 
 @end

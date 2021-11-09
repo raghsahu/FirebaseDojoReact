@@ -352,6 +352,8 @@ PODS:
   - BoringSSL-GRPC/Interface (0.0.7)
   - CocoaAsyncSocket (7.6.5)
   - DoubleConversion (1.1.6)
+  - FBAudienceNetwork (6.8.0):
+    - FBSDKCoreKit_Basics
   - FBLazyVector (0.65.1)
   - FBReactNativeSpec (0.65.1):
     - RCT-Folly (= 2021.04.26.00)
@@ -360,6 +362,21 @@ PODS:
     - React-Core (= 0.65.1)
     - React-jsi (= 0.65.1)
     - ReactCommon/turbomodule/core (= 0.65.1)
+  - FBSDKCoreKit (9.3.0):
+    - FBSDKCoreKit/Basics (= 9.3.0)
+    - FBSDKCoreKit/Core (= 9.3.0)
+  - FBSDKCoreKit/Basics (9.3.0)
+  - FBSDKCoreKit/Core (9.3.0):
+    - FBSDKCoreKit/Basics
+  - FBSDKCoreKit_Basics (12.1.0)
+  - FBSDKLoginKit (9.3.0):
+    - FBSDKLoginKit/Login (= 9.3.0)
+  - FBSDKLoginKit/Login (9.3.0):
+    - FBSDKCoreKit (~> 9.3.0)
+  - FBSDKShareKit (9.3.0):
+    - FBSDKShareKit/Share (= 9.3.0)
+  - FBSDKShareKit/Share (9.3.0):
+    - FBSDKCoreKit (~> 9.3.0)
   - Firebase/Analytics (8.6.0):
     - Firebase/Core
   - Firebase/Auth (8.6.0):
@@ -783,6 +800,22 @@ PODS:
   - React-jsinspector (0.65.1)
   - react-native-blur (0.8.0):
     - React
+  - react-native-facebook-audience-network (0.1.2):
+    - React-Core
+  - react-native-fbsdk-next (4.6.0):
+    - React-Core
+    - react-native-fbsdk-next/Core (= 4.6.0)
+    - react-native-fbsdk-next/Login (= 4.6.0)
+    - react-native-fbsdk-next/Share (= 4.6.0)
+  - react-native-fbsdk-next/Core (4.6.0):
+    - FBSDKCoreKit (~> 9.3)
+    - React-Core
+  - react-native-fbsdk-next/Login (4.6.0):
+    - FBSDKLoginKit (~> 9.3)
+    - React-Core
+  - react-native-fbsdk-next/Share (4.6.0):
+    - FBSDKShareKit (~> 9.3)
+    - React-Core
   - react-native-in-app-review (3.2.2):
     - React
   - react-native-pdf (6.3.0):
@@ -862,6 +895,9 @@ PODS:
     - React-cxxreact (= 0.65.1)
     - React-jsi (= 0.65.1)
     - React-perflogger (= 0.65.1)
+  - ReactNativeAdsFacebook (7.0.5):
+    - FBAudienceNetwork
+    - React
   - rn-fetch-blob (0.12.0):
     - React-Core
   - RNAppleAuthentication (2.1.5):
@@ -877,7 +913,7 @@ PODS:
   - RNFBApp (12.7.2):
     - Firebase/CoreOnly (= 8.6.0)
     - React-Core
-  - RNFBAuth (12.7.2):
+  - RNFBAuth (12.9.3):
     - Firebase/Auth (= 8.6.0)
     - React-Core
     - RNFBApp
@@ -953,6 +989,8 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - "react-native-blur (from `../node_modules/@react-native-community/blur`)"
+  - react-native-facebook-audience-network (from `../node_modules/react-native-facebook-audience-network`)
+  - react-native-fbsdk-next (from `../node_modules/react-native-fbsdk-next`)
   - react-native-in-app-review (from `../node_modules/react-native-in-app-review`)
   - react-native-pdf (from `../node_modules/react-native-pdf`)
   - "react-native-progress-bar-android (from `../node_modules/@react-native-community/progress-bar-android`)"
@@ -972,6 +1010,7 @@ DEPENDENCIES:
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - React-runtimeexecutor (from `../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
+  - ReactNativeAdsFacebook (from `../node_modules/react-native-fbads`)
   - rn-fetch-blob (from `../node_modules/rn-fetch-blob`)
   - "RNAppleAuthentication (from `../node_modules/@invertase/react-native-apple-authentication`)"
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
@@ -997,6 +1036,11 @@ SPEC REPOS:
     - boost-for-react-native
     - BoringSSL-GRPC
     - CocoaAsyncSocket
+    - FBAudienceNetwork
+    - FBSDKCoreKit
+    - FBSDKCoreKit_Basics
+    - FBSDKLoginKit
+    - FBSDKShareKit
     - Firebase
     - FirebaseAnalytics
     - FirebaseAuth
@@ -1068,6 +1112,10 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   react-native-blur:
     :path: "../node_modules/@react-native-community/blur"
+  react-native-facebook-audience-network:
+    :path: "../node_modules/react-native-facebook-audience-network"
+  react-native-fbsdk-next:
+    :path: "../node_modules/react-native-fbsdk-next"
   react-native-in-app-review:
     :path: "../node_modules/react-native-in-app-review"
   react-native-pdf:
@@ -1106,6 +1154,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/runtimeexecutor"
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
+  ReactNativeAdsFacebook:
+    :path: "../node_modules/react-native-fbads"
   rn-fetch-blob:
     :path: "../node_modules/rn-fetch-blob"
   RNAppleAuthentication:
@@ -1148,8 +1198,13 @@ SPEC CHECKSUMS:
   BoringSSL-GRPC: 8edf627ee524575e2f8d19d56f068b448eea3879
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   DoubleConversion: 831926d9b8bf8166fd87886c4abab286c2422662
+  FBAudienceNetwork: 9f9887e50468e83d3524540bea2a1db37c3fe90b
   FBLazyVector: 33c82491102f20ecddb6c6a2c273696ace3191e0
   FBReactNativeSpec: df8f81d2a7541ee6755a047b398a5cb5a72acd0e
+  FBSDKCoreKit: 0d1ae58388a458b8222f72025804cdc84eb5d0c3
+  FBSDKCoreKit_Basics: 39865aff97e5f6951a78fb3e89dc4460e35e1895
+  FBSDKLoginKit: aea68df6121c5e165ccae2fabfdc83c4644ee40f
+  FBSDKShareKit: 70889c97c62f0c6b3ccb8b999e73a85f19024001
   Firebase: 21ac9f28b09a8bdfc005f34c984fca84e7e8786d
   FirebaseAnalytics: 8f32ae54ad42754f503354782575c4ddfc1425c3
   FirebaseAuth: 223adeeb2262b417532e89bf06a960e3a0a1e9e4
@@ -1197,6 +1252,8 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 43f2542aed3c26e42175b339f8d37fe3dd683765
   React-jsinspector: 41e58e5b8e3e0bf061fdf725b03f2144014a8fb0
   react-native-blur: cad4d93b364f91e7b7931b3fa935455487e5c33c
+  react-native-facebook-audience-network: 79ca2f3f128d3f69b7b5df42b27f563958801db6
+  react-native-fbsdk-next: a0dd8905af573ec4d21b7bc398423ccaa2ce2b07
   react-native-in-app-review: 00a66a085c61dbd4474041dc14e7bfee81a86130
   react-native-pdf: ef641e79a6d550cfabe5d7ec1916799726514c43
   react-native-progress-bar-android: be43138ab7da30d51fc038bafa98e9ed594d0c40
@@ -1216,13 +1273,14 @@ SPEC CHECKSUMS:
   React-RCTVibration: 92d41c2442e5328cc4d342cd7f78e5876b68bae5
   React-runtimeexecutor: 85187f19dd9c47a7c102f9994f9d14e4dc2110de
   ReactCommon: eafed38eec7b591c31751bfa7494801618460459
+  ReactNativeAdsFacebook: c502dc8aba4f4e521382eafb0f24f12e154cd304
   rn-fetch-blob: f065bb7ab7fb48dd002629f8bdcb0336602d3cba
   RNAppleAuthentication: 63c2127ace11985b94f852fc480eb84145653712
   RNCAsyncStorage: e8b8d6320a0dd90eb610fb0d0b1ef90596697c69
   RNCPushNotificationIOS: 5ee247e594d0b5df3cd7be74b51035a0d91807eb
   RNFBAnalytics: e441d5cc8f77236c0417f7b3030e8b7247aceef9
   RNFBApp: 9c4eb84da8418346829c0d0220c4794d1de7b1f6
-  RNFBAuth: 9a1a0e6fb9b3ccba2159a5f52a2891df437f0ce4
+  RNFBAuth: 8656c8abcd60ff2c0401aeb3b2d8ec8c2c792080
   RNFBFirestore: 72fea4b9cce6a88280e00188f8474113ec741fd5
   RNFBMessaging: b0d11e7d62d7d13f93dbc965b2e6da4fba38c67e
   RNFBStorage: 03e82ad57fb5d49d1413dc3b7342b7ad164ab7a4
@@ -1236,6 +1294,6 @@ SPEC CHECKSUMS:
   Yoga: aa0cb45287ebe1004c02a13f279c55a95f1572f4
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 1ed3d49fc5e6824b10c426e5cf137618e63194b5
+PODFILE CHECKSUM: 5ce0e7ba7fd48187404aa5b80087021adf535a6d
 
 COCOAPODS: 1.11.1

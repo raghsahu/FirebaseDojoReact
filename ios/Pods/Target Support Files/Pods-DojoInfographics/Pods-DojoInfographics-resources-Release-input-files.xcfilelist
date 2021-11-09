@@ -1,4 +1,5 @@
 ${PODS_ROOT}/Target Support Files/Pods-DojoInfographics/Pods-DojoInfographics-resources.sh
+${PODS_CONFIGURATION_BUILD_DIR}/FBSDKCoreKit/FacebookSDKStrings.bundle
 ${PODS_CONFIGURATION_BUILD_DIR}/GoogleSignIn/GoogleSignIn.bundle
 ${PODS_ROOT}/Mixpanel-swift/Sources/MiniNotificationViewController.xib
 ${PODS_ROOT}/Mixpanel-swift/Sources/placeholder-image.png

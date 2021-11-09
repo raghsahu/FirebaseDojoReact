@@ -30,15 +30,40 @@
 				<string>com.googleusercontent.apps.315915655813-ag4h8iap4hpele5lv2cii2ffjcch12nc</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>fb863515477696281</string>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>FacebookAppID</key>
+	<string>863515477696281</string>
+	<key>FacebookClientToken</key>
+	<string>e0633fad6d8c2fafddfab40bbddedd5d</string>
+	<key>FacebookDisplayName</key>
+	<string>Dojo.id</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>whatsapp</string>
 		<string>mailto</string>
 		<string>instagram</string>
 		<string>instagram-stories</string>
+		<string>fbapi</string>
+		<string>fbapi20130214</string>
+		<string>fbapi20130410</string>
+		<string>fbapi20130702</string>
+		<string>fbapi20131010</string>
+		<string>fbapi20131219</string>
+		<string>fbapi20140410</string>
+		<string>fbapi20140116</string>
+		<string>fbapi20150313</string>
+		<string>fbapi20150629</string>
+		<string>fbapi20160328</string>
+		<string>fbauth</string>
+		<string>fb-messenger-share-api</string>
+		<string>fbauth2</string>
+		<string>fbshareextension</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
