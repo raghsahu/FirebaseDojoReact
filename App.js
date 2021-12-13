@@ -40,6 +40,7 @@ import Webview from './src/pages/Webview';
 import Feedback from './src/pages/Feedback';
 import Comments from './src/pages/Comments';
 import PdfView from './src/pages/PdfView';
+import ReferralCode from './src/pages/ReferralCode'
 
 //TABBAR
 import { Tabbar } from './src/components'
@@ -91,6 +92,7 @@ const AppStack = () => (
     <Screen name='Feedback' component={Feedback} />
     <Screen name='Comments' component={Comments} />
     <Screen name='PdfView' component={PdfView} />
+    <Screen name='ReferralCode' component={ReferralCode} />
   </Navigator >
 );
 

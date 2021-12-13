@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
-import { RefreshControl, View, StatusBar, SafeAreaView, Image, TouchableOpacity, FlatList, ScrollView, Modal, ActivityIndicator, StyleSheet } from 'react-native';
+import { RefreshControl, View, StatusBar, SafeAreaView, Image, TouchableOpacity, FlatList, ScrollView, Modal, ActivityIndicator, StyleSheet, Alert } from 'react-native';
 
 //Components
 import { Header, Text as RNText, HomeBookItem } from '../components'
@@ -18,6 +18,7 @@ import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import Drawer from 'react-native-drawer'
 import Toast from 'react-native-simple-toast';
+import moment from 'moment';
 
 export default function Home({ navigation }) {
 
@@ -41,6 +42,7 @@ export default function Home({ navigation }) {
             await getAllBooks()
             await getRecentRead()
             await getMostRead()
+            checkReferralCode()
         }
         setLoading(false)
         if (isSubscribe == false) {
@@ -196,6 +198,129 @@ export default function Home({ navigation }) {
         else if (type == 'feed_back') {
             navigation.navigate('Feedback')
         }
+    }
+
+    const checkReferralCode = async () => {
+        firestore()
+            .collection('users')
+            .doc(user.email)
+            .onSnapshot(async (documentSnapshot) => {
+                setLoading(false)
+                let data = documentSnapshot.data()
+                if (data.isGetReferralBonus) {
+
+                }
+                else {
+                    firestore().collection('users')
+                        .where('used_referral_code', '==', data.referral_code)
+                        .get().then(querySnapshot => {
+                            var list = []
+                            querySnapshot.forEach(documentSnapshot => {
+                                var data = documentSnapshot.data()
+                                data.id = documentSnapshot.id
+                                list.push(data)
+                            });
+
+                            if (list.length >= 5) {
+                                checkCurrentSubscriotion()
+                            }
+                        })
+                }
+            })
+    }
+
+    const checkCurrentSubscriotion = () => {
+        firestore()
+            .collection('subscriber')
+            .doc(user.email)
+            .get()
+            .then(documentSnapshot => {
+                if (documentSnapshot.exists) {
+                    let subscription = documentSnapshot.data()
+                    addDaysToCurrentSubscription(subscription.expiryDate)
+                }
+                else {
+                    addDaysToUser()
+                }
+            }).catch((e) => {
+                Alert.alert('', e.message, [{
+                    text: getTranslation('ok'), onPress: () => {
+
+                    }
+                }])
+            })
+    }
+
+    const addDaysToCurrentSubscription = (expiry) => {
+        let date = moment(expiry, 'YYYY-MM-DD')
+        if (moment().isAfter(date)) {
+            addDaysToUser()
+        }
+        else {
+            let final = date.add(30, 'days').format('YYYY-MM-DD')
+            firestore()
+                .collection('subscriber')
+                .doc(user.email)
+                .set({
+                    productId: 'redeem_promo_code',
+                    transactionDate: moment().millisecond(),
+                    transactionId: '',
+                    transactionReceipt: '',
+                    expiryDate: final,
+                    email: user.email,
+                    device: Platform.OS
+                })
+                .then(async () => {
+                    successMessage()
+                }).catch((error) => {
+                    Alert.alert('', error.message, [{
+                        text: getTranslation('ok'), onPress: () => {
+
+                        }
+                    }])
+                });
+        }
+    }
+
+    const addDaysToUser = () => {
+        let date = moment().add(30, 'days').format('YYYY-MM-DD')
+        firestore()
+            .collection('subscriber')
+            .doc(user.email)
+            .set({
+                productId: 'redeem_promo_code',
+                transactionDate: moment().millisecond(),
+                transactionId: '',
+                transactionReceipt: '',
+                expiryDate: date,
+                email: user.email,
+                device: Platform.OS
+            })
+            .then(async () => {
+                successMessage()
+            }).catch((error) => {
+                Alert.alert('', error.message, [{
+                    text: getTranslation('ok'), onPress: () => {
+
+                    }
+                }])
+            });
+    }
+
+    const successMessage = () => {
+        firestore().collection('users')
+            .doc(user.email)
+            .update({
+                isGetReferralBonus: true
+            })
+
+        Alert.alert('Congratulations', 'Five and more users are signup using your referral code. you get one month free subscription', [
+            {
+                text: 'Ok', onPress: () => {
+
+                }
+            }
+        ])
     }
 
     return (

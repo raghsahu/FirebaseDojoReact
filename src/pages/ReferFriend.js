@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { View, StatusBar, SafeAreaView, Image, ScrollView, StyleSheet, TouchableOpacity, TextInput, Alert } from 'react-native';
 
 //Components
@@ -26,6 +26,28 @@ export default function ReferFriend({ navigation }) {
     const [selectedMenu, setSelectedMenu] = useState('Refer a Friend')
     const [isLoading, setLoading] = useState(false)
     const [redeemCode, setRedeemCode] = useState('')
+    const [referralCode, setReferralCode] = useState('')
+
+    useEffect(() => {
+        try {
+            firestore()
+                .collection('users')
+                .doc(user.email)
+                .onSnapshot(documentSnapshot => {
+                    setLoading(false)
+                    let data = documentSnapshot.data()
+                    setReferralCode(data.referral_code)
+                })
+        }
+        catch (e) {
+            Alert.alert('', e.message, [{
+                text: getTranslation('ok'), onPress: () => {
+
+                }
+            }])
+        }
+        return () => { }
+    }, [])
 
     const redeemPromoCode = () => {
         setLoading(true)
@@ -39,7 +61,7 @@ export default function ReferFriend({ navigation }) {
                         setLoading(false)
                         Alert.alert('', getTranslation('you_have_already_redeem_this_code'), [{
                             text: getTranslation('ok'), onPress: () => {
-                                
+
                             }
                         }])
                     }
@@ -50,7 +72,7 @@ export default function ReferFriend({ navigation }) {
                         setLoading(false)
                         Alert.alert('', getTranslation('please_enter_valid_code'), [{
                             text: getTranslation('ok'), onPress: () => {
-                                
+
                             }
                         }])
                     }
@@ -60,7 +82,7 @@ export default function ReferFriend({ navigation }) {
                     setLoading(false)
                     Alert.alert('', getTranslation('please_enter_valid_code'), [{
                         text: getTranslation('ok'), onPress: () => {
-                            
+
                         }
                     }])
                 }
@@ -68,7 +90,7 @@ export default function ReferFriend({ navigation }) {
                 setLoading(false)
                 Alert.alert('', getTranslation('please_enter_valid_code'), [{
                     text: getTranslation('ok'), onPress: () => {
-                        
+
                     }
                 }])
             })
@@ -91,7 +113,7 @@ export default function ReferFriend({ navigation }) {
                 setLoading(false)
                 Alert.alert('', e.message, [{
                     text: getTranslation('ok'), onPress: () => {
-                        
+
                     }
                 }])
             })
@@ -123,7 +145,7 @@ export default function ReferFriend({ navigation }) {
                     setLoading(false)
                     Alert.alert('', error.message, [{
                         text: getTranslation('ok'), onPress: () => {
-                           
+
                         }
                     }])
                 });
@@ -151,7 +173,7 @@ export default function ReferFriend({ navigation }) {
                 setLoading(false)
                 Alert.alert('', error.message, [{
                     text: getTranslation('ok'), onPress: () => {
-                        
+
                     }
                 }])
             });
@@ -238,12 +260,22 @@ export default function ReferFriend({ navigation }) {
                         color={COLORS.darkGray}>
                         {getTranslation("get_referal_subscription")}
                     </RNText>
+                    <View style={styles.codeView}>
+                        <RNText
+                            extraStyle={{ alignSelf: 'center'}}
+                            size={"17"}
+                            weight="400"
+                            align='center'
+                            color={COLORS.darkGray}>
+                            {referralCode}
+                        </RNText>
+                    </View>
                     <TouchableOpacity style={styles.subscribeButton}
                         onPress={() => {
                             let ios = "https://apps.apple.com/us/app/dojo-infographics/id1582858619"
                             let android = "https://play.google.com/store/apps/details?id=com.dojoinfographic"
 
-                            let msg = getTranslation('share_message') + `\nAndroid - ${android}\niOS - ${ios}.`
+                            let msg = getTranslation('share_message') + `\nAndroid - ${android}\niOS - ${ios}\n\nReferral Code - ${referralCode}.`
                             Share.open({
                                 message: msg
                             }).then((res) => {
@@ -337,4 +369,12 @@ const styles = StyleSheet.create({
         paddingHorizontal: 8,
         paddingVertical: 4
     },
+    codeView: {
+        height: 44,
+        width: 160,
+        alignSelf: 'center',
+        backgroundColor: 'rgba(235,235,235,1)',
+        borderRadius: 8,
+        justifyContent: 'center'
+    }
 })

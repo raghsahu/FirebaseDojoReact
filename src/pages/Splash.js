@@ -74,14 +74,13 @@ export default function Splash(props) {
     }
 
     const updateUser = async () => {
-        let user = auth().currentUser
         firestore()
             .collection('users')
             .doc(user.email)
             .get()
             .then(documentSnapshot => {
                 if (documentSnapshot.exists) {
-                    getSubscription()
+                    getSubscription(true)
                     firestore()
                         .collection('users')
                         .doc(user.email)
@@ -111,7 +110,8 @@ export default function Splash(props) {
                             dateAdded: firestore.FieldValue.serverTimestamp(),
                             dateUpdated: firestore.FieldValue.serverTimestamp(),
                             version: pkg.version,
-                            platform: Platform.OS
+                            platform: Platform.OS,
+                            referral_code: makeid(10)
                         })
                         .then(() => {
                             registerDevice()
@@ -119,7 +119,6 @@ export default function Splash(props) {
                             registerDevice()
                             console.log(error)
                         });
-
 
                     var date = moment().add(8, 'days').format('YYYY-MM-DD')
                     firestore()
@@ -135,28 +134,49 @@ export default function Splash(props) {
                             device: Platform.OS
                         })
                         .then(async () => {
-                            getSubscription()
-                            registerDevice()
+                            getSubscription(false)
                         }).catch((error) => {
                             console.log(error)
-                            registerDevice()
-                            getSubscription()
+                            getSubscription(false)
                         });
                 }
             })
     }
 
-    const getSubscription = () => {
+    function makeid(length) {
+        var result = '';
+        var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        var charactersLength = characters.length;
+        for (var i = 0; i < length; i++) {
+            result += characters.charAt(Math.floor(Math.random() *
+                charactersLength));
+        }
+        return result;
+    }
+
+    const getSubscription = (isRegister) => {
         getSubscriptionDetails((finished) => {
             setTimeout(() => {
-                props.navigation.dispatch(
-                    CommonActions.reset({
-                        index: 0,
-                        routes: [
-                            { name: 'Home' }
-                        ],
-                    })
-                );
+                if (isRegister == false) {
+                    props.navigation.dispatch(
+                        CommonActions.reset({
+                            index: 0,
+                            routes: [
+                                { name: 'ReferralCode' }
+                            ],
+                        })
+                    );
+                }
+                else {
+                    props.navigation.dispatch(
+                        CommonActions.reset({
+                            index: 0,
+                            routes: [
+                                { name: 'Home' }
+                            ],
+                        })
+                    );
+                }
             }, 1000);
         })
     }
@@ -257,7 +277,7 @@ export default function Splash(props) {
                 }).catch(error => {
                     Alert.alert("Permission Denied", error.message, [{
                         text: getTranslation('ok'), onPress: () => {
-                            
+
                         }
                     }])
                 })

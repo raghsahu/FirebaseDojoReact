@@ -35,7 +35,7 @@ export default function Subscription({ navigation }) {
     useEffect(async () => {
         mixPanelOnSubscribe({ "email": user.email })
         await RNIap.initConnection();
-
+     
         var purchaseUpdatedListener = RNIap.purchaseUpdatedListener((purchase) => {
             console.log("purchaseUpdatedListener", purchase)
             if (Platform.OS == 'ios') {
@@ -45,7 +45,6 @@ export default function Subscription({ navigation }) {
                 validateReceiptANDROID(purchase)
             }
         })
-
 
         var purchaseErrorSubscription = RNIap.purchaseErrorListener((error) => {
             setSubscriptionLoading(false)
@@ -141,7 +140,6 @@ export default function Subscription({ navigation }) {
                     });
             } catch (ackErr) {
                 setSubscriptionLoading(false)
-                    (false);
                 console.log('ackErr', ackErr);
             }
         }

@@ -79,7 +79,7 @@ export default function SelectLanguage(props) {
                         color={COLORS.black}>
                         {getTranslation('select_language_title')}
                     </Text>
-                    {/* <TouchableOpacity style={[styles.googleButton, {
+                    <TouchableOpacity style={[styles.googleButton, {
                         borderColor: selectedLanguage == 'en' ? COLORS.orange : 'rgba(0,0,0,0.3)'
                     }]}
                         onPress={() => {
@@ -93,7 +93,7 @@ export default function SelectLanguage(props) {
                             color={COLORS.darkGray}>
                             {'ENGLISH'}
                         </Text>
-                    </TouchableOpacity> */}
+                    </TouchableOpacity>
                     <TouchableOpacity style={[styles.googleButton, {
                         borderColor: selectedLanguage == 'id' ? COLORS.orange : 'rgba(0,0,0,0.3)'
                     }]}

@@ -35,6 +35,7 @@ export default function AllAuthors({ navigation, route }) {
         return () => { }
     }, [])
 
+
     useEffect(() => {
         var listener = EventRegister.addEventListener('liked_item_changed', () => {
             getLikesIds((ids) => { setLikedBooksID(ids) })
