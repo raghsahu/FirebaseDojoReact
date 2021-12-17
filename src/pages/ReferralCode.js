@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, StyleSheet, SafeAreaView, StatusBar, TextInput, TouchableOpacity, Image, Platform, Linking } from 'react-native'
+import { View, StyleSheet, SafeAreaView, ScrollView, StatusBar, TextInput, TouchableOpacity, Image, Platform, Linking } from 'react-native'
 
 //Components
 import { Header, Text, ProgressView } from '../components'
@@ -49,6 +49,7 @@ export default function ReferralCode({ route, navigation }) {
         <SafeAreaView style={styles.container}>
             <StatusBar barStyle={'dark-content'} backgroundColor={COLORS.white} />
             <Header backTitle={getTranslation('Redeem!')} type='simple' />
+            <ScrollView showsVerticalScrollIndicator={false}>
             <View style={[styles.container, { marginTop: 20 }]}>
                 <Image style={{ alignSelf: 'center', margin: 20 }}
                     source={IMAGES.referal_img} />
@@ -84,6 +85,7 @@ export default function ReferralCode({ route, navigation }) {
                     </Text>
                 </TouchableOpacity>
             </View>
+            </ScrollView>
         </SafeAreaView>
     )
 }
