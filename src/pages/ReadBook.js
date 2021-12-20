@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from 'react';
+import React, { useState, useRef, useContext, useEffect } from 'react';
 import { View, StyleSheet, SafeAreaView, StatusBar, ImageBackground, ScrollView, Dimensions, TouchableOpacity, Platform, Linking, Image as RNImage } from 'react-native'
 
 //Components
@@ -40,6 +40,7 @@ export default function ReadBook({ route, navigation }) {
     const [bookRating, setBookRating] = useState(0)
     const [summaryRating, setSummaryRating] = useState(0)
     const [infographicsRating, setInfographicRating] = useState(0)
+
 
     const handleScroll = (event) => {
         const positionX = event.nativeEvent.contentOffset.x;
@@ -236,7 +237,7 @@ export default function ReadBook({ route, navigation }) {
                     style={styles.container}
                     onScroll={handleScroll}>
                     {item.images.map((data, index) => {
-                        if (index >= 4 && isSubscribe == false) {
+                        if (index >= 4 && isSubscribe == false && !item.free_book_of_week) {
                             return (
                                 <View style={styles.imageView}>
                                     <Image
