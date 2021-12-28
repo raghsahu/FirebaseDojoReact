@@ -66,7 +66,7 @@ const TabItem = (props) => {
     )
 }
 
-const tabImages = [IMAGES.ic_tab_home, IMAGES.ic_tab_discover, IMAGES.ic_tab_library, IMAGES.ic_tab_summary]
+const tabImages = [IMAGES.ic_tab_home, IMAGES.ic_tab_discover, IMAGES.giftbox, IMAGES.ic_tab_library, IMAGES.ic_tab_summary]
 
 const styles = StyleSheet.create({
     container: {

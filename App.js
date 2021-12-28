@@ -57,6 +57,7 @@ const BottomBar = () => {
       tabBar={(props) => <Tabbar {...props} />}>
       <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="Discover" component={Discover} />
+      <Tab.Screen name="ReferFriend" component={ReferFriend} />
       <Tab.Screen name="Libray" component={Libray} />
       <Tab.Screen name="Summary" component={Summary} />
     </Tab.Navigator >

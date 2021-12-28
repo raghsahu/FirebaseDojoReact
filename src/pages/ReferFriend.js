@@ -205,7 +205,7 @@ export default function ReferFriend({ navigation }) {
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar barStyle={'dark-content'} backgroundColor={COLORS.white} />
-            <Header onBack={() => navigation.goBack()} />
+            {/* <Header onBack={() => navigation.goBack()} /> */}
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 20, marginVertical: 10 }}>
                 <View>
                     <RNText

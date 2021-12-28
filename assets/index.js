@@ -33,6 +33,7 @@ export const IMAGES = {
     comment: require('./comment.png'),
     share: require('./share.png'),
     content: require('./content.png'),
+    giftbox: require('./giftbox.png'),
 }
 
 export const COLORS = {
