@@ -57,34 +57,26 @@ export default function ReferFriend({ navigation }) {
             .then(documentSnapshot => {
                 if (documentSnapshot.exists) {
                     let item = documentSnapshot.data()
-                    if (item.isRedeem) {
-                        setLoading(false)
-                        Alert.alert('', getTranslation('you_have_already_redeem_this_code'), [{
-                            text: getTranslation('ok'), onPress: () => {
+                    if (item.code == redeemCode) {
+                        if (item.isRedeem) {
+                            setLoading(false)
+                            Alert.alert('', getTranslation('you_have_already_redeem_this_code'), [{
+                                text: getTranslation('ok'), onPress: () => {
 
-                            }
-                        }])
-                    }
-                    else if (item.code == redeemCode) {
-                        checkCurrentSubscriotion(item)
+                                }
+                            }])
+                        }
+                        else {
+                            checkCurrentSubscriotion(item, false)
+                        }
                     }
                     else {
-                        setLoading(false)
-                        Alert.alert('', getTranslation('please_enter_valid_code'), [{
-                            text: getTranslation('ok'), onPress: () => {
-
-                            }
-                        }])
+                        reedeemGenericPromocode()
                     }
                     console.log(item)
                 }
                 else {
-                    setLoading(false)
-                    Alert.alert('', getTranslation('please_enter_valid_code'), [{
-                        text: getTranslation('ok'), onPress: () => {
-
-                        }
-                    }])
+                    reedeemGenericPromocode()
                 }
             }).catch((e) => {
                 setLoading(false)
@@ -96,7 +88,45 @@ export default function ReferFriend({ navigation }) {
             })
     }
 
-    const checkCurrentSubscriotion = (item) => {
+    const reedeemGenericPromocode = async () => {
+        const codes = await firestore().collection('GenericCode')
+            .where('code', '==', redeemCode)
+            .get()
+
+        var list = []
+        codes.forEach(documentSnapshot => {
+            var data = documentSnapshot.data()
+            data.id = documentSnapshot.id
+            console.log(data)
+            list.push(data)
+        });
+
+        if (list.length > 0) {
+            let item = list[0]
+            if (item.emails && item.emails.includes(user.email)) {
+                setLoading(false)
+                Alert.alert('', getTranslation('you_have_already_redeem_this_code'), [{
+                    text: getTranslation('ok'), onPress: () => {
+
+                    }
+                }])
+            }
+            else {
+                setLoading(false)
+                checkCurrentSubscriotion(item, true)
+            }
+        }
+        else {
+            setLoading(false)
+            Alert.alert('', getTranslation('please_enter_valid_code'), [{
+                text: getTranslation('ok'), onPress: () => {
+
+                }
+            }])
+        }
+    }
+
+    const checkCurrentSubscriotion = (item, isFromGeneric) => {
         firestore()
             .collection('subscriber')
             .doc(user.email)
@@ -104,10 +134,10 @@ export default function ReferFriend({ navigation }) {
             .then(documentSnapshot => {
                 if (documentSnapshot.exists) {
                     let subscription = documentSnapshot.data()
-                    addDaysToCurrentSubscription(item, subscription.expiryDate)
+                    addDaysToCurrentSubscription(item, subscription.expiryDate, isFromGeneric)
                 }
                 else {
-                    addDaysToUser(item)
+                    addDaysToUser(item, isFromGeneric)
                 }
             }).catch((e) => {
                 setLoading(false)
@@ -119,7 +149,7 @@ export default function ReferFriend({ navigation }) {
             })
     }
 
-    const addDaysToCurrentSubscription = (item, expiry) => {
+    const addDaysToCurrentSubscription = (item, expiry, isFromGeneric) => {
         let date = moment(expiry, 'YYYY-MM-DD')
         if (moment().isAfter(date)) {
             addDaysToUser(item)
@@ -140,7 +170,7 @@ export default function ReferFriend({ navigation }) {
                 })
                 .then(async () => {
                     setLoading(false)
-                    successMessage()
+                    successMessage(item, isFromGeneric)
                 }).catch((error) => {
                     setLoading(false)
                     Alert.alert('', error.message, [{
@@ -152,7 +182,7 @@ export default function ReferFriend({ navigation }) {
         }
     }
 
-    const addDaysToUser = (item) => {
+    const addDaysToUser = (item, isFromGeneric) => {
         let date = moment().add(item.days, 'days').format('YYYY-MM-DD')
         firestore()
             .collection('subscriber')
@@ -168,7 +198,7 @@ export default function ReferFriend({ navigation }) {
             })
             .then(async () => {
                 setLoading(false)
-                successMessage()
+                successMessage(item, isFromGeneric)
             }).catch((error) => {
                 setLoading(false)
                 Alert.alert('', error.message, [{
@@ -179,15 +209,29 @@ export default function ReferFriend({ navigation }) {
             });
     }
 
-    const successMessage = () => {
+    const successMessage = (item, isFromGeneric) => {
         Alert.alert(getTranslation('congratulations'), getTranslation('your_redeem_code_was_successful'), [
             {
                 text: getTranslation('ok'), onPress: () => {
-                    firestore().collection('PromoCode')
-                        .doc(user.email)
-                        .update({
-                            isRedeem: true
-                        })
+                    if (isFromGeneric) {
+                        try {
+                            firestore().collection('GenericCode')
+                                .doc(item.id)
+                                .update({
+                                    emails: firestore.FieldValue.arrayUnion(user.email),
+                                })
+                        }
+                        catch (e) {
+                            console.log(e)
+                        }
+                    }
+                    else {
+                        firestore().collection('PromoCode')
+                            .doc(user.email)
+                            .update({
+                                isRedeem: true
+                            })
+                    }
 
                     navigation.dispatch(
                         CommonActions.reset({
@@ -262,7 +306,7 @@ export default function ReferFriend({ navigation }) {
                     </RNText>
                     <View style={styles.codeView}>
                         <RNText
-                            extraStyle={{ alignSelf: 'center'}}
+                            extraStyle={{ alignSelf: 'center' }}
                             size={"17"}
                             weight="400"
                             align='center'
