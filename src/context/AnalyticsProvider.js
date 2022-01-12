@@ -67,6 +67,16 @@ export const AnalyticsProvider = (props) => {
         analytics().logEvent('OnSelectLanguage', obj)
     }
 
+    const mixPanelOnReferAFriend = async (obj) => {
+        mixpanel.track('ReferFriend', obj)
+        analytics().logEvent('ReferFriend', obj)
+    }
+
+    const mixPanelOnBookEndReading = async (obj) => {
+        mixpanel.track('OnBookEndReading', obj)
+        analytics().logEvent('OnBookEndReading', obj)
+    }
+
     return (
         <AnalyticsContext.Provider
             value={{
@@ -78,7 +88,9 @@ export const AnalyticsProvider = (props) => {
                 mixPanelOnSubscribe,
                 mixPanelOnClickPurchase,
                 mixPanelOnSubscriptionComplete,
-                mixPanelOnLanguageChoose
+                mixPanelOnLanguageChoose,
+                mixPanelOnReferAFriend,
+                mixPanelOnBookEndReading
             }}>
             {props.children}
         </AnalyticsContext.Provider>

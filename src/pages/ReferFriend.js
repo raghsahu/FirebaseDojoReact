@@ -6,6 +6,7 @@ import { Header, Text as RNText, ProgressView } from '../components'
 
 //CONTEXT
 import { LocalizatiionContext } from '../context/LocalizatiionProvider';
+import { AnalyticsContext } from '../context/AnalyticsProvider';
 
 //IMAGES & COLORS
 import { IMAGES, COLORS } from '../../assets'
@@ -22,6 +23,7 @@ export default function ReferFriend({ navigation }) {
     const user = auth().currentUser;
 
     const { getTranslation } = useContext(LocalizatiionContext);
+    const { mixPanelOnReferAFriend } = useContext(AnalyticsContext);
 
     const [selectedMenu, setSelectedMenu] = useState('Refer a Friend')
     const [isLoading, setLoading] = useState(false)
@@ -323,6 +325,7 @@ export default function ReferFriend({ navigation }) {
                             Share.open({
                                 message: msg
                             }).then((res) => {
+                                mixPanelOnReferAFriend({ "email": user.email })
                                 console.log(res);
                             }).catch((err) => {
                                 err && console.log(err);

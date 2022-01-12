@@ -28,7 +28,7 @@ export default function ReadBook({ route, navigation }) {
     const user = auth().currentUser;
 
     const { isSubscribe } = useContext(APPContext);
-    const { mixPanelRateBook, mixPanelInAppRating } = useContext(AnalyticsContext);
+    const { mixPanelRateBook, mixPanelInAppRating, mixPanelOnBookEndReading } = useContext(AnalyticsContext);
     const { getTranslation } = useContext(LocalizatiionContext);
 
     var scrollRef = useRef(null)
@@ -41,6 +41,10 @@ export default function ReadBook({ route, navigation }) {
     const [summaryRating, setSummaryRating] = useState(0)
     const [infographicsRating, setInfographicRating] = useState(0)
 
+    const onBack = () => {
+        mixPanelOnBookEndReading({ book: item, lastPage: imageIndex + 1 })
+        navigation.goBack()
+    }
 
     const handleScroll = (event) => {
         const positionX = event.nativeEvent.contentOffset.x;
@@ -149,7 +153,13 @@ export default function ReadBook({ route, navigation }) {
             bookID: item.id,
             bookName: item.bookName
         }
-        mixPanelRateBook(obj)
+
+        try {
+            mixPanelRateBook(obj)
+        }
+        catch (e) {
+            alert(JSON.stringify(e))
+        }
 
         firestore()
             .collection(`feedback`)
@@ -226,7 +236,7 @@ export default function ReadBook({ route, navigation }) {
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar barStyle={'dark-content'} backgroundColor={COLORS.white} />
-            <Header onBack={() => navigation.goBack()} backTitle={isScrollEnable ? '' : getTranslation('write_review')} />
+            <Header onBack={onBack} backTitle={isScrollEnable ? '' : getTranslation('write_review')} />
             {item && item.images &&
                 <ScrollView
                     ref={scrollRef}
