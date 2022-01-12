@@ -44,47 +44,67 @@ export default function ReferralCode({ route, navigation }) {
             });
     }
 
+    const onSkip = () => {
+        navigation.dispatch(
+            CommonActions.reset({
+                index: 0,
+                routes: [
+                    { name: 'Home' }
+                ],
+            })
+        );
+    }
+
 
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar barStyle={'dark-content'} backgroundColor={COLORS.white} />
             <Header backTitle={getTranslation('Redeem!')} type='simple' />
             <ScrollView showsVerticalScrollIndicator={false}>
-            <View style={[styles.container, { marginTop: 20 }]}>
-                <Image style={{ alignSelf: 'center', margin: 20 }}
-                    source={IMAGES.referal_img} />
-                <Text
-                    extraStyle={{ alignSelf: 'center', margin: 20 }}
-                    size={"17"}
-                    weight="400"
-                    align='center'
-                    color={COLORS.darkGray}>
-                    {getTranslation('redeem_code')}
-                </Text>
-                <View style={styles.inputView}>
-                    <TextInput
-                        style={{ flex: 1.0, color: COLORS.grey, fontSize: 15 }}
-                        value={redeemCode}
-                        placeholder={getTranslation('Code')}
-                        placeholderTextColor={COLORS.grey}
-                        onChangeText={(text) => setRedeemCode(text)} />
-                </View>
-                <TouchableOpacity style={styles.subscribeButton}
-                    onPress={() => {
-                        if (redeemCode) {
-                            redeemPromoCode()
-                        }
-                    }}>
+                <View style={[styles.container, { marginTop: 20 }]}>
+                    <Image style={{ alignSelf: 'center', margin: 20 }}
+                        source={IMAGES.referal_img} />
                     <Text
-                        extraStyle={{ alignSelf: 'center' }}
-                        size="17"
-                        weight="600"
+                        extraStyle={{ alignSelf: 'center', margin: 20 }}
+                        size={"17"}
+                        weight="400"
                         align='center'
-                        color={COLORS.white}>
+                        color={COLORS.darkGray}>
                         {getTranslation('redeem_code')}
                     </Text>
-                </TouchableOpacity>
-            </View>
+                    <View style={styles.inputView}>
+                        <TextInput
+                            style={{ flex: 1.0, color: COLORS.grey, fontSize: 15 }}
+                            value={redeemCode}
+                            placeholder={getTranslation('Code')}
+                            placeholderTextColor={COLORS.grey}
+                            onChangeText={(text) => setRedeemCode(text)} />
+                    </View>
+                    <TouchableOpacity style={styles.subscribeButton}
+                        onPress={() => {
+                            if (redeemCode) {
+                                redeemPromoCode()
+                            }
+                        }}>
+                        <Text
+                            extraStyle={{ alignSelf: 'center' }}
+                            size="17"
+                            weight="600"
+                            align='center'
+                            color={COLORS.white}>
+                            {getTranslation('redeem_code')}
+                        </Text>
+                    </TouchableOpacity>
+                    <Text
+                        onPress={onSkip}
+                        extraStyle={{ alignSelf: 'center' }}
+                        size="14"
+                        weight="600"
+                        align='center'
+                        color={COLORS.orange}>
+                        {getTranslation('skip')}
+                    </Text>
+                </View>
             </ScrollView>
         </SafeAreaView>
     )
