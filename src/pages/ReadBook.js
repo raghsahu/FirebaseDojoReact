@@ -1,5 +1,5 @@
 import React, { useState, useRef, useContext, useEffect } from 'react';
-import { View, StyleSheet, SafeAreaView, StatusBar, ImageBackground, ScrollView, Dimensions, TouchableOpacity, Platform, Linking, Image as RNImage } from 'react-native'
+import { View, StyleSheet, SafeAreaView, StatusBar, ScrollView, Dimensions, TouchableOpacity, Platform, Linking, Image as RNImage } from 'react-native'
 
 //Components
 import { Header, Text, ProgressView } from '../components'
@@ -255,6 +255,7 @@ export default function ReadBook({ route, navigation }) {
                                         style={{ flex: 1.0 }}
                                         indicator={ProgressBar}
                                         source={data.url ? { uri: data.url } : ''}
+                                        resizeMode='contain'
                                         indicatorProps={{
                                             size: 80,
                                             borderWidth: 0,
@@ -299,6 +300,7 @@ export default function ReadBook({ route, navigation }) {
                                 key={index}
                                 style={styles.imageView}
                                 indicator={ProgressBar}
+                                resizeMode='contain'
                                 source={data.url ? { uri: data.url } : ''}
                                 indicatorProps={{
                                     size: 80,
