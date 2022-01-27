@@ -412,7 +412,9 @@ export default function ReadBook({ route, navigation }) {
                                     }, 100);
                                 }
                             }}>
-                            <Image style={{ height: 24, width: 24, alignSelf: 'center' }} source={IMAGES.back} />
+                            <Image style={{ height: 24, width: 24, alignSelf: 'center', backgroundColor: 'rgba(255,255,255,0.2)', borderRadius: 12 }}
+                                source={IMAGES.back}
+                                resizeMode='center' />
                         </TouchableOpacity>
                         :
                         <View />
@@ -433,7 +435,9 @@ export default function ReadBook({ route, navigation }) {
                                     }, 200);
                                 }
                             }}>
-                            <Image style={{ height: 24, width: 24, alignSelf: 'center' }} source={IMAGES.next} />
+                            <Image style={{ height: 24, width: 24, alignSelf: 'center', backgroundColor: 'rgba(255,255,255,0.2)', borderRadius: 12 }}
+                                source={IMAGES.next}
+                                resizeMode='center' />
                         </TouchableOpacity>
                         :
                         <View />
@@ -453,7 +457,6 @@ const styles = StyleSheet.create({
     },
     imageView: {
         width: Dimensions.get('window').width,
-        height: '100%',
     },
     rateView: {
         borderRadius: 5,
@@ -476,8 +479,10 @@ const styles = StyleSheet.create({
         position: 'absolute',
         left: 0,
         right: 0,
-        bottom: 20,
+        bottom: 0,
         alignSelf: 'center',
+        height: 60,
+        alignItems: 'center'
     },
     subscribeButton: {
         width: '80%',
