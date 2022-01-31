@@ -1,5 +1,5 @@
 import React, { useState, useRef, useContext, useEffect } from 'react';
-import { View, StyleSheet, SafeAreaView, StatusBar, ImageBackground, ScrollView, Dimensions, TouchableOpacity, Platform, Linking, Image as RNImage } from 'react-native'
+import { View, StyleSheet, SafeAreaView, StatusBar, ScrollView, Dimensions, TouchableOpacity, Platform, Linking, Image as RNImage } from 'react-native'
 
 //Components
 import { Header, Text, ProgressView } from '../components'
@@ -255,6 +255,7 @@ export default function ReadBook({ route, navigation }) {
                                         style={{ flex: 1.0 }}
                                         indicator={ProgressBar}
                                         source={data.url ? { uri: data.url } : ''}
+                                        resizeMode='contain'
                                         indicatorProps={{
                                             size: 80,
                                             borderWidth: 0,
@@ -299,6 +300,7 @@ export default function ReadBook({ route, navigation }) {
                                 key={index}
                                 style={styles.imageView}
                                 indicator={ProgressBar}
+                                resizeMode='contain'
                                 source={data.url ? { uri: data.url } : ''}
                                 indicatorProps={{
                                     size: 80,
@@ -410,7 +412,9 @@ export default function ReadBook({ route, navigation }) {
                                     }, 100);
                                 }
                             }}>
-                            <Image style={{ height: 24, width: 24, alignSelf: 'center' }} source={IMAGES.back} />
+                            <Image style={{ height: 24, width: 24, alignSelf: 'center', backgroundColor: 'rgba(255,255,255,0.2)', borderRadius: 12 }}
+                                source={IMAGES.back}
+                                resizeMode='center' />
                         </TouchableOpacity>
                         :
                         <View />
@@ -431,7 +435,9 @@ export default function ReadBook({ route, navigation }) {
                                     }, 200);
                                 }
                             }}>
-                            <Image style={{ height: 24, width: 24, alignSelf: 'center' }} source={IMAGES.next} />
+                            <Image style={{ height: 24, width: 24, alignSelf: 'center', backgroundColor: 'rgba(255,255,255,0.2)', borderRadius: 12 }}
+                                source={IMAGES.next}
+                                resizeMode='center' />
                         </TouchableOpacity>
                         :
                         <View />
@@ -451,7 +457,6 @@ const styles = StyleSheet.create({
     },
     imageView: {
         width: Dimensions.get('window').width,
-        height: '100%',
     },
     rateView: {
         borderRadius: 5,
@@ -474,8 +479,10 @@ const styles = StyleSheet.create({
         position: 'absolute',
         left: 0,
         right: 0,
-        bottom: 20,
+        bottom: 0,
         alignSelf: 'center',
+        height: 60,
+        alignItems: 'center'
     },
     subscribeButton: {
         width: '80%',
