@@ -99,5 +99,16 @@
     "This book is not available yet": "Ang aklat na ito ay hindi pa magagamit",
     "terms_condition_msg": "Sa pamamagitan ng pag-sign in, sumasang-ayon ka sa aming",
     "Terms and Conditions": "Mga Tuntunin at Kundisyon",
-    "skip": "Laktawan"
+    "skip": "Laktawan",
+    "Sign Up" : "Sign Up",
+    "gender": "Gender",
+    "male": "Male",
+    "female": "Female",
+    "city": "City",
+    "age": "Age",
+    "jon": "Job",
+    "email_address": "Email Address",
+    "please enter city":"please enter city",
+    "please enter age":"please enter age",
+    "please enter job":"please enter job"
   }

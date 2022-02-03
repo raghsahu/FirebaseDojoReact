@@ -99,7 +99,16 @@
     "This book is not available yet": "This book is not available yet",
     "terms_condition_msg": "By signing in, you agree to our",
     "Terms and Conditions": "Terms and Conditions",
-    "skip": "Skip"
+    "skip": "Skip",
+    "Sign Up": "Sign Up",
+    "gender": "Gender",
+    "male": "Male",
+    "female": "Female",
+    "city": "City",
+    "age": "Age",
+    "jon": "Job",
+    "email_address": "Email Address",
+    "please enter city":"please enter city",
+    "please enter age":"please enter age",
+    "please enter job":"please enter job"
 }
-
-

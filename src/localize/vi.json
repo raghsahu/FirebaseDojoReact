@@ -99,5 +99,16 @@
     "This book is not available yet": "Cuốn sách này chưa có sẵn",
     "terms_condition_msg": "Bằng cách đăng nhập, bạn đồng ý với",
     "Terms and Conditions": "Các điều khoản và điều kiện",
-    "skip": "Nhảy"
+    "skip": "Nhảy",
+    "Sign Up" : "Sign Up",
+    "gender": "Gender",
+    "male": "Male",
+    "female": "Female",
+    "city": "City",
+    "age": "Age",
+    "jon": "Job",
+    "email_address": "Email Address",
+    "please enter city":"please enter city",
+    "please enter age":"please enter age",
+    "please enter job":"please enter job"
   }

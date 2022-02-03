@@ -99,5 +99,16 @@
     "This book is not available yet": "Buku ini belum tersedia",
     "terms_condition_msg": "Dengan melog masuk, anda bersetuju dengan kami",
     "Terms and Conditions": "Terma dan syarat",
-    "skip": "Mifohaza"
+    "skip": "Mifohaza",
+    "Sign Up" : "Sign Up",
+    "gender": "Gender",
+    "male": "Male",
+    "female": "Female",
+    "city": "City",
+    "age": "Age",
+    "jon": "Job",
+    "email_address": "Email Address",
+    "please enter city":"please enter city",
+    "please enter age":"please enter age",
+    "please enter job":"please enter job"
 }
