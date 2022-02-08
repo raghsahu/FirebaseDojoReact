@@ -29,7 +29,6 @@ export default function Signin(props) {
         GoogleSignin.configure({
             webClientId: '315915655813-mmjmv3rqem2so7huqpj2hmn9uacopsbq.apps.googleusercontent.com',
             offlineAccess: false,
-            scopes: ['https://www.googleapis.com/auth/androidpublisher']
         });
     }, []);
 
