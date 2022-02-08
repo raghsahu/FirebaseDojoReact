@@ -26,6 +26,10 @@ export const AnalyticsProvider = (props) => {
         analytics().logEvent('SiginIn', { "email": googleUser.email })
     }
 
+    const mixPanelSignUp = async (obj) => {
+        mixpanel.track('SignUpDetails', obj)
+        analytics().logEvent('SignUpDetails', obj)
+    }
 
     const mixPanelOpenBookDetails = async (obj) => {
         mixpanel.track('OpenBookDetails', obj)
@@ -90,7 +94,8 @@ export const AnalyticsProvider = (props) => {
                 mixPanelOnSubscriptionComplete,
                 mixPanelOnLanguageChoose,
                 mixPanelOnReferAFriend,
-                mixPanelOnBookEndReading
+                mixPanelOnBookEndReading,
+                mixPanelSignUp
             }}>
             {props.children}
         </AnalyticsContext.Provider>

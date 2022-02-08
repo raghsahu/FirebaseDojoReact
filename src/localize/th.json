@@ -99,5 +99,16 @@
     "This book is not available yet": "หนังสือเล่มนี้ยังไม่มีจำหน่าย",
     "terms_condition_msg": "การลงชื่อเข้าใช้แสดงว่าคุณยอมรับ",
     "Terms and Conditions": "ข้อกำหนดและเงื่อนไข",
-    "skip": "ข้าม"
+    "skip": "ข้าม",
+    "Sign Up": "ลงชื่อ",
+    "gender": "เพศ",
+    "male": "ชาย",
+    "female": "หญิง",
+    "city": "เมือง",
+    "age": "อายุ",
+    "jon": "งาน",
+    "email_address": "ที่อยู่อีเมล",
+    "please enter city": "กรุณาเข้าเมือง",
+    "please enter age": "กรุณากรอกอายุ",
+    "please enter job": "กรุณาเข้างาน"
 }

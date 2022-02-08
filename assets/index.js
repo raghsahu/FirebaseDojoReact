@@ -34,6 +34,9 @@ export const IMAGES = {
     share: require('./share.png'),
     content: require('./content.png'),
     giftbox: require('./giftbox.png'),
+    radio_unfill: require('./radio_unfill.png'),
+    radio_fill: require('./radio_fill.png'),
+
 }
 
 export const COLORS = {

@@ -41,9 +41,11 @@ import Feedback from './src/pages/Feedback';
 import Comments from './src/pages/Comments';
 import PdfView from './src/pages/PdfView';
 import ReferralCode from './src/pages/ReferralCode'
+import SignUp from './src/pages/SignUp';
 
 //TABBAR
 import { Tabbar } from './src/components'
+import { ScrollView } from 'react-native-gesture-handler';
 
 const { Navigator, Screen } = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -107,6 +109,7 @@ const AuthStack = () => (
     <Screen name='SelectLanguage' component={SelectLanguage} />
     <Screen name='SignIn' component={SignIn} />
     <Screen name='Webview' component={Webview} />
+    <Screen name='SignUp' component={SignUp} />
   </Navigator>
 );
 
