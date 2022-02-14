@@ -23,6 +23,8 @@ import { BlurView } from "@react-native-community/blur";
 import Image from 'react-native-image-progress';
 import ProgressBar from 'react-native-progress/Bar';
 
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
 export default function ReadBook({ route, navigation }) {
     const item = route.params.item
     const user = auth().currentUser;
@@ -32,6 +34,9 @@ export default function ReadBook({ route, navigation }) {
     const { getTranslation } = useContext(LocalizatiionContext);
 
     var scrollRef = useRef(null)
+    const insert = useSafeAreaInsets()
+    const headerHeight = Platform.OS == 'ios' ? 44 : (54 + StatusBar.currentHeight)
+    const imageHeight = Dimensions.get('screen').height - insert.bottom - headerHeight
 
     const [isLoading, setLoading] = useState(false)
     const [isScrollEnable, setScrollEnable] = useState(true)
@@ -47,13 +52,13 @@ export default function ReadBook({ route, navigation }) {
     }
 
     const handleScroll = (event) => {
-        const positionX = event.nativeEvent.contentOffset.x;
+        const positionY = event.nativeEvent.contentOffset.y;
         if (item.images && item.images.length > 0) {
-            let width = Dimensions.get('window').width * item.images.length
-            let index = positionX / Dimensions.get('window').width
-            console.log(width, positionX)
+            let height = imageHeight * item.images.length
+            let index = positionY / imageHeight
+            console.log(height, positionY)
             setImageIndex(Math.round(index))
-            if (Math.round(positionX) >= Math.round(width)) {
+            if (Math.round(positionY) >= Math.round(height)) {
                 firestore().collection('readingCompleted')
                     .doc(user.email)
                     .collection('books')
@@ -239,8 +244,8 @@ export default function ReadBook({ route, navigation }) {
             <Header onBack={onBack} backTitle={isScrollEnable ? '' : getTranslation('write_review')} />
             {item && item.images &&
                 <ScrollView
+                    style={{ height: imageHeight }}
                     ref={scrollRef}
-                    horizontal
                     pagingEnabled
                     bounces={false}
                     scrollEnabled={isScrollEnable}
@@ -249,7 +254,9 @@ export default function ReadBook({ route, navigation }) {
                     {item.images.map((data, index) => {
                         if (index >= 4 && isSubscribe == false && !item.free_book_of_week) {
                             return (
-                                <View style={styles.imageView}>
+                                <View style={[styles.imageView, {
+                                    height: imageHeight,
+                                }]}>
                                     <Image
                                         key={index}
                                         style={{ flex: 1.0 }}
@@ -296,23 +303,32 @@ export default function ReadBook({ route, navigation }) {
                         }
 
                         return (
-                            <Image
-                                key={index}
-                                style={styles.imageView}
-                                indicator={ProgressBar}
-                                resizeMode='contain'
-                                source={data.url ? { uri: data.url } : ''}
-                                indicatorProps={{
-                                    size: 80,
-                                    borderWidth: 0,
-                                    color: COLORS.orange,
-                                    unfilledColor: 'rgba(200, 200, 200, 0.2)'
-                                }}>
-                            </Image>
+                            <View style={[styles.imageView, {
+                                height: imageHeight,
+                            }]}>
+                                <Image
+                                    key={index}
+                                    style={[styles.imageView, {
+                                        height: imageHeight,
+                                    }]}
+                                    indicator={ProgressBar}
+                                    resizeMode='contain'
+                                    source={data.url ? { uri: data.url } : ''}
+                                    indicatorProps={{
+                                        size: 80,
+                                        borderWidth: 0,
+                                        color: COLORS.orange,
+                                        unfilledColor: 'rgba(200, 200, 200, 0.2)'
+                                    }}>
+                                </Image>
+                            </View>
                         )
                     })}
+
                     {isSubscribe == true &&
-                        <View style={styles.imageView}>
+                        <View style={[styles.imageView, {
+                            height: imageHeight,
+                        }]}>
                             <Text
                                 extraStyle={{ margin: 20 }}
                                 size={"16"}
@@ -394,7 +410,7 @@ export default function ReadBook({ route, navigation }) {
                     }
                 </ScrollView>
             }
-            {isScrollEnable == true &&
+            {/* {isScrollEnable == true &&
                 <View style={[styles.topViewItems, { flexDirection: 'row', justifyContent: 'space-between' }]}>
                     {imageIndex != 0 ?
                         <TouchableOpacity style={{ height: 40, width: 40, alignSelf: 'center' }}
@@ -403,7 +419,7 @@ export default function ReadBook({ route, navigation }) {
                                     setDisableScroll(true)
                                     let index = imageIndex - 1
                                     if (index >= 0) {
-                                        let x = index * Dimensions.get('window').width
+                                        let x = index * imageHeight
                                         scrollRef.current.scrollTo({ x: x, animated: true })
                                     }
 
@@ -426,7 +442,7 @@ export default function ReadBook({ route, navigation }) {
                                     setDisableScroll(true)
                                     let index = imageIndex + 1
                                     if (index >= 0) {
-                                        let x = index * Dimensions.get('window').width
+                                        let x = index * imageHeight
                                         scrollRef.current.scrollTo({ x: x, animated: true })
                                     }
 
@@ -443,7 +459,7 @@ export default function ReadBook({ route, navigation }) {
                         <View />
                     }
                 </View>
-            }
+            } */}
             {isLoading && <ProgressView />}
         </SafeAreaView>
     )
