@@ -35,8 +35,12 @@ export default function ReadBook({ route, navigation }) {
 
     var scrollRef = useRef(null)
     const insert = useSafeAreaInsets()
+    const screenHeight = Dimensions.get('screen').height;
+    const windowHeight = Dimensions.get('window').height;
+    const navbarHeight = screenHeight - windowHeight - StatusBar.currentHeight;
+
     const headerHeight = Platform.OS == 'ios' ? 44 : (54 + StatusBar.currentHeight)
-    const imageHeight = Dimensions.get('screen').height - insert.bottom - headerHeight
+    const imageHeight = screenHeight - navbarHeight - headerHeight
 
     const [isLoading, setLoading] = useState(false)
     const [isScrollEnable, setScrollEnable] = useState(true)
@@ -56,7 +60,8 @@ export default function ReadBook({ route, navigation }) {
         if (item.images && item.images.length > 0) {
             let height = imageHeight * item.images.length
             let index = positionY / imageHeight
-            console.log(height, positionY)
+           // console.log(height, positionY)
+          // console.log("navbarHeight "+ navbarHeight, windowHeight)
             setImageIndex(Math.round(index))
             if (Math.round(positionY) >= Math.round(height)) {
                 firestore().collection('readingCompleted')
@@ -250,8 +255,10 @@ export default function ReadBook({ route, navigation }) {
                     bounces={false}
                     scrollEnabled={isScrollEnable}
                     style={styles.container}
-                    onScroll={handleScroll}>
+                    onScroll={handleScroll}
+                    >
                     {item.images.map((data, index) => {
+                      //  console.log('read_boos_item '+ data.url)
                         if (index >= 4 && isSubscribe == false && !item.free_book_of_week) {
                             return (
                                 <View style={[styles.imageView, {
@@ -262,7 +269,7 @@ export default function ReadBook({ route, navigation }) {
                                         style={{ flex: 1.0 }}
                                         indicator={ProgressBar}
                                         source={data.url ? { uri: data.url } : ''}
-                                        resizeMode='contain'
+                                       // resizeMode='contain'
                                         indicatorProps={{
                                             size: 80,
                                             borderWidth: 0,
@@ -305,14 +312,16 @@ export default function ReadBook({ route, navigation }) {
                         return (
                             <View style={[styles.imageView, {
                                 height: imageHeight,
+                                
                             }]}>
                                 <Image
                                     key={index}
-                                    style={[styles.imageView, {
-                                        height: imageHeight,
+                                    style= 
+                                    {[styles.imageView, {
+                                       height: imageHeight,
                                     }]}
                                     indicator={ProgressBar}
-                                    resizeMode='contain'
+                                   // resizeMode='contain'
                                     source={data.url ? { uri: data.url } : ''}
                                     indicatorProps={{
                                         size: 80,
