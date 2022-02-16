@@ -77,6 +77,9 @@ export default function Subscription({ navigation }) {
         if (purchase.productId == 'dojo_monthly_subscription') {
             date = moment().add(31, 'days').format('YYYY-MM-DD')
         }
+        else if (purchase.productId == 'dojo_six_month_subscription') {
+            date = moment().add(180, 'days').format('YYYY-MM-DD')
+        }
         else {
             date = moment().add(1, 'years').format('YYYY-MM-DD')
         }
@@ -112,6 +115,9 @@ export default function Subscription({ navigation }) {
                 var date = ''
                 if (purchase.productId == 'dojo_monthly_subscription') {
                     date = moment().add(31, 'days').format('YYYY-MM-DD')
+                }
+                else if (purchase.productId == 'dojo_six_month_subscription') {
+                    date = moment().add(180, 'days').format('YYYY-MM-DD')
                 }
                 else {
                     date = moment().add(1, 'years').format('YYYY-MM-DD')

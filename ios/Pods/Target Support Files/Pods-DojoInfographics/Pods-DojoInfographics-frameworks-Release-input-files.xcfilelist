@@ -1,3 +1,2 @@
 ${PODS_ROOT}/Target Support Files/Pods-DojoInfographics/Pods-DojoInfographics-frameworks.sh
-${PODS_XCFRAMEWORKS_BUILD_DIR}/FBSDKCoreKit_Basics/FBSDKCoreKit_Basics.framework/FBSDKCoreKit_Basics
 ${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL-Universal/OpenSSL.framework/OpenSSL

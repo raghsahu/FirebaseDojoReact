@@ -31,6 +31,9 @@ export default function MySubscription({ navigation }) {
         if (id == 'dojo_monthly_subscription') {
             return getTranslation("monthly_subscription")
         }
+        else if (id == 'dojo_six_month_subscription') {
+            return getTranslation("Monthly Subscription")
+        }
         else if (id == 'dojo_yearly_subscription') {
             return getTranslation("yearly_subscription")
         }
