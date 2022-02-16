@@ -17,9 +17,7 @@ import { IMAGES, COLORS } from '../../assets'
 import auth from '@react-native-firebase/auth';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { appleAuth, AppleButton } from '@invertase/react-native-apple-authentication';
-import { acknowledgePurchaseAndroid } from 'react-native-iap';
-import firestore from '@react-native-firebase/firestore';
-
+ 
 export default function Signin(props) {
 
     let [isLoading, setLoading] = useState(false);
@@ -36,42 +34,13 @@ export default function Signin(props) {
 
 
     const onPressGoogleLogin = async () => {
-        // try {
-        //     const { idToken } = await GoogleSignin.signIn();
-        //     setLoading(true);
-        //     const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-        //     await auth().signInWithCredential(googleCredential);
-        //     let user = auth().currentUser
-        //     // props.navigation.navigate('SignUp', {
-        //     //     user: user
-        //     // })
-        //     mixPanelSignin(user)
-        // } catch (error) {
-        //     console.log(error)
-        // }
-
         try {
-            await GoogleSignin.signOut();
-            await GoogleSignin.hasPlayServices();
-            const userInfo = await GoogleSignin.signIn();
-
-            firestore()
-                .collection('users')
-                .doc(userInfo.user.email)
-                .onSnapshot(async (documentSnapshot) => {
-                    if (documentSnapshot._exists) {
-                        setLoading(true);
-                        const googleCredential = auth.GoogleAuthProvider.credential(userInfo.idToken);
-                        await auth().signInWithCredential(googleCredential);
-                        let user = auth().currentUser
-                        mixPanelSignin(user)
-                    } else {
-                        props.navigation.navigate('SignUp', {
-                            userInfo: userInfo
-                        })
-                    }
-                })
-
+            const { idToken } = await GoogleSignin.signIn();
+            setLoading(true); 
+            const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+            await auth().signInWithCredential(googleCredential);
+            let user = auth().currentUser
+            mixPanelSignin(user)
         } catch (error) {
             console.log(error)
         }
