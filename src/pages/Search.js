@@ -35,6 +35,15 @@ export default function Search({ navigation }) {
         return () => { }
     }, [])
 
+      useEffect(() => {
+        var listener = EventRegister.addEventListener('liked_item_changed', () => {
+            getLikesIds((ids) => { setLikedBooksID(ids) })
+        })
+        return () => {
+            EventRegister.removeEventListener(listener)
+        }
+    }, [])
+
     useEffect(async () => {
         getAllBooks()
         return () => { }
@@ -44,6 +53,7 @@ export default function Search({ navigation }) {
         try {
             const books = await firestore()
                 .collection('books')
+               // .where('language', '==', global.languageName)
                 .orderBy('bookName')
                 .startAt(search)
                 .endAt(search + "\uf8ff")
@@ -52,13 +62,16 @@ export default function Search({ navigation }) {
             books.forEach(documentSnapshot => {
                 var data = documentSnapshot.data()
                 data.id = documentSnapshot.id
+                if (global.languageName == data.language) {
                 console.log(data.id)
                 list.push(data)
+                }
             });
             console.log(list)
             setLoading(false)
             setError('')
             setBook(list)
+
         }
         catch (e) {
             setLoading(false)

@@ -19,6 +19,7 @@ import * as RNIap from 'react-native-iap';
 import moment from 'moment';
 import { CommonActions } from '@react-navigation/native';
 import Toast from 'react-native-simple-toast';
+import parseErrorStack from 'react-native/Libraries/Core/Devtools/parseErrorStack';
 
 export default function Subscription({ navigation }) {
     const user = auth().currentUser;
@@ -28,6 +29,11 @@ export default function Subscription({ navigation }) {
     const { getTranslation } = useContext(LocalizatiionContext);
 
     const [isMonthly, setMonthly] = useState(true)
+    const [is6Month, setSixMonth] = useState(false)
+    const [isAnnual, setAnnual] = useState(false)
+
+    const [selectedIndex, setSelectedIndex] = useState(0)
+
     const [isLoading, setLoading] = useState(false)
     const [isSubscriptionLoading, setSubscriptionLoading] = useState(false)
     const [isAlert, setAlert] = useState(false)
@@ -35,7 +41,7 @@ export default function Subscription({ navigation }) {
     useEffect(async () => {
         mixPanelOnSubscribe({ "email": user.email })
         await RNIap.initConnection();
-     
+
         var purchaseUpdatedListener = RNIap.purchaseUpdatedListener((purchase) => {
             console.log("purchaseUpdatedListener", purchase)
             if (Platform.OS == 'ios') {
@@ -51,7 +57,7 @@ export default function Subscription({ navigation }) {
             if (error.code != "E_USER_CANCELLED") {
                 Alert.alert('', error.message, [{
                     text: getTranslation('ok'), onPress: () => {
-                       
+
                     }
                 }])
             }
@@ -96,7 +102,7 @@ export default function Subscription({ navigation }) {
                 }
             }).catch((error) => {
                 setSubscriptionLoading(false)
-                Toast.show(error.message); 
+                Toast.show(error.message);
             });
     }
 
@@ -134,7 +140,7 @@ export default function Subscription({ navigation }) {
                         setSubscriptionLoading(false)
                         Alert.alert('', error.message, [{
                             text: getTranslation('ok'), onPress: () => {
-                                
+
                             }
                         }])
                     });
@@ -171,7 +177,7 @@ export default function Subscription({ navigation }) {
                 "email": user.email,
                 "id": sku
             })
-    
+
             setSubscriptionLoading(true)
             await RNIap.getProducts([sku])
             RNIap.requestPurchase(sku, false);
@@ -209,15 +215,17 @@ export default function Subscription({ navigation }) {
                         {getTranslation("choose_your_plan")}
                     </Text>
                     <View style={styles.priceContainer}>
-                        <TouchableOpacity style={[styles.priceView, { borderWidth: isMonthly ? 1 : 0 }]}
-                            onPress={() => setMonthly(true)}>
+                        <TouchableOpacity style={[selectedIndex == 0 ? styles.priceSelected : styles.priceView, { marginRight: 8 }]}
+                            onPress={() => {
+                                setSelectedIndex(0)
+                            }}>
                             <Text
                                 extraStyle={{ alignSelf: 'center' }}
                                 size={"17"}
                                 weight="600"
                                 align='center'
                                 color={COLORS.darkGray}>
-                                {"Rp 99 000"}
+                                {"Rp 49 000"}
                             </Text>
                             <Text
                                 extraStyle={{ alignSelf: 'center', marginTop: 5 }}
@@ -228,8 +236,31 @@ export default function Subscription({ navigation }) {
                                 {getTranslation('monthly_subscription')}
                             </Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={[styles.priceView, { borderWidth: isMonthly ? 0 : 1 }]}
-                            onPress={() => setMonthly(false)}>
+                        <TouchableOpacity style={[selectedIndex == 1 ? styles.priceSelected : styles.priceView]}
+                            onPress={() => {
+                                setSelectedIndex(1)
+                            }}>
+                            <Text
+                                extraStyle={{ alignSelf: 'center' }}
+                                size={"17"}
+                                weight="600"
+                                align='center'
+                                color={COLORS.darkGray}>
+                                {"Rp 189 000"}
+                            </Text>
+                            <Text
+                                extraStyle={{ alignSelf: 'center', marginTop: 5 }}
+                                size={"14"}
+                                weight="400"
+                                align='center'
+                                color={COLORS.darkGray}>
+                                {getTranslation("Monthly Subscription")}
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={[selectedIndex == 2 ? styles.priceSelected : styles.priceView, { marginLeft: 8 }]}
+                            onPress={() => {
+                                setSelectedIndex(2)
+                            }}>
                             <Text
                                 extraStyle={{ alignSelf: 'center' }}
                                 size={"17"}
@@ -250,12 +281,16 @@ export default function Subscription({ navigation }) {
                     </View>
                     <TouchableOpacity style={styles.subscribeButton}
                         onPress={() => {
-                            if (isMonthly == true) {
+                            if (selectedIndex == 0) {
                                 requestPurchase('dojo_monthly_subscription')
                             }
-                            else {
+                            else if (selectedIndex == 1) {
+                                requestPurchase('dojo_six_month_subscription')
+                            }
+                            else if (selectedIndex == 2) {
                                 requestPurchase('dojo_yearly_subscription')
                             }
+
                         }}>
                         <Text
                             extraStyle={{ alignSelf: 'center' }}
@@ -285,7 +320,7 @@ const styles = StyleSheet.create({
         marginVertical: 20
     },
     priceView: {
-        width: '43%',
+        flex: 1.0,
         aspectRatio: 1,
         borderColor: COLORS.orange,
         borderRadius: 10,
@@ -297,6 +332,21 @@ const styles = StyleSheet.create({
         padding: 10,
         backgroundColor: '#fff',
         justifyContent: 'center'
+    },
+    priceSelected: {
+        flex: 1.0,
+        aspectRatio: 1,
+        borderColor: COLORS.orange,
+        borderRadius: 10,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 0 },
+        shadowRadius: 3,
+        shadowOpacity: 0.1,
+        elevation: 3,
+        padding: 10,
+        backgroundColor: '#fff',
+        justifyContent: 'center',
+        borderWidth: 1
     },
     subscribeButton: {
         width: '80%',

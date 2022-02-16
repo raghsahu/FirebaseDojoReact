@@ -37,7 +37,7 @@ export default function Splash(props) {
         Settings.setAppID('863515477696281');
         Settings.initializeSDK();
         getUserLanguage((res) => {
-            setI18nConfig('en')
+            setI18nConfig(res)
             checkAndUpdate()
             setLoading(false)
         })

@@ -30,7 +30,7 @@ export default function AuthorsBooks({ navigation, route }) {
     const [LikedBooksID, setLikedBooksID] = useState([])
     const [search, setSearchText] = useState('')
 
-    useEffect(async () => {
+    useEffect(async () => {        
         getAllBooks()
         getLikesIds((ids) => { setLikedBooksID(ids) })
         return () => { }

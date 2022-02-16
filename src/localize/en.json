@@ -108,7 +108,8 @@
     "age": "Age",
     "jon": "Job",
     "email_address": "Email Address",
-    "please enter city":"please enter city",
-    "please enter age":"please enter age",
-    "please enter job":"please enter job"
+    "please enter city": "please enter city",
+    "please enter age": "please enter age",
+    "please enter job": "please enter job",
+    "Monthly Subscription": "6 Month Subscription"
 }
