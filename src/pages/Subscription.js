@@ -227,7 +227,7 @@ export default function Subscription({ navigation }) {
                             }}>
                             <Text
                                 extraStyle={{ alignSelf: 'center' }}
-                                size={"17"}
+                                size={"15"}
                                 weight="600"
                                 align='center'
                                 color={COLORS.darkGray}>
@@ -235,7 +235,7 @@ export default function Subscription({ navigation }) {
                             </Text>
                             <Text
                                 extraStyle={{ alignSelf: 'center', marginTop: 5 }}
-                                size={"14"}
+                                size={"13"}
                                 weight="400"
                                 align='center'
                                 color={COLORS.darkGray}>
@@ -248,7 +248,7 @@ export default function Subscription({ navigation }) {
                             }}>
                             <Text
                                 extraStyle={{ alignSelf: 'center' }}
-                                size={"17"}
+                                size={"15"}
                                 weight="600"
                                 align='center'
                                 color={COLORS.darkGray}>
@@ -256,7 +256,7 @@ export default function Subscription({ navigation }) {
                             </Text>
                             <Text
                                 extraStyle={{ alignSelf: 'center', marginTop: 5 }}
-                                size={"14"}
+                                size={"13"}
                                 weight="400"
                                 align='center'
                                 color={COLORS.darkGray}>
@@ -269,7 +269,7 @@ export default function Subscription({ navigation }) {
                             }}>
                             <Text
                                 extraStyle={{ alignSelf: 'center' }}
-                                size={"17"}
+                                size={"15"}
                                 weight="600"
                                 align='center'
                                 color={COLORS.darkGray}>
@@ -277,7 +277,7 @@ export default function Subscription({ navigation }) {
                             </Text>
                             <Text
                                 extraStyle={{ alignSelf: 'center', marginTop: 5 }}
-                                size={"14"}
+                                size={"13"}
                                 weight="400"
                                 align='center'
                                 color={COLORS.darkGray}>

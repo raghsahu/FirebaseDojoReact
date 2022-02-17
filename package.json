@@ -36,7 +36,6 @@
     "npm": "^7.24.0",
     "react": "17.0.2",
     "react-native": "0.65.1",
-    "react-native-blob-util": "^0.13.18",
     "react-native-drawer": "^2.5.1",
     "react-native-event-listeners": "^1.0.7",
     "react-native-facebook-audience-network": "^0.1.2",
