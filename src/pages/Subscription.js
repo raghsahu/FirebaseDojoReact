@@ -25,7 +25,9 @@ export default function Subscription({ navigation }) {
     const user = auth().currentUser;
 
     const { getSubscriptionDetails } = useContext(APPContext);
-    const { mixPanelOnSubscribe, mixPanelOnClickPurchase, mixPanelOnSubscriptionComplete } = useContext(AnalyticsContext);
+    const { mixPanelOnSubscribe, mixPanelOnClickPurchaseMonthly, mixPanelOnClickPurchaseSixMonth, 
+    mixPanelOnClickPurchaseYearly, mixPanelOnSubscriptionCompleteMonth, mixPanelOnSubscriptionCompleteSixMonth,
+     mixPanelOnSubscriptionCompleteYearly } = useContext(AnalyticsContext);
     const { getTranslation } = useContext(LocalizatiionContext);
 
     const [isMonthly, setMonthly] = useState(true)
@@ -101,7 +103,16 @@ export default function Subscription({ navigation }) {
                 setSubscriptionLoading(false);
                 if (isAlert == false) {
                     setAlert(true)
-                    mixPanelOnSubscriptionComplete(purchase)
+                   
+                    if (purchase.productId == 'dojo_monthly_subscription') {
+                         mixPanelOnSubscriptionCompleteMonth(purchase)
+                    }
+                    else if (purchase.productId == 'dojo_six_month_subscription') {
+                         mixPanelOnSubscriptionCompleteSixMonth(purchase)
+                    }
+                    else {
+                         mixPanelOnSubscriptionCompleteYearly(purchase)
+                    }
                 }
             }).catch((error) => {
                 setSubscriptionLoading(false)
@@ -140,7 +151,15 @@ export default function Subscription({ navigation }) {
                         setSubscriptionLoading(false);
                         if (isAlert == false) {
                             setAlert(true)
-                            mixPanelOnSubscriptionComplete(purchase)
+                            if (purchase.productId == 'dojo_monthly_subscription') {
+                                mixPanelOnSubscriptionCompleteMonth(purchase)
+                            }
+                            else if (purchase.productId == 'dojo_six_month_subscription') {
+                                mixPanelOnSubscriptionCompleteSixMonth(purchase)
+                            }
+                            else {
+                                mixPanelOnSubscriptionCompleteYearly(purchase)
+                            }
                         }
                     }).catch((error) => {
                         setSubscriptionLoading(false)
@@ -179,10 +198,10 @@ export default function Subscription({ navigation }) {
 
     const requestPurchase = async (sku) => {
         try {
-            mixPanelOnClickPurchase({
-                "email": user.email,
-                "id": sku
-            })
+            // mixPanelOnClickPurchaseMonthly({
+            //     "email": user.email,
+            //     "id": sku
+            // })
 
             setSubscriptionLoading(true)
             await RNIap.getProducts([sku])
@@ -227,7 +246,7 @@ export default function Subscription({ navigation }) {
                             }}>
                             <Text
                                 extraStyle={{ alignSelf: 'center' }}
-                                size={"15"}
+                                size={"14"}
                                 weight="600"
                                 align='center'
                                 color={COLORS.darkGray}>
@@ -248,7 +267,7 @@ export default function Subscription({ navigation }) {
                             }}>
                             <Text
                                 extraStyle={{ alignSelf: 'center' }}
-                                size={"15"}
+                                size={"14"}
                                 weight="600"
                                 align='center'
                                 color={COLORS.darkGray}>
@@ -269,7 +288,7 @@ export default function Subscription({ navigation }) {
                             }}>
                             <Text
                                 extraStyle={{ alignSelf: 'center' }}
-                                size={"15"}
+                                size={"14"}
                                 weight="600"
                                 align='center'
                                 color={COLORS.darkGray}>
@@ -289,12 +308,24 @@ export default function Subscription({ navigation }) {
                         onPress={() => {
                             if (selectedIndex == 0) {
                                 requestPurchase('dojo_monthly_subscription')
+                                 mixPanelOnClickPurchaseMonthly({
+                                    "email": user.email,
+                                    "id": 'dojo_monthly_subscription'
+                                })
                             }
                             else if (selectedIndex == 1) {
                                 requestPurchase('dojo_six_month_subscription')
+                                mixPanelOnClickPurchaseSixMonth({
+                                    "email": user.email,
+                                    "id": 'dojo_six_month_subscription'
+                                })
                             }
                             else if (selectedIndex == 2) {
                                 requestPurchase('dojo_yearly_subscription')
+                                mixPanelOnClickPurchaseYearly({
+                                    "email": user.email,
+                                    "id": 'dojo_yearly_subscription'
+                                })
                             }
 
                         }}>
@@ -321,7 +352,7 @@ const styles = StyleSheet.create({
     },
     priceContainer: {
         flexDirection: 'row',
-        marginHorizontal: 20,
+        marginHorizontal: 10,
         justifyContent: 'space-around',
         marginVertical: 20
     },
@@ -335,7 +366,7 @@ const styles = StyleSheet.create({
         shadowRadius: 3,
         shadowOpacity: 0.1,
         elevation: 3,
-        padding: 10,
+        padding: 3,
         backgroundColor: '#fff',
         justifyContent: 'center'
     },
@@ -349,7 +380,7 @@ const styles = StyleSheet.create({
         shadowRadius: 3,
         shadowOpacity: 0.1,
         elevation: 3,
-        padding: 10,
+        padding: 3,
         backgroundColor: '#fff',
         justifyContent: 'center',
         borderWidth: 1

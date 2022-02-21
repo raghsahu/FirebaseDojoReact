@@ -56,14 +56,32 @@ export const AnalyticsProvider = (props) => {
         analytics().logEvent('OnClickSubscribeNow', obj)
     }
 
-    const mixPanelOnClickPurchase = async (obj) => {
-        mixpanel.track('OnClickPurchase', obj)
-        analytics().logEvent('OnClickPurchase', obj)
+    const mixPanelOnClickPurchaseMonthly = async (obj) => {
+        mixpanel.track('OnClickPurchaseMonthly', obj)
+        analytics().logEvent('OnClickPurchaseMonthly', obj)
     }
 
-    const mixPanelOnSubscriptionComplete = async (obj) => {
-        mixpanel.track('OnSubscriptionComplete', obj)
-        analytics().logEvent('OnSubscriptionComplete', obj)
+    const mixPanelOnClickPurchaseSixMonth = async (obj) => {
+        mixpanel.track('OnClickPurchaseSixMonth', obj)
+        analytics().logEvent('OnClickPurchaseSixMonth', obj)
+    }
+
+    const mixPanelOnClickPurchaseYearly = async (obj) => {
+        mixpanel.track('OnClickPurchaseYearly', obj)
+        analytics().logEvent('OnClickPurchaseYearly', obj)
+    }
+
+    const mixPanelOnSubscriptionCompleteMonth = async (obj) => {
+        mixpanel.track('OnSubscriptionCompleteMonthly', obj)
+        analytics().logEvent('OnSubscriptionCompleteMonthly', obj)
+    }
+     const mixPanelOnSubscriptionCompleteSixMonth = async (obj) => {
+        mixpanel.track('OnSubscriptionCompleteSixMonth', obj)
+        analytics().logEvent('OnSubscriptionCompleteSixMonth', obj)
+    }
+     const mixPanelOnSubscriptionCompleteYearly = async (obj) => {
+        mixpanel.track('OnSubscriptionCompleteYearly', obj)
+        analytics().logEvent('OnSubscriptionCompleteYearly', obj)
     }
 
     const mixPanelOnLanguageChoose = async (obj) => {
@@ -90,8 +108,12 @@ export const AnalyticsProvider = (props) => {
                 mixPanelOpenBookDetails,
                 mixPanelEditProfile,
                 mixPanelOnSubscribe,
-                mixPanelOnClickPurchase,
-                mixPanelOnSubscriptionComplete,
+                mixPanelOnClickPurchaseMonthly,
+                mixPanelOnClickPurchaseSixMonth,
+                mixPanelOnClickPurchaseYearly,
+                mixPanelOnSubscriptionCompleteMonth,
+                mixPanelOnSubscriptionCompleteSixMonth,
+                mixPanelOnSubscriptionCompleteYearly,
                 mixPanelOnLanguageChoose,
                 mixPanelOnReferAFriend,
                 mixPanelOnBookEndReading,
