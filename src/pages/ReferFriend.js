@@ -31,6 +31,11 @@ export default function ReferFriend({ navigation }) {
     const [referralCode, setReferralCode] = useState('')
 
     useEffect(() => {
+        getUserReferralCode()
+        return () => { }
+    }, [])
+
+    async function getUserReferralCode() {
         try {
             firestore()
                 .collection('users')
@@ -48,8 +53,7 @@ export default function ReferFriend({ navigation }) {
                 }
             }])
         }
-        return () => { }
-    }, [])
+    }
 
     const redeemPromoCode = () => {
         setLoading(true)
@@ -256,6 +260,7 @@ export default function ReferFriend({ navigation }) {
                 <View>
                     <RNText
                         onPress={() => {
+                            getUserReferralCode()
                             setSelectedMenu('Refer a Friend')
                         }}
                         extraStyle={{ alignSelf: 'center', marginHorizontal: 20 }}
@@ -272,6 +277,7 @@ export default function ReferFriend({ navigation }) {
                 <View>
                     <RNText
                         onPress={() => {
+                            getUserReferralCode()
                             setSelectedMenu('Earning')
                         }}
                         extraStyle={{ alignSelf: 'center', marginHorizontal: 20 }}

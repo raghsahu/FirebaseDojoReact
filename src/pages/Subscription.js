@@ -252,7 +252,7 @@ export default function Subscription({ navigation }) {
                                 weight="600"
                                 align='center'
                                 color={COLORS.darkGray}>
-                                {"Rp 189 000"}
+                                {Platform.OS == 'ios' ? "Rp 199 000" : "Rp 189 000"}
                             </Text>
                             <Text
                                 extraStyle={{ alignSelf: 'center', marginTop: 5 }}
