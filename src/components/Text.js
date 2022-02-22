@@ -15,6 +15,7 @@ const Text = (props) => {
     return (
         <RNText
             {...props}
+            
             style={[
                 props.extraStyle,
                 {
@@ -22,7 +23,8 @@ const Text = (props) => {
                     textAlign: props.align,
                     fontWeight: props.weight,
                     fontSize: parseInt(props.size),
-                    fontFamily: 'Poppins'
+                    fontFamily: 'Poppins',
+                    
                 },
             ]}>
             {props.children ? props.children : ''}

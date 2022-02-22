@@ -50,10 +50,12 @@ export default function MySubscription({ navigation }) {
 
     const getPrice = (id) => {
         if (id == 'dojo_monthly_subscription') {
-            return "Rp 99 0000"
+            return "Rp 49 000"
+        }else if (id == 'dojo_six_month_subscription') {
+            return "Rp 189 000"
         }
         else if (id == 'dojo_yearly_subscription') {
-            return "Rp 299 0000"
+            return "Rp 299 000"
         }
         else if (id == 'dojo_free_trial') {
             return getTranslation("free")
