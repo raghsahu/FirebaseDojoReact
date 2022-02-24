@@ -207,12 +207,12 @@ export default function Home({ navigation }) {
             .onSnapshot(async (documentSnapshot) => {
                 setLoading(false)
                 let data = documentSnapshot.data()
-                if (data.isGetReferralBonus) {
+                if (data?.isGetReferralBonus) {
 
                 }
                 else {
                     firestore().collection('users')
-                        .where('used_referral_code', '==', data.referral_code)
+                        .where('used_referral_code', '==', data?.referral_code ?? '')
                         .get().then(querySnapshot => {
                             var list = []
                             querySnapshot.forEach(documentSnapshot => {

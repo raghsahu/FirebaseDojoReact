@@ -103,6 +103,7 @@ const AppStack = () => (
     <Screen name="Comments" component={Comments} />
     <Screen name="PdfView" component={PdfView} />
     <Screen name="ReferralCode" component={ReferralCode} />
+    <Screen name="SignUp" component={SignUp} />
   </Navigator>
 );
 
@@ -145,6 +146,7 @@ function App() {
       .then((x) => console.log(x))
       .catch((e) => console.log(e));
   };
+
   const registerForRemoteMessages = () => {
     firebase
       .messaging()
@@ -155,6 +157,7 @@ function App() {
       })
       .catch((e) => console.log(e));
   };
+
   const requestPermissions = () => {
     firebase
       .messaging()
@@ -169,6 +172,7 @@ function App() {
       })
       .catch((e) => console.log(e));
   };
+
   const onMessage = () => {
     if (Platform.OS == "android") {
       firebase.messaging().onMessage(async (remoteMessage) => {
@@ -177,6 +181,7 @@ function App() {
       });
     }
   };
+
   const showNotification = (remoteMessage: any) => {
     PushNotification.createChannel(
       {
@@ -199,7 +204,7 @@ function App() {
         title: notification.noti_title ? notification.noti_title : remoteMessage.notification.title,
         image: notification.noti_image_url ? notification.noti_image_url : remoteMessage.notification.image,
       };
-     // console.log("admin_data_noti" + data);
+      // console.log("admin_data_noti" + data);
     } else {
       data = remoteMessage.notification;
     }

@@ -59,7 +59,7 @@ export default function ReferralCode({ route, navigation }) {
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar barStyle={'dark-content'} backgroundColor={COLORS.white} />
-            <Header backTitle={getTranslation('Redeem!')} type='simple' />
+            <Header backTitle={getTranslation('referral_code')} type='simple' />
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={[styles.container, { marginTop: 20 }]}>
                     <Image style={{ alignSelf: 'center', margin: 20 }}
@@ -70,13 +70,13 @@ export default function ReferralCode({ route, navigation }) {
                         weight="400"
                         align='center'
                         color={COLORS.darkGray}>
-                        {getTranslation('redeem_code')}
+                        {getTranslation('referral_code')}
                     </Text>
                     <View style={styles.inputView}>
                         <TextInput
                             style={{ flex: 1.0, color: COLORS.grey, fontSize: 15 }}
                             value={redeemCode}
-                            placeholder={getTranslation('Code')}
+                            placeholder={getTranslation('referral_code')}
                             placeholderTextColor={COLORS.grey}
                             onChangeText={(text) => setRedeemCode(text)} />
                     </View>
@@ -92,7 +92,7 @@ export default function ReferralCode({ route, navigation }) {
                             weight="600"
                             align='center'
                             color={COLORS.white}>
-                            {getTranslation('redeem_code')}
+                            {getTranslation('submit')}
                         </Text>
                     </TouchableOpacity>
                     <Text

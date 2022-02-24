@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { View, StatusBar, SafeAreaView, TouchableOpacity, Image, StyleSheet, Platform, TextInput } from 'react-native';
 
-import pkg from '../../package.json';
-
 //Components
 import { Text as RNText, ProgressView, Header } from '../components';
 
 //Context
+import { APPContext } from '../context/AppProvider';
 import { AnalyticsContext } from '../context/AnalyticsProvider';
 import { LocalizatiionContext } from '../context/LocalizatiionProvider';
 
@@ -15,33 +14,33 @@ import { IMAGES, COLORS } from '../../assets'
 import { ScrollView } from 'react-native-gesture-handler';
 
 //PACKAGES
-import DateTimePickerModal from "react-native-modal-datetime-picker";
-import moment from 'moment';
 import Toast from 'react-native-simple-toast';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
+import pkg from '../../package.json';
+import { CommonActions } from '@react-navigation/native';
 
 export default function SignUp(props) {
 
-    const { userInfo } = props.route.params
+    const user = auth().currentUser;
 
+    const { getSubscriptionDetails } = useContext(APPContext);
 
     const [isLoading, setLoading] = useState(false)
     const [firstname, setFirstName] = useState('')
     const [email, setEmail] = useState('')
     const [gender, setGender] = useState('male')
     const [city, setCity] = useState('')
-    const [openDate, setOpenDate] = useState(false)
     const [age, setAge] = useState('')
     const [job, setJob] = useState('')
 
-    const { mixPanelSignin, mixPanelSignUp } = useContext(AnalyticsContext);
+    const { mixPanelSignUp } = useContext(AnalyticsContext);
     const { getTranslation } = useContext(LocalizatiionContext);
 
     useEffect(() => {
         setTimeout(() => {
-            setEmail(userInfo.user.email)
-            setFirstName(userInfo.user.name)
+            setEmail(user.email)
+            setFirstName(user.displayName)
         }, 200);
     }, [])
 
@@ -53,43 +52,54 @@ export default function SignUp(props) {
         } else if (!job) {
             Toast.show(getTranslation('please enter job'));
         } else {
-            var obj = {
-                'email': email,
-                'name': firstname,
-                'gender': gender,
-                'city': city,
-                'age': age,
-                'job': job
-            }
-
-            mixPanelSignUp(obj)
-            setLoading(true)
             firestore()
                 .collection('users')
-                .doc(userInfo.user.email)
+                .doc(user.email)
                 .set({
-                    email: userInfo.user.email,
-                    firstName: userInfo.user.name,
-                    lastName: userInfo.user.name,
-                    gender: gender,
+                    email: user.email,
+                    firstName: user.displayName,
+                    lastName: user.displayName,
+                    dateAdded: firestore.FieldValue.serverTimestamp(),
+                    dateUpdated: firestore.FieldValue.serverTimestamp(),
+                    version: pkg.version,
+                    platform: Platform.OS,
+                    referral_code: makeid(10),
                     city: city,
                     age: age,
                     job: job
                 })
-                .then((res) => {
-                    setLoading(false);
-                }).catch((error) => {
+                .then(() => {
                     setLoading(false)
-                    Toast.show(error)
-                    // alert('', error.message, [{
-                    //     text: getTranslation('ok'), onPress: () => {
-
-                    //     }
-                    // }])
+                    getSubscription()
+                }).catch((error) => {
+                    console.log(error)
                 });
         }
     }
 
+    function makeid(length) {
+        var result = '';
+        var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        var charactersLength = characters.length;
+        for (var i = 0; i < length; i++) {
+            result += characters.charAt(Math.floor(Math.random() *
+                charactersLength));
+        }
+        return result;
+    }
+
+    const getSubscription = () => {
+        getSubscriptionDetails((finished) => {
+            props.navigation.dispatch(
+                CommonActions.reset({
+                    index: 0,
+                    routes: [
+                        { name: 'ReferralCode' }
+                    ],
+                })
+            );
+        })
+    }
 
     return (
         <SafeAreaView style={styles.container}>
@@ -134,7 +144,7 @@ export default function SignUp(props) {
                             placeholder={getTranslation("full_name")}
                             placeholderTextColor={COLORS.grey}
                             onChangeText={(text) => setFirstName(text)} />
-                    </View>                
+                    </View>
                     <RNText
                         extraStyle={{ marginHorizontal: 28, marginTop: 15 }}
                         size={"14"}
@@ -215,17 +225,7 @@ export default function SignUp(props) {
                     </View>
                     <TouchableOpacity style={styles.subscribeButton}
                         onPress={() => {
-                            // var obj = {
-                            //     'email': email,
-                            //     'name': firstname,
-                            //     'gender': gender,
-                            //     'city': city,
-                            //     'age': date,
-                            //     'job': job
-                            // }
-
-                            // alert(JSON.stringify(obj))
-
+                            setLoading(true)
                             onNext()
                         }}>
                         <RNText

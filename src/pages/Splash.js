@@ -4,7 +4,7 @@ import { View, StatusBar, SafeAreaView, ActivityIndicator, Image, StyleSheet, Al
 import pkg from '../../package.json';
 
 //Components
-import { Text, ProgressView } from '../components';
+import { Text } from '../components';
 
 //Context
 import { APPContext } from '../context/AppProvider';
@@ -27,6 +27,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Settings } from 'react-native-fbsdk-next';
 
 export default function Splash(props) {
+
     const user = auth().currentUser;
 
     const [isLoading, setLoading] = useState(true)
@@ -80,7 +81,6 @@ export default function Splash(props) {
             .get()
             .then(documentSnapshot => {
                 if (documentSnapshot.exists) {
-                    getSubscription(true)
                     firestore()
                         .collection('users')
                         .doc(user.email)
@@ -94,32 +94,13 @@ export default function Splash(props) {
                         })
                         .then(() => {
                             registerDevice()
+                            moveToHome()
                         }).catch((error) => {
                             registerDevice()
                             console.log(error)
                         });
                 }
                 else {
-                    firestore()
-                        .collection('users')
-                        .doc(user.email)
-                        .set({
-                            email: user.email,
-                            firstName: user.displayName,
-                            lastName: user.displayName,
-                            dateAdded: firestore.FieldValue.serverTimestamp(),
-                            dateUpdated: firestore.FieldValue.serverTimestamp(),
-                            version: pkg.version,
-                            platform: Platform.OS,
-                            referral_code: makeid(10)
-                        })
-                        .then(() => {
-                            registerDevice()
-                        }).catch((error) => {
-                            registerDevice()
-                            console.log(error)
-                        });
-
                     var date = moment().add(8, 'days').format('YYYY-MM-DD')
                     firestore()
                         .collection('subscriber')
@@ -133,52 +114,40 @@ export default function Splash(props) {
                             email: user.email,
                             device: Platform.OS
                         })
-                        .then(async () => {
-                            getSubscription(false)
+                        .then(() => {
+                            registerDevice()
+                            moveToSignup()
                         }).catch((error) => {
                             console.log(error)
-                            getSubscription(false)
+                            registerDevice()
                         });
                 }
             })
     }
 
-    function makeid(length) {
-        var result = '';
-        var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        var charactersLength = characters.length;
-        for (var i = 0; i < length; i++) {
-            result += characters.charAt(Math.floor(Math.random() *
-                charactersLength));
-        }
-        return result;
+    const moveToHome = () => {
+        getSubscriptionDetails((finished) => {
+            props.navigation.dispatch(
+                CommonActions.reset({
+                    index: 0,
+                    routes: [
+                        { name: 'Home' }
+                    ],
+                })
+            );
+        })
+   
     }
 
-    const getSubscription = (isRegister) => {
-        getSubscriptionDetails((finished) => {
-            setTimeout(() => {
-                if (isRegister == false) {
-                    props.navigation.dispatch(
-                        CommonActions.reset({
-                            index: 0,
-                            routes: [
-                                { name: 'ReferralCode' }
-                            ],
-                        })
-                    );
-                }
-                else {
-                    props.navigation.dispatch(
-                        CommonActions.reset({
-                            index: 0,
-                            routes: [
-                                { name: 'Home' }
-                            ],
-                        })
-                    );
-                }
-            }, 1000);
-        })
+    const moveToSignup = () => {
+        props.navigation.dispatch(
+            CommonActions.reset({
+                index: 0,
+                routes: [
+                    { name: 'SignUp' }
+                ],
+            })
+        );
     }
 
     const registerDevice = async () => {
@@ -193,6 +162,7 @@ export default function Splash(props) {
             setUpNotification();
         }
     }
+
 
     setUpNotification = async () => {
         const defaultAppMessaging = messaging();

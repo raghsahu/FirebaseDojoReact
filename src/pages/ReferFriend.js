@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, StatusBar, SafeAreaView, Image, ScrollView, StyleSheet, TouchableOpacity, TextInput, Alert } from 'react-native';
+import { View, StatusBar, SafeAreaView, Image, ScrollView, StyleSheet, TouchableOpacity, TextInput, Alert, Platform } from 'react-native';
 
 //Components
 import { Header, Text as RNText, ProgressView } from '../components'
@@ -43,7 +43,7 @@ export default function ReferFriend({ navigation }) {
                 .onSnapshot(documentSnapshot => {
                     setLoading(false)
                     let data = documentSnapshot.data()
-                    setReferralCode(data.referral_code)
+                    setReferralCode(data?.referral_code ?? '')
                 })
         }
         catch (e) {
@@ -256,7 +256,7 @@ export default function ReferFriend({ navigation }) {
         <SafeAreaView style={styles.container}>
             <StatusBar barStyle={'dark-content'} backgroundColor={COLORS.white} />
             {/* <Header onBack={() => navigation.goBack()} /> */}
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 20, marginVertical: 10 }}>
+            <View style={{ flexDirection: 'row', justifyContent: Platform.OS == 'ios' ? 'center' : 'space-between', marginHorizontal: 20, marginVertical: 10 }}>
                 <View>
                     <RNText
                         onPress={() => {
@@ -274,23 +274,25 @@ export default function ReferFriend({ navigation }) {
                         <View style={{ width: 100, backgroundColor: COLORS.orange, height: 3, alignSelf: 'center', marginTop: 5 }} />
                     }
                 </View>
-                <View>
-                    <RNText
-                        onPress={() => {
-                            getUserReferralCode()
-                            setSelectedMenu('Earning')
-                        }}
-                        extraStyle={{ alignSelf: 'center', marginHorizontal: 20 }}
-                        size={selectedMenu == 'Earning' ? "18" : "16"}
-                        weight="400"
-                        align='center'
-                        color={COLORS.darkGray}>
-                        {getTranslation('Redeem!')}
-                    </RNText>
-                    {selectedMenu == 'Earning' &&
-                        <View style={{ width: 100, backgroundColor: COLORS.orange, height: 3, alignSelf: 'center', marginTop: 5 }} />
-                    }
-                </View>
+                {Platform.OS == 'android' &&
+                    <View>
+                        <RNText
+                            onPress={() => {
+                                getUserReferralCode()
+                                setSelectedMenu('Earning')
+                            }}
+                            extraStyle={{ alignSelf: 'center', marginHorizontal: 20 }}
+                            size={selectedMenu == 'Earning' ? "18" : "16"}
+                            weight="400"
+                            align='center'
+                            color={COLORS.darkGray}>
+                            {getTranslation('Redeem!')}
+                        </RNText>
+                        {selectedMenu == 'Earning' &&
+                            <View style={{ width: 100, backgroundColor: COLORS.orange, height: 3, alignSelf: 'center', marginTop: 5 }} />
+                        }
+                    </View>
+                }
             </View>
             {selectedMenu == 'Refer a Friend' &&
                 <ScrollView showsVerticalScrollIndicator={false}>
@@ -348,7 +350,7 @@ export default function ReferFriend({ navigation }) {
                     </TouchableOpacity>
                 </ScrollView>
             }
-            {selectedMenu == 'Earning' &&
+            {selectedMenu == 'Earning' && Platform.OS == 'android' &&
                 <View style={[styles.container, { marginTop: 20 }]}>
                     <RNText
                         extraStyle={{ alignSelf: 'center', margin: 20 }}
@@ -431,3 +433,5 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     }
 })
+
+
