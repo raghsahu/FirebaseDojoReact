@@ -19,23 +19,23 @@ import * as RNIap from 'react-native-iap';
 import moment from 'moment';
 import { CommonActions } from '@react-navigation/native';
 import Toast from 'react-native-simple-toast';
-import parseErrorStack from 'react-native/Libraries/Core/Devtools/parseErrorStack';
 
 export default function Subscription({ navigation }) {
     const user = auth().currentUser;
 
     const { getSubscriptionDetails } = useContext(APPContext);
-    const { mixPanelOnSubscribe, mixPanelOnClickPurchaseMonthly, mixPanelOnClickPurchaseSixMonth, 
-    mixPanelOnClickPurchaseYearly, mixPanelOnSubscriptionCompleteMonth, mixPanelOnSubscriptionCompleteSixMonth,
-     mixPanelOnSubscriptionCompleteYearly } = useContext(AnalyticsContext);
     const { getTranslation } = useContext(LocalizatiionContext);
-
-    const [isMonthly, setMonthly] = useState(true)
-    const [is6Month, setSixMonth] = useState(false)
-    const [isAnnual, setAnnual] = useState(false)
+    const {
+        mixPanelOnSubscribe,
+        mixPanelOnClickPurchaseMonthly,
+        mixPanelOnClickPurchaseSixMonth,
+        mixPanelOnClickPurchaseYearly,
+        mixPanelOnSubscriptionCompleteMonth,
+        mixPanelOnSubscriptionCompleteSixMonth,
+        mixPanelOnSubscriptionCompleteYearly
+    } = useContext(AnalyticsContext);
 
     const [selectedIndex, setSelectedIndex] = useState(0)
-
     const [isLoading, setLoading] = useState(false)
     const [isSubscriptionLoading, setSubscriptionLoading] = useState(false)
     const [isAlert, setAlert] = useState(false)
@@ -45,7 +45,6 @@ export default function Subscription({ navigation }) {
         await RNIap.initConnection();
 
         var purchaseUpdatedListener = RNIap.purchaseUpdatedListener((purchase) => {
-            console.log("purchaseUpdatedListener", purchase)
             if (Platform.OS == 'ios') {
                 vaidateReceiptIOS(purchase)
             }
@@ -75,49 +74,71 @@ export default function Subscription({ navigation }) {
     }, [])
 
     const vaidateReceiptIOS = async (purchase) => {
-        var date = ''
-        if (purchase.productId == 'dojo_monthly_subscription') {
-            date = moment().add(31, 'days').format('YYYY-MM-DD')
-        }
-        else if (purchase.productId == 'dojo_six_month_subscription') {
-            date = moment().add(180, 'days').format('YYYY-MM-DD')
+
+        const receiptBody = {
+            'receipt-data': purchase.transactionReceipt,
+            'password': '9cc4938aab924c12abd96c33bcac0704'
+        };
+
+        const result = await RNIap.validateReceiptIos(receiptBody, false)
+        if (result.status == 0 || result.status == 1) {
+            var date = ''
+            if (purchase.productId == 'dojo_monthly_subscription') {
+                date = moment().add(31, 'days').format('YYYY-MM-DD')
+            }
+            else if (purchase.productId == 'dojo_six_month_subscription') {
+                date = moment().add(180, 'days').format('YYYY-MM-DD')
+            }
+            else {
+                date = moment().add(1, 'years').format('YYYY-MM-DD')
+            }
+
+            firestore()
+                .collection('subscriber')
+                .doc(user.email)
+                .set({
+                    productId: purchase.productId,
+                    transactionDate: purchase.transactionDate,
+                    transactionId: purchase.transactionId,
+                    transactionReceipt: purchase.transactionReceipt,
+                    expiryDate: date,
+                    email: user.email,
+                    device: Platform.OS
+                })
+                .then(async () => {
+                    await RNIap.finishTransaction(purchase, true)
+                    setSubscriptionLoading(false);
+                    if (isAlert == false) {
+                        setAlert(true)
+
+                        if (purchase.productId == 'dojo_monthly_subscription') {
+                            mixPanelOnSubscriptionCompleteMonth(purchase)
+                        }
+                        else if (purchase.productId == 'dojo_six_month_subscription') {
+                            mixPanelOnSubscriptionCompleteSixMonth(purchase)
+                        }
+                        else {
+                            mixPanelOnSubscriptionCompleteYearly(purchase)
+                        }
+                    }
+                }).catch((error) => {
+                    setSubscriptionLoading(false)
+                    Toast.show(error.message);
+                });
         }
         else {
-            date = moment().add(1, 'years').format('YYYY-MM-DD')
+            setSubscriptionLoading(false);
+            if (isAlert == false) {
+                Alert.alert('', 'Something went wrong please try again later', [
+                    {
+                        text: getTranslation('ok'), onPress: () => {
+                            
+                        }
+                    }
+                ])
+            }
         }
 
-        firestore()
-            .collection('subscriber')
-            .doc(user.email)
-            .set({
-                productId: purchase.productId,
-                transactionDate: purchase.transactionDate,
-                transactionId: purchase.transactionId,
-                transactionReceipt: purchase.transactionReceipt,
-                expiryDate: date,
-                email: user.email,
-                device: Platform.OS
-            })
-            .then(async () => {
-                await RNIap.finishTransaction(purchase, true)
-                setSubscriptionLoading(false);
-                if (isAlert == false) {
-                    setAlert(true)
-                   
-                    if (purchase.productId == 'dojo_monthly_subscription') {
-                         mixPanelOnSubscriptionCompleteMonth(purchase)
-                    }
-                    else if (purchase.productId == 'dojo_six_month_subscription') {
-                         mixPanelOnSubscriptionCompleteSixMonth(purchase)
-                    }
-                    else {
-                         mixPanelOnSubscriptionCompleteYearly(purchase)
-                    }
-                }
-            }).catch((error) => {
-                setSubscriptionLoading(false)
-                Toast.show(error.message);
-            });
     }
 
     const validateReceiptANDROID = async (purchase) => {
@@ -308,7 +329,7 @@ export default function Subscription({ navigation }) {
                         onPress={() => {
                             if (selectedIndex == 0) {
                                 requestPurchase('dojo_monthly_subscription')
-                                 mixPanelOnClickPurchaseMonthly({
+                                mixPanelOnClickPurchaseMonthly({
                                     "email": user.email,
                                     "id": 'dojo_monthly_subscription'
                                 })
