@@ -45,36 +45,29 @@ export default function SignUp(props) {
     }, [])
 
     function onNext() {
-        if (!city) {
-            Toast.show(getTranslation('please enter city'));
-        } else if (!age) {
-            Toast.show(getTranslation('please enter age'));
-        } else if (!job) {
-            Toast.show(getTranslation('please enter job'));
-        } else {
-            firestore()
-                .collection('users')
-                .doc(user.email)
-                .set({
-                    email: user.email,
-                    firstName: user.displayName,
-                    lastName: user.displayName,
-                    dateAdded: firestore.FieldValue.serverTimestamp(),
-                    dateUpdated: firestore.FieldValue.serverTimestamp(),
-                    version: pkg.version,
-                    platform: Platform.OS,
-                    referral_code: makeid(10),
-                    city: city,
-                    age: age,
-                    job: job
-                })
-                .then(() => {
-                    setLoading(false)
-                    getSubscription()
-                }).catch((error) => {
-                    console.log(error)
-                });
-        }
+        setLoading(true)
+        firestore()
+            .collection('users')
+            .doc(user.email)
+            .set({
+                email: user.email,
+                firstName: user.displayName,
+                lastName: user.displayName,
+                dateAdded: firestore.FieldValue.serverTimestamp(),
+                dateUpdated: firestore.FieldValue.serverTimestamp(),
+                version: pkg.version,
+                platform: Platform.OS,
+                referral_code: makeid(10),
+                city: city,
+                age: age,
+                job: job
+            })
+            .then(() => {
+                setLoading(false)
+                getSubscription()
+            }).catch((error) => {
+                console.log(error)
+            });
     }
 
     function makeid(length) {
