@@ -250,7 +250,7 @@ export default function Subscription({ navigation }) {
                                 weight="600"
                                 align='center'
                                 color={COLORS.darkGray}>
-                                {"Rp 49 000"}
+                                {global.language== 'en' ? "$ 7.99" :  "Rp 49 000"}
                             </Text>
                             <Text
                                 extraStyle={{ alignSelf: 'center', marginTop: 5 }}
@@ -271,7 +271,7 @@ export default function Subscription({ navigation }) {
                                 weight="600"
                                 align='center'
                                 color={COLORS.darkGray}>
-                                {Platform.OS == 'ios' ? "Rp 199 000" : "Rp 189 000"}
+                                {global.language== 'en' ? "$ 29.99" : Platform.OS == 'ios' ? "Rp 199 000" : "Rp 189 000"}
                             </Text>
                             <Text
                                 extraStyle={{ alignSelf: 'center', marginTop: 5 }}
@@ -292,7 +292,7 @@ export default function Subscription({ navigation }) {
                                 weight="600"
                                 align='center'
                                 color={COLORS.darkGray}>
-                                {"Rp 299 000"}
+                                {global.language== 'en' ? "$ 54.99" : "Rp 299 000"}
                             </Text>
                             <Text
                                 extraStyle={{ alignSelf: 'center', marginTop: 5 }}
