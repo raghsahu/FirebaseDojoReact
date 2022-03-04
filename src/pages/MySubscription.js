@@ -77,21 +77,21 @@ export default function MySubscription({ navigation }) {
         if (id == 'dojo_monthly_subscription') {
            return  global.language == "en"
                   ? "$ " + getCurrentPrice(exchangeData.USD * monthlyCharge)
-                  : "Rp " + getCurrentPrice(exchangeData.IDR * monthlyCharge)
+                  : "Rp 49 000"
           //  return "Rp 49 000"
         }else if (id == 'dojo_six_month_subscription') {
            // return "Rp 189 000"
            return global.language == "en"
                   ? "$ " + getCurrentPrice(exchangeData.USD * SixMonthCharge)
                   : Platform.OS == "ios"
-                  ? "Rp " + getCurrentPrice(exchangeData.IDR * SixMonthCharge)
-                  : "Rp " + getCurrentPrice(exchangeData.IDR * SixMonthCharge)
+                  ? "Rp 199 000"
+                  : "Rp 189 000"
         }
         else if (id == 'dojo_yearly_subscription') {
            // return "Rp 299 000"
            return global.language == "en"
                   ? "$ " + getCurrentPrice(exchangeData.USD * YearlyCharge)
-                  : "Rp " + getCurrentPrice(exchangeData.IDR * YearlyCharge)
+                  : "Rp 299 000"
         }
         else if (id == 'dojo_free_trial') {
             return getTranslation("free")

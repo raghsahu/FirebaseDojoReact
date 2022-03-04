@@ -324,7 +324,7 @@ export default function Subscription({ navigation }) {
               >
                 {global.language == "en"
                   ? "$ " + getPrice(exchangeData.USD * monthlyCharge)
-                  : "Rp " + getPrice(exchangeData.IDR * monthlyCharge)}
+                  : "Rp 49 000" }
               </Text>
               <Text
                 extraStyle={{ alignSelf: "center", marginTop: 5 }}
@@ -360,8 +360,8 @@ export default function Subscription({ navigation }) {
                 {global.language == "en"
                   ? "$ " + getPrice(exchangeData.USD * SixMonthCharge)
                   : Platform.OS == "ios"
-                  ? "Rp " + getPrice(exchangeData.IDR * SixMonthCharge)
-                  : "Rp " + getPrice(exchangeData.IDR * SixMonthCharge)}
+                  ? "Rp 199 000"
+                  : "Rp 189 000"}
               </Text>
               <Text
                 extraStyle={{ alignSelf: "center", marginTop: 5 }}
@@ -391,7 +391,7 @@ export default function Subscription({ navigation }) {
               >
                 {global.language == "en"
                   ? "$ " + getPrice(exchangeData.USD * YearlyCharge)
-                  : "Rp " + getPrice(exchangeData.IDR * YearlyCharge)}
+                  : "Rp 299 000"}
               </Text>
               <Text
                 extraStyle={{ alignSelf: "center", marginTop: 5 }}
