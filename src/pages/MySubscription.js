@@ -15,17 +15,42 @@ import { LocalizatiionContext } from '../context/LocalizatiionProvider';
 
 //PACKAGES
 import auth from '@react-native-firebase/auth';
+import Toast from "react-native-simple-toast";
 
 export default function MySubscription({ navigation }) {
 
     const user = auth().currentUser;
 
     const { getTranslation } = useContext(LocalizatiionContext);
-    const { isSubscribe, userSubscriptionDetails, RemainingDays } = useContext(APPContext);
+    const { isSubscribe, userSubscriptionDetails, RemainingDays , getExchangeCurrency} = useContext(APPContext);
 
-    const [isLoading, setLoading] = useState(false)
+    const [isLoading, setLoading] = useState(true)
     const [isRestoreLoading, setRestoreLoading] = useState(false)
     const [error, setError] = useState('')
+      const [exchangeData, setExchangeData] = useState({});
+
+      //if global language english show $ price otherwise indonesian currency price Rp
+  const monthlyCharge = 4.99;
+  const SixMonthCharge = 17.99;
+  const YearlyCharge = 28.29;
+
+   useEffect(async () => {
+    // monthly- 4.99 SGD, half-yearly- 17.99 sgd, yearly- 28.29 sgd
+    const result = await getExchangeCurrency();
+    setLoading(false);
+    if (result.status == true) {
+      //console.log('result-data '+ result.data.USD)
+      if (result.data) {
+        //get currency response for 1 sgd
+        setExchangeData(result.data);
+      } else {
+        setExchangeData({});
+      }
+    } else {
+      Toast.show(result.error);
+    }
+    return () => {};
+  }, []);
 
     const getTitle = (id) => {
         if (id == 'dojo_monthly_subscription') {
@@ -50,12 +75,23 @@ export default function MySubscription({ navigation }) {
 
     const getPrice = (id) => {
         if (id == 'dojo_monthly_subscription') {
-            return "Rp 49 000"
+           return  global.language == "en"
+                  ? "$ " + getCurrentPrice(exchangeData.USD * monthlyCharge)
+                  : "Rp 49 000"
+          //  return "Rp 49 000"
         }else if (id == 'dojo_six_month_subscription') {
-            return "Rp 189 000"
+           // return "Rp 189 000"
+           return global.language == "en"
+                  ? "$ " + getCurrentPrice(exchangeData.USD * SixMonthCharge)
+                  : Platform.OS == "ios"
+                  ? "Rp 199 000"
+                  : "Rp 189 000"
         }
         else if (id == 'dojo_yearly_subscription') {
-            return "Rp 299 000"
+           // return "Rp 299 000"
+           return global.language == "en"
+                  ? "$ " + getCurrentPrice(exchangeData.USD * YearlyCharge)
+                  : "Rp 299 000"
         }
         else if (id == 'dojo_free_trial') {
             return getTranslation("free")
@@ -67,6 +103,11 @@ export default function MySubscription({ navigation }) {
             return ''
         }
     }
+
+    const getCurrentPrice = (price) => {
+    let temp = price.toFixed(2);
+    return temp;
+  };
 
     return (
         <SafeAreaView style={styles.container}>
