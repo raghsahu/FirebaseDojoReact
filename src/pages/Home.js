@@ -60,12 +60,12 @@ export default function Home({ navigation }) {
 
     getFreeBooks = async () => {
         try {
-            let limit = isSubscribe ? 5 : 3
+            let limit = 10
             const books = await firestore()
                 .collection('books')
                 .where('language', '==', global.languageName)
                 .where('free_book_of_week', '==', true)
-                .limit(limit)
+                // .limit(limit)
                 .get()
             var list = []
             books.forEach(documentSnapshot => {

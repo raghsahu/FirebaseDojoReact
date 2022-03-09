@@ -274,7 +274,7 @@ export default function ReferFriend({ navigation }) {
                         <View style={{ width: 100, backgroundColor: COLORS.orange, height: 3, alignSelf: 'center', marginTop: 5 }} />
                     }
                 </View>
-                {Platform.OS == 'android' &&
+                {/* {Platform.OS == 'android' && */}
                     <View>
                         <RNText
                             onPress={() => {
@@ -292,7 +292,7 @@ export default function ReferFriend({ navigation }) {
                             <View style={{ width: 100, backgroundColor: COLORS.orange, height: 3, alignSelf: 'center', marginTop: 5 }} />
                         }
                     </View>
-                }
+                {/* } */}
             </View>
             {selectedMenu == 'Refer a Friend' &&
                 <ScrollView showsVerticalScrollIndicator={false}>
@@ -350,8 +350,8 @@ export default function ReferFriend({ navigation }) {
                     </TouchableOpacity>
                 </ScrollView>
             }
-            {selectedMenu == 'Earning' && Platform.OS == 'android' &&
-                <View style={[styles.container, { marginTop: 20 }]}>
+            {selectedMenu == 'Earning' &&
+                < View style={[styles.container, { marginTop: 20 }]}>
                     <RNText
                         extraStyle={{ alignSelf: 'center', margin: 20 }}
                         size={"17"}
@@ -386,7 +386,7 @@ export default function ReferFriend({ navigation }) {
                 </View>
             }
             {isLoading && <ProgressView />}
-        </SafeAreaView>
+        </SafeAreaView >
     )
 }
 

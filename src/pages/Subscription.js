@@ -9,7 +9,6 @@ import {
   TouchableOpacity,
   Alert,
   Platform,
-  NativeModules,
 } from "react-native";
 
 //Components
@@ -34,8 +33,7 @@ import Toast from "react-native-simple-toast";
 export default function Subscription({ navigation }) {
   const user = auth().currentUser;
 
-  const { getSubscriptionDetails, getExchangeCurrency } =
-    useContext(APPContext);
+  const { getExchangeCurrency } = useContext(APPContext);
   const { getTranslation } = useContext(LocalizatiionContext);
   const {
     mixPanelOnSubscribe,
@@ -52,6 +50,7 @@ export default function Subscription({ navigation }) {
   const [isSubscriptionLoading, setSubscriptionLoading] = useState(false);
   const [isAlert, setAlert] = useState(false);
   const [exchangeData, setExchangeData] = useState({});
+  const [isError, setIsError] = useState(false)
 
   //if global language english show $ price otherwise indonesian currency price Rp
   const monthlyCharge = 4.99;
@@ -73,14 +72,29 @@ export default function Subscription({ navigation }) {
     } else {
       Toast.show(result.error);
     }
-    return () => {};
+    return () => { };
   }, []);
 
-  useEffect(async () => {
+  var purchaseUpdatedListener = null
+  var purchaseErrorSubscription = null
+
+  useEffect(() => {
+    addListner()
+    return () => {
+      purchaseUpdatedListener?.remove();
+      purchaseUpdatedListener = null;
+      purchaseErrorSubscription?.remove();
+      purchaseErrorSubscription = null;
+      RNIap.endConnection();
+    };
+  }, []);
+
+  async function addListner() {
     mixPanelOnSubscribe({ email: user.email });
     await RNIap.initConnection();
 
-    var purchaseUpdatedListener = RNIap.purchaseUpdatedListener((purchase) => {
+    purchaseUpdatedListener?.remove()
+    purchaseUpdatedListener = RNIap.purchaseUpdatedListener((purchase) => {
       if (Platform.OS == "ios") {
         vaidateReceiptIOS(purchase);
       } else if (Platform.OS == "android") {
@@ -88,26 +102,20 @@ export default function Subscription({ navigation }) {
       }
     });
 
-    var purchaseErrorSubscription = RNIap.purchaseErrorListener((error) => {
+    purchaseErrorSubscription?.remove()
+    purchaseErrorSubscription = RNIap.purchaseErrorListener((error) => {
       setSubscriptionLoading(false);
       if (error.code != "E_USER_CANCELLED") {
         Alert.alert("", error.message, [
           {
             text: getTranslation("ok"),
-            onPress: () => {},
+            onPress: () => { },
           },
         ]);
       }
     });
 
-    return () => {
-      purchaseUpdatedListener.remove();
-      purchaseUpdatedListener = null;
-      purchaseErrorSubscription.remove();
-      purchaseErrorSubscription = null;
-      RNIap.endConnection();
-    };
-  }, []);
+  }
 
   const getPrice = (price) => {
     let temp = price.toFixed(2);
@@ -148,7 +156,6 @@ export default function Subscription({ navigation }) {
           setSubscriptionLoading(false);
           if (isAlert == false) {
             setAlert(true);
-
             if (purchase.productId == "dojo_monthly_subscription") {
               mixPanelOnSubscriptionCompleteMonth(purchase);
             } else if (purchase.productId == "dojo_six_month_subscription") {
@@ -163,14 +170,11 @@ export default function Subscription({ navigation }) {
           Toast.show(error.message);
         });
     } else {
+      await RNIap.finishTransaction(purchase, true)
       setSubscriptionLoading(false);
-      if (isAlert == false) {
-        Alert.alert("", "Something went wrong please try again later", [
-          {
-            text: getTranslation("ok"),
-            onPress: () => {},
-          },
-        ]);
+      console.log(result, isError)
+      if (result.status == '21007' && isError == false) {
+        setIsError(true)
       }
     }
   };
@@ -221,7 +225,7 @@ export default function Subscription({ navigation }) {
             Alert.alert("", error.message, [
               {
                 text: getTranslation("ok"),
-                onPress: () => {},
+                onPress: () => { },
               },
             ]);
           });
@@ -231,6 +235,17 @@ export default function Subscription({ navigation }) {
       }
     }
   };
+
+  useEffect(() => {
+    if (isError == true) {
+      Alert.alert("", "Sandbox receipt used in production", [{
+        text: getTranslation("ok"),
+        onPress: () => {
+          setIsError(false)
+        },
+      }]);
+    }
+  }, [isError])
 
   useEffect(() => {
     if (isAlert == true) {
@@ -324,7 +339,7 @@ export default function Subscription({ navigation }) {
               >
                 {global.language == "en"
                   ? "$ " + getPrice(exchangeData.USD * monthlyCharge)
-                  : "Rp 49 000" }
+                  : "Rp 49 000"}
               </Text>
               <Text
                 extraStyle={{ alignSelf: "center", marginTop: 5 }}
@@ -360,8 +375,8 @@ export default function Subscription({ navigation }) {
                 {global.language == "en"
                   ? "$ " + getPrice(exchangeData.USD * SixMonthCharge)
                   : Platform.OS == "ios"
-                  ? "Rp 199 000"
-                  : "Rp 189 000"}
+                    ? "Rp 199 000"
+                    : "Rp 189 000"}
               </Text>
               <Text
                 extraStyle={{ alignSelf: "center", marginTop: 5 }}

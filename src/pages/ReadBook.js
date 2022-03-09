@@ -251,12 +251,9 @@ export default function ReadBook({ route, navigation }) {
                 <ScrollView
                     style={{ height: imageHeight }}
                     ref={scrollRef}
-                   // pagingEnabled
                     bounces={false}
                     scrollEnabled={isScrollEnable}
-                    style={styles.container}
-                    onScroll={handleScroll}
-                    >
+                    onScroll={handleScroll}>
                     {item.images.map((data, index) => {
                       //  console.log('read_boos_item '+ data.url)
                         if (index >= 4 && isSubscribe == false && !item.free_book_of_week) {
